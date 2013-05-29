@@ -14,4 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^staff/', include(admin.site.urls)),
+
+    # Signup app URL patterns
+    url(r"^signup/", include("signup.urls")),
 )
