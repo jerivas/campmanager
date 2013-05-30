@@ -1,11 +1,8 @@
-import locale
-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from django.core.urlresolvers import reverse
 
 
 class Person(models.Model):
@@ -28,8 +25,18 @@ class Person(models.Model):
         abstract = True
 
     def __unicode__(self):
-        return "%s %s %s" % (self.first_name, self.second_name,
-                             self.first_surname)
+        return "%s %s %s %s" % (self.first_name, self.second_name,
+                                self.first_surname, self.second_surname)
+
+    def names(self):
+        return "%s %s" % (self.first_name, self.second_name)
+    names.admin_order_field = "first_name"
+    names.short_description = _("Names")
+
+    def surnames(self):
+        return "%s %s" % (self.first_surname, self.second_surname)
+    surnames.admin_order_field = "first_surname"
+    surnames.short_description = _("Surnames")
 
 
 class ExtendedInfo(models.Model):
@@ -60,17 +67,21 @@ class Payer(models.Model):
         abstract = True
 
     def balance_as_currency(self):
-        return locale.currency(self.balance)
+        return "$%s" % self.balance
+    balance_as_currency.short_description = _("Balance as Currency")
 
     def fully_paid(self):
         return self.balance == settings.CAMP_PRICE
+    fully_paid.boolean = True
+    fully_paid.short_description = _("Fully Paid")
 
     def amount_due(self):
-        return settings.CAMP_PRICE - self.balance
+        return "$%s" % (settings.CAMP_PRICE - self.balance)
+    amount_due.short_description = _("Amount Due")
 
 
 class Payment(models.Model):
-    """A payment done to pay the camps's price"""
+    """A payment done to pay the camps"s price"""
     receipt_id = models.CharField(_("Receipt ID"), max_length=16,
                  blank=False)
     payment_date = models.DateField(_("Date"), blank=False)
@@ -79,7 +90,7 @@ class Payment(models.Model):
     notes = models.CharField(_("Notes"), max_length=256, null=True, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    content_object = generic.GenericForeignKey("content_type", "object_id")
 
     def __unicode__(self):
         return "$%s - $%s" % (self.receipt_id, self.amount)
@@ -124,35 +135,64 @@ class Parent(Person, ExtendedInfo):
     """A parent or legal guardian of a minor"""
     gov_id = models.CharField(_("ID Number"), max_length=16, blank=False)
 
+    class Meta(Person.Meta):
+        verbose_name = _("Parent")
+        verbose_name_plural = _("Parents")
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("first_name__icontains", "second_name__icontains",
+                "first_surname__icontains", "second_surname__icontains")
+
 
 class Camper(Person, ExtendedInfo, Payer, Minor, Attendant):
     """The main model of a child attending camp"""
     special_case = models.BooleanField(_("Special Case"),
                    blank=False, default=False)
-    assigned_counselor = models.ForeignKey("Counselor", blank=True, null=True)
+    assigned_counselor = models.ForeignKey("Counselor", blank=False)
+
+    class Meta(Person.Meta):
+        verbose_name = _("Camper")
+        verbose_name_plural = _("Campers")
 
     def small_group(self):
         return self.assigned_counselor.small_group
+    small_group.short_description = _("Small Group")
 
     def generation(self):
         return self.small_group.generation
+    generation.short_description = _("Generation")
 
     def structure(self):
         return self.small_group.structure
+    structure.short_description = _("Structure")
 
     def cabin(self):
         return self.small_group.cabin
+    cabin.short_description = _("Cabin")
 
 
 class Counselor(Person, Payer, Attendant):
     """A counselor for campers"""
     small_group = models.OneToOneField("logistics.SmallGroup", blank=False)
 
+    class Meta(Person.Meta):
+        verbose_name = _("Counselor")
+        verbose_name_plural = _("Counselors")
+
     def generation(self):
         return self.small_group.generation
+    generation.short_description = _("Generation")
 
     def structure(self):
-        return self.small_group.structure
+        return self.generation().structure
+    structure.short_description = _("Structure")
 
     def cabin(self):
         return self.small_group.cabin
+    cabin.short_description = _("Cabin")
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("first_name__icontains", "first_surname__icontains",
+                "badge_name__icontains", "small_group__title__icontains")

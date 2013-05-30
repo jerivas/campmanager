@@ -4,12 +4,10 @@ from django.utils.translation import ugettext_lazy as _
 
 class SmallGroup(models.Model):
     """A small group with a bunch of helpful methods"""
-    from logistics.choices import GENERATION_CHOICES
 
     title = models.CharField(_("Title"), max_length=32, blank=False)
     cabin = models.ForeignKey("Cabin", blank=True, null=True)
-    generation = models.PositiveIntegerField(_("Generation"),
-                 choices=GENERATION_CHOICES, blank=False)
+    generation = models.ForeignKey("Generation", blank=False)
     bus = models.ForeignKey("Bus", blank=True, null=True)
 
     class Meta:
@@ -26,6 +24,27 @@ class SmallGroup(models.Model):
 
     def member_count(self):
         return self.counselor.camper_set.count()
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("title__icontains", "generation__title__icontains",
+                "generation__structure__icontains")
+
+
+class Generation(models.Model):
+    """A generation for grouping small groups"""
+    from logistics.choices import STRUCTURE_CHOICES
+
+    age = models.PositiveIntegerField(_("Age"), blank=False)
+    title = models.CharField(_("Title"), max_length=32, blank=False)
+    structure = models.CharField(_("Structure"), max_length=32,
+                choices=STRUCTURE_CHOICES, blank=False)
+
+    class Meta:
+        ordering = ["age"]
+
+    def __unicode__(self):
+        return self.title
 
 
 class Cabin(models.Model):
