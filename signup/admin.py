@@ -10,6 +10,14 @@ class PaymentInline(generic.GenericTabularInline):
     extra = 1
 
 
+class HideFromAdminList(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        """
+        Return empty perms dict thus hiding the model from admin index.
+        """
+        return {}
+
+
 class PersonAdmin(admin.ModelAdmin):
     """Base Admin for all Persons"""
     radio_fields = {"gender": admin.HORIZONTAL}
@@ -104,8 +112,7 @@ class GuestAdmin(PersonAdmin, PayerAdmin):
     list_display = ("names", "surnames", "cabin", "fully_paid", "amount_due")
 
 
-class ParentAdmin(PersonAdmin):
-
+class ParentAdmin(PersonAdmin, HideFromAdminList):
     fields = (("first_name", "second_name"),
               ("first_surname", "second_surname"),
               "gov_id",
@@ -115,7 +122,7 @@ class ParentAdmin(PersonAdmin):
               "occupation")
 
 admin.site.register(Camper, CamperAdmin)
-admin.site.register(Payment)
 admin.site.register(Counselor, CounselorAdmin)
-admin.site.register(Parent, ParentAdmin)
 admin.site.register(Guest, GuestAdmin)
+admin.site.register(Parent, ParentAdmin)
+admin.site.register(Payment, HideFromAdminList)
