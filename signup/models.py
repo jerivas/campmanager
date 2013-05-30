@@ -66,18 +66,11 @@ class Payer(models.Model):
     class Meta:
         abstract = True
 
-    def balance_as_currency(self):
-        return "$%s" % self.balance
-    balance_as_currency.short_description = _("Balance as Currency")
-
     def fully_paid(self):
         return self.balance == settings.CAMP_PRICE
-    fully_paid.boolean = True
-    fully_paid.short_description = _("Fully Paid")
 
     def amount_due(self):
-        return "$%s" % (settings.CAMP_PRICE - self.balance)
-    amount_due.short_description = _("Amount Due")
+        return settings.CAMP_PRICE - self.balance
 
 
 class Payment(models.Model):
@@ -93,7 +86,7 @@ class Payment(models.Model):
     content_object = generic.GenericForeignKey("content_type", "object_id")
 
     def __unicode__(self):
-        return "$%s - $%s" % (self.receipt_id, self.amount)
+        return "%s - $%s" % (self.receipt_id, self.amount)
 
     class Meta:
         ordering = ["-payment_date"]
@@ -103,6 +96,7 @@ class Attendant(models.Model):
     """Basic model of anybody going to camp"""
     badge_name = models.CharField(_("Badge Name"), max_length=64,
                  blank=True, null=True)
+    cabin = models.ForeignKey("logistics.Cabin", blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -149,7 +143,7 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant):
     """The main model of a child attending camp"""
     special_case = models.BooleanField(_("Special Case"),
                    blank=False, default=False)
-    assigned_counselor = models.ForeignKey("Counselor", blank=False)
+    counselor = models.ForeignKey("Counselor", blank=False)
 
     class Meta(Person.Meta):
         verbose_name = _("Camper")
@@ -166,10 +160,6 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant):
     def structure(self):
         return self.small_group.structure
     structure.short_description = _("Structure")
-
-    def cabin(self):
-        return self.small_group.cabin
-    cabin.short_description = _("Cabin")
 
 
 class Counselor(Person, Payer, Attendant):
@@ -188,11 +178,15 @@ class Counselor(Person, Payer, Attendant):
         return self.generation().structure
     structure.short_description = _("Structure")
 
-    def cabin(self):
-        return self.small_group.cabin
-    cabin.short_description = _("Cabin")
-
     @staticmethod
     def autocomplete_search_fields():
         return ("first_name__icontains", "first_surname__icontains",
                 "badge_name__icontains", "small_group__title__icontains")
+
+
+class Guest(Person, Payer, Attendant):
+    """An attendant that doesn't belong to a small group"""
+
+    class Meta(Person.Meta):
+        verbose_name = _("Guest")
+        verbose_name_plural = _("Guests")
