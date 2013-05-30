@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'south',
     'signup',
     'logistics',
+    'finances',
 )
 
 MIDDLEWARE_CLASSES = (
