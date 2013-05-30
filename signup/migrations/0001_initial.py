@@ -51,6 +51,7 @@ class Migration(SchemaMigration):
             ('balance', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=5, decimal_places=2)),
             ('no_pay', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('badge_name', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True)),
+            ('cabin', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
             ('passport', self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True)),
             ('birth_cert_num', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
             ('birth_cert_fol', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
@@ -60,7 +61,7 @@ class Migration(SchemaMigration):
             ('mother', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='mothered', null=True, to=orm['signup.Parent'])),
             ('father', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='fathered', null=True, to=orm['signup.Parent'])),
             ('special_case', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('assigned_counselor', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['signup.Counselor'], null=True, blank=True)),
+            ('counselor', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['signup.Counselor'])),
         ))
         db.send_create_signal(u'signup', ['Camper'])
 
@@ -75,9 +76,25 @@ class Migration(SchemaMigration):
             ('balance', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=5, decimal_places=2)),
             ('no_pay', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('badge_name', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True)),
+            ('cabin', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
             ('small_group', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['logistics.SmallGroup'], unique=True)),
         ))
         db.send_create_signal(u'signup', ['Counselor'])
+
+        # Adding model 'Guest'
+        db.create_table(u'signup_guest', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=64)),
+            ('second_name', self.gf('django.db.models.fields.CharField')(max_length=64)),
+            ('first_surname', self.gf('django.db.models.fields.CharField')(max_length=64)),
+            ('second_surname', self.gf('django.db.models.fields.CharField')(max_length=64)),
+            ('gender', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('balance', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=5, decimal_places=2)),
+            ('no_pay', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('badge_name', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True)),
+            ('cabin', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
+        ))
+        db.send_create_signal(u'signup', ['Guest'])
 
 
     def backwards(self, orm):
@@ -93,6 +110,9 @@ class Migration(SchemaMigration):
         # Deleting model 'Counselor'
         db.delete_table(u'signup_counselor')
 
+        # Deleting model 'Guest'
+        db.delete_table(u'signup_guest')
+
 
     models = {
         u'contenttypes.contenttype': {
@@ -102,34 +122,31 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'logistics.bus': {
-            'Meta': {'object_name': 'Bus'},
+        u'logistics.generation': {
+            'Meta': {'ordering': "['age']", 'object_name': 'Generation'},
+            'age': ('django.db.models.fields.PositiveIntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'responsible': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['signup.Counselor']", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '32'})
-        },
-        u'logistics.cabin': {
-            'Meta': {'object_name': 'Cabin'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'structure': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '32'})
         },
         u'logistics.smallgroup': {
             'Meta': {'ordering': "['title']", 'object_name': 'SmallGroup'},
-            'bus': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['logistics.Bus']", 'null': 'True', 'blank': 'True'}),
-            'cabin': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['logistics.Cabin']", 'null': 'True', 'blank': 'True'}),
-            'generation': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'bus': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'cabin': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'generation': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['logistics.Generation']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '32'})
         },
         u'signup.camper': {
             'Meta': {'ordering': "['first_surname']", 'object_name': 'Camper'},
-            'assigned_counselor': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['signup.Counselor']", 'null': 'True', 'blank': 'True'}),
             'badge_name': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
             'balance': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '5', 'decimal_places': '2'}),
             'birth_cert_book': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'birth_cert_fol': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'birth_cert_num': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'birth_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'cabin': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'counselor': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['signup.Counselor']"}),
             'docs_signed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'father': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'fathered'", 'null': 'True', 'to': u"orm['signup.Parent']"}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
@@ -151,6 +168,7 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "['first_surname']", 'object_name': 'Counselor'},
             'badge_name': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
             'balance': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '5', 'decimal_places': '2'}),
+            'cabin': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'first_surname': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'gender': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
@@ -159,6 +177,19 @@ class Migration(SchemaMigration):
             'second_name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'second_surname': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'small_group': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['logistics.SmallGroup']", 'unique': 'True'})
+        },
+        u'signup.guest': {
+            'Meta': {'ordering': "['first_surname']", 'object_name': 'Guest'},
+            'badge_name': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
+            'balance': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '5', 'decimal_places': '2'}),
+            'cabin': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
+            'first_surname': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
+            'gender': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'no_pay': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'second_name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
+            'second_surname': ('django.db.models.fields.CharField', [], {'max_length': '64'})
         },
         u'signup.parent': {
             'Meta': {'ordering': "['first_surname']", 'object_name': 'Parent'},

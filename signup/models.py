@@ -96,7 +96,7 @@ class Attendant(models.Model):
     """Basic model of anybody going to camp"""
     badge_name = models.CharField(_("Badge Name"), max_length=64,
                  blank=True, null=True)
-    cabin = models.ForeignKey("logistics.Cabin", blank=True, null=True)
+    cabin = models.CharField(_("Cabin"), max_length=32, blank=True, null=True)
 
     class Meta:
         abstract = True
