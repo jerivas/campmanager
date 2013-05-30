@@ -70,7 +70,10 @@ class CamperAdmin(PersonAdmin, PayerAdmin):
     ]
 
     list_display = ("names", "surnames", "small_group", "cabin", "generation",
-                    "structure", "fully_paid", "amount_due")
+                    "structure", "fully_paid", "amount_due", "docs_signed",
+                    "special_case")
+
+    list_editable = ("docs_signed", "special_case")
 
 
 class CounselorAdmin(PersonAdmin, PayerAdmin):

@@ -178,6 +178,10 @@ class Counselor(Person, Payer, Attendant):
         return self.generation().structure
     structure.short_description = _("Structure")
 
+    def related_label(self):
+        return "%s %s (%s)" % (self.names(), self.first_surname,
+                               self.small_group)
+
     @staticmethod
     def autocomplete_search_fields():
         return ("first_name__icontains", "first_surname__icontains",
