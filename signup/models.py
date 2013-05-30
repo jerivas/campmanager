@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.utils.timezone import now
 
 
 class Person(models.Model):
@@ -80,7 +81,7 @@ class Payment(models.Model):
     """A payment done to pay the camps"s price"""
     receipt_id = models.CharField(_("Receipt ID"), max_length=16,
                  blank=False)
-    payment_date = models.DateField(_("Date"), blank=False)
+    payment_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=5,
              decimal_places=2, blank=False)
     notes = models.CharField(_("Notes"), max_length=256, null=True, blank=True)
@@ -95,6 +96,12 @@ class Payment(models.Model):
         ordering = ["-payment_date"]
         verbose_name = _("Payment")
         verbose_name_plural = _("Payments")
+
+    def save(self, *args, **kwargs):
+        """Set default for ``payment_date`` as now"""
+        if self.payment_date is None:
+            self.payment_date = now()
+        super(Payment, self).save(*args, **kwargs)
 
 
 class Attendant(models.Model):
