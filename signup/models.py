@@ -90,6 +90,8 @@ class Payment(models.Model):
 
     class Meta:
         ordering = ["-payment_date"]
+        verbose_name = _("Payment")
+        verbose_name_plural = _("Payments")
 
 
 class Attendant(models.Model):
