@@ -7,7 +7,10 @@ from django.contrib.contenttypes import generic
 
 class Person(models.Model):
     """Base class for all people"""
-    from signup.choices import GENDER_CHOICES
+    GENDER_CHOICES = (
+        ("m", _("Male")),
+        ("f", _("Female")),
+    )
 
     first_name = models.CharField(_("First Name"),
                  max_length=64, blank=False)

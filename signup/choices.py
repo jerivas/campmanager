@@ -1,12 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
 
-MALE = "m"
-FEMALE = "f"
-GENDER_CHOICES = (
-    (MALE, _("Male")),
-    (FEMALE, _("Female")),
-)
-
 STATE_CHOICES = (
     ("ahu", _("Ahuachapan")),
     ("saa", _("Santa Ana")),
