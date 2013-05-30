@@ -1,8 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
 
 STRUCTURE_CHOICES = (
-    ("Preju", _("Preju")),
-    ("Josias", _("Josias")),
+    ("preju", _("Preju")),
+    ("josias", _("Josias")),
 )
 
 CABIN_CHOICES = (
