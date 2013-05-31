@@ -63,7 +63,7 @@ class PayerAdmin(admin.ModelAdmin):
             b = "$%s" % model.amount_due()
         return b
     amount_due.short_description = _("Amount Due")
-    amount_due.admin_order_field = "-balance"
+    amount_due.admin_order_field = "balance"
 
 
 class CamperAdmin(PersonAdmin, PayerAdmin):
