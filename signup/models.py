@@ -101,6 +101,8 @@ class Payer(models.Model):
     def save(self, *args, **kwargs):
         if self.payment_set.count() > 0:
             self.balance = self.payment_set.aggregate(Sum("amount")).values()[0]
+        else:
+            self.balance = 0
         super(Payer, self).save(*args, **kwargs)
 
 
