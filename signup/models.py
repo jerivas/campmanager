@@ -115,15 +115,28 @@ class Attendant(models.Model):
 
 class Member(models.Model):
     """A member of a Small Group and Structure (Campers and Counselors)"""
+    from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
+
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
-                                             blank=True, null=True)
+                                             blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
-                                 null=True)
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True, null=True)
-    bus = models.CharField(_("Bus"), max_length=16, blank=True, null=True)
+                                 null=True, choices=STRUCTURES)
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True, null=True,
+                             choices=CABINS)
+    bus = models.CharField(_("Bus"), max_length=16, blank=True, null=True,
+                           choices=BUSES)
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        """This method only works if the subclasses of Member have a
+        small_group field"""
+        self.generation = self.small_group.generation
+        self.structure = self.small_group.structure
+        self.cabin = self.small_group.cabin
+        self.bus = self.small_group.bus
+        super(Member, self).save(*args, **kwargs)
 
 
 class Payment(models.Model):
@@ -174,6 +187,10 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     counselor = models.ForeignKey("Counselor", blank=False)
     small_group = models.ForeignKey("logistics.SmallGroup", blank=True,
                                     null=True)
+
+    def save(self, *args, **kwargs):
+        self.small_group = self.counselor.small_group
+        super(Camper, self).save(*args, **kwargs)
 
     class Meta(Person.Meta):
         verbose_name = _("Camper")
