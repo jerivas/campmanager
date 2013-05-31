@@ -8,7 +8,8 @@ class SmallGroup(models.Model):
     """A small group composed of several Campers and a Counselor"""
     from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
 
-    title = models.CharField(_("Title"), max_length=32, blank=False)
+    title = models.CharField(_("Title"), max_length=32, blank=False,
+                             unique=True)
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
                                              blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
@@ -32,11 +33,10 @@ class SmallGroup(models.Model):
                 self.structure = structure[0]
         super(SmallGroup, self).save(*args, **kwargs)
 
-    def camper_set(self):
-        return self.counselor.camper_set.all()
-
-    def member_set(self):
-        return self.camper_set() | self.counselor
+    def get_members(self):
+        m = [self.counselor]
+        m.extend(self.camper_set.all())
+        return m
 
     @staticmethod
     def autocomplete_search_fields():
