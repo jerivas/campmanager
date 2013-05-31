@@ -219,7 +219,7 @@ class Guest(Person, Payer, Attendant):
     """An attendant that doesn't belong to a small group"""
     from logistics.choices import CABINS
 
-    cabin = models.CharField(_("Cabin"), max_length=6, blank=True,
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
                              null=True, choices=CABINS)
 
     class Meta(Person.Meta):
