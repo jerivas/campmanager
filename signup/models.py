@@ -17,11 +17,11 @@ class Person(models.Model):
     first_name = models.CharField(_("First Name"),
                  max_length=64, blank=False)
     second_name = models.CharField(_("Second Name"),
-                  max_length=64, blank=False)
+                  max_length=64, blank=True, null=True)
     first_surname = models.CharField(_("First Surname"),
                     max_length=64, blank=False)
     second_surname = models.CharField(_("Second Surname"),
-                     max_length=64, blank=False)    
+                     max_length=64, blank=False)
     gender = models.CharField(_("Gender"), choices=GENDER_CHOICES,
              max_length=1, blank=False)
 
@@ -30,16 +30,15 @@ class Person(models.Model):
         abstract = True
 
     def __unicode__(self):
-        return "%s %s %s %s" % (self.first_name, self.second_name,
-                                self.first_surname, self.second_surname)
+        return " ".join([self.names(), self.surnames()])
 
     def names(self):
-        return "%s %s" % (self.first_name, self.second_name)
+        return " ".join([self.first_name, self.second_name])
     names.admin_order_field = "first_name"
     names.short_description = _("Names")
 
     def surnames(self):
-        return "%s %s" % (self.first_surname, self.second_surname)
+        return " ".join([self.first_surname, self.second_surname])
     surnames.admin_order_field = "first_surname"
     surnames.short_description = _("Surnames")
 
@@ -112,9 +111,12 @@ class Payment(models.Model):
 
 class Attendant(models.Model):
     """Basic model of anybody going to camp"""
+    from logistics.choices import CABIN_CHOICES
+
     badge_name = models.CharField(_("Badge Name"), max_length=64,
                  blank=True, null=True)
-    cabin = models.CharField(_("Cabin"), max_length=32, blank=True, null=True)
+    cabin = models.CharField(_("Cabin"), max_length=32, choices=CABIN_CHOICES,
+            blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -168,15 +170,15 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant):
         verbose_name_plural = _("Campers")
 
     def small_group(self):
-        return self.assigned_counselor.small_group
+        return self.counselor.small_group
     small_group.short_description = _("Small Group")
 
     def generation(self):
-        return self.small_group.generation
+        return self.small_group().generation
     generation.short_description = _("Generation")
 
     def structure(self):
-        return self.small_group.structure
+        return self.small_group().structure()
     structure.short_description = _("Structure")
 
 
