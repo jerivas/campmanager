@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.timezone import now
+from django.db.models import Sum
 
 
 class Person(models.Model):
@@ -75,6 +76,11 @@ class Payer(models.Model):
 
     def amount_due(self):
         return settings.CAMP_PRICE - self.balance
+
+    def save(self, *args, **kwargs):
+        if self.payment_set.count() > 0:
+            self.balance = self.payment_set.aggregate(Sum("amount")).values()[0]
+        super(Payer, self).save(*args, **kwargs)
 
 
 class Payment(models.Model):

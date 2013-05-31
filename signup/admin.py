@@ -29,6 +29,17 @@ class PayerAdmin(admin.ModelAdmin):
     """Base Admin for all Payers"""
     inlines = (PaymentInline,)
 
+    def save_related(self, request, form, formsets, change):
+        """
+        Save all related payments and then call the form's save method.
+        See Payer.save() in models.py to learn how the balance is updated.
+        This prevents the balance from being updated with the sum of the old
+        payments.
+        """
+        for payment in formsets:
+            payment.save()
+        form.save()
+
     def balance_as_currency(self, model):
         if model.no_pay:
             b = _("Doesn't pay")
