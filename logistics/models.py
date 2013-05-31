@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from logistics.choices import GENERATION_MATCHING
+
 
 class SmallGroup(models.Model):
     """A small group composed of several Campers and a Counselor"""
@@ -23,6 +25,12 @@ class SmallGroup(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        for structure in GENERATION_MATCHING:
+            if self.generation in structure[1]:
+                self.structure = structure[0]
+        super(SmallGroup, self).save(*args, **kwargs)
 
     def camper_set(self):
         return self.counselor.camper_set.all()
