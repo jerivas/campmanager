@@ -6,7 +6,7 @@ GENERATIONS = (
     (3, _("Freshmen")),
     (4, _("Sophomores")),
     (5, _("Juniors")),
-    (6, _("Freshmen"))
+    (6, _("Seniors"))
 )
 
 STRUCTURES = (
