@@ -191,7 +191,7 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
         "require special handling."))
     counselor = models.ForeignKey("Counselor", blank=False)
     small_group = models.ForeignKey("logistics.SmallGroup", blank=True,
-        null=True)
+        null=True, verbose_name=_("Small Group"))
 
     def save(self, *args, **kwargs):
         self.small_group = self.counselor.small_group
@@ -204,7 +204,8 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
 
 class Counselor(Person, Payer, Attendant, Member):
     """A counselor for campers"""
-    small_group = models.OneToOneField("logistics.SmallGroup", blank=False)
+    small_group = models.OneToOneField("logistics.SmallGroup", blank=False,
+        verbose_name=_("Small Group"))
 
     class Meta(Person.Meta):
         verbose_name = _("Counselor")

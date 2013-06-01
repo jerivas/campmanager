@@ -1,0 +1,110 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013
+# This file is distributed under the same license as the Signup package.
+# Eduardo Rivas, e@jerivas.com, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-31 21:10-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Eduardo Rivas\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Logistics"
+msgstr "Logística"
+
+#: admin.py:23 models.py:15
+msgid "Structure"
+msgstr "Estructura"
+
+#: admin.py:28 models.py:13
+msgid "Generation"
+msgstr "Generación"
+
+#: choices.py:4
+msgid "Josias 1"
+msgstr "Josías 1"
+
+#: choices.py:5
+msgid "Josias 2"
+msgstr "Josías 2"
+
+#: choices.py:6
+msgid "Freshmen"
+msgstr ""
+
+#: choices.py:7
+msgid "Sophomores"
+msgstr ""
+
+#: choices.py:8
+msgid "Juniors"
+msgstr ""
+
+#: choices.py:9
+msgid "Seniors"
+msgstr ""
+
+#: choices.py:13
+msgid "Preju"
+msgstr ""
+
+#: choices.py:14
+msgid "Josias"
+msgstr "Josías"
+
+#: choices.py:18
+msgid "Huespedes"
+msgstr "Huéspeds"
+
+#: choices.py:19
+msgid "Betel"
+msgstr ""
+
+#: choices.py:20
+msgid "Shekinah"
+msgstr ""
+
+#: choices.py:24
+msgid "Bus 1"
+msgstr ""
+
+#: choices.py:25
+msgid "Bus 2"
+msgstr ""
+
+#: choices.py:26
+msgid "Bus 3"
+msgstr ""
+
+#: choices.py:27
+msgid "Bus 4"
+msgstr ""
+
+#: models.py:11
+msgid "Title"
+msgstr "Título"
+
+#: models.py:17
+msgid "Cabin"
+msgstr "Cabaña"
+
+#: models.py:19
+msgid "Bus"
+msgstr "Bus"
+
+#: models.py:24
+msgid "Small Group"
+msgstr "ágape"
+
+#: models.py:25
+msgid "Small Groups"
+msgstr "ágapes"

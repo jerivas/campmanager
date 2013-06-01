@@ -1,0 +1,299 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013
+# This file is distributed under the same license as the Signup package.
+# Eduardo Rivas, e@jerivas.com, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-31 23:02-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Eduardo Rivas\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Signup"
+msgstr "Inscripción"
+
+#: admin.py:12
+msgid "Balance Status"
+msgstr "Estado del saldo"
+
+#: admin.py:17
+msgid "Under price"
+msgstr "Debe"
+
+#: admin.py:18
+msgid "Equals price"
+msgstr "Cancelado"
+
+#: admin.py:19
+msgid "Over price"
+msgstr "Sobrepagado"
+
+#: admin.py:72 admin.py:86 models.py:89
+msgid "Doesn't pay"
+msgstr "No paga"
+
+#: admin.py:76 models.py:87
+msgid "Balance"
+msgstr "Saldo"
+
+#: admin.py:82
+msgid "Fully Paid"
+msgstr "Cancelado"
+
+#: admin.py:90
+msgid "Amount Due"
+msgstr "Debe"
+
+#: admin.py:102 models.py:125
+msgid "Structure"
+msgstr "Estructura"
+
+#: admin.py:107 models.py:123
+msgid "Generation"
+msgstr "Generación"
+
+#: admin.py:117
+msgid "Basic Info"
+msgstr "Información básica"
+
+#: admin.py:125
+msgid "Customs"
+msgstr "Migración"
+
+#: choices.py:4
+msgid "Ahuachapan"
+msgstr "Ahuachapán"
+
+#: choices.py:5
+msgid "Cabanas"
+msgstr "Cabañas"
+
+#: choices.py:6
+msgid "Chalatenango"
+msgstr "Chalatenango"
+
+#: choices.py:7
+msgid "Cuscatlan"
+msgstr "Cuscatlán"
+
+#: choices.py:8
+msgid "La Libertad"
+msgstr "La Libertad"
+
+#: choices.py:9
+msgid "La Paz"
+msgstr "La Paz"
+
+#: choices.py:10
+msgid "La Union"
+msgstr "La Unión"
+
+#: choices.py:11
+msgid "Morazan"
+msgstr "Morazán"
+
+#: choices.py:12
+msgid "Santa Ana"
+msgstr "Santa Ana"
+
+#: choices.py:13
+msgid "San Miguel"
+msgstr "San Miguel"
+
+#: choices.py:14
+msgid "San Salvador"
+msgstr "San Salvador"
+
+#: choices.py:15
+msgid "San Vicente"
+msgstr "San Vicente"
+
+#: choices.py:16
+msgid "Sonsonate"
+msgstr "Sonsonate"
+
+#: choices.py:17
+msgid "Usulutan"
+msgstr "Usulután"
+
+#: models.py:13
+msgid "Male"
+msgstr "Masculino"
+
+#: models.py:14
+msgid "Female"
+msgstr "Femenino"
+
+#: models.py:17
+msgid "First Name"
+msgstr "Primer nombre"
+
+#: models.py:18
+msgid "Second Name"
+msgstr "Segundo nombre"
+
+#: models.py:20
+msgid "First Surname"
+msgstr "Primer apellido"
+
+#: models.py:22
+msgid "Second Surname"
+msgstr "Segundo apellido"
+
+#: models.py:24
+msgid "Gender"
+msgstr "Género"
+
+#: models.py:37
+msgid "Names"
+msgstr "Nombres"
+
+#: models.py:42
+msgid "Surnames"
+msgstr "Apellidos"
+
+#: models.py:49
+msgid "Birth Date"
+msgstr "Fecha de nacimiento"
+
+#: models.py:50
+msgid "State"
+msgstr "Departamento"
+
+#: models.py:52
+msgid "Province"
+msgstr "Municipio"
+
+#: models.py:54
+msgid "Occupation"
+msgstr "Ocupación"
+
+#: models.py:63
+msgid "Passport Number"
+msgstr "No. Pasaporte"
+
+#: models.py:65
+msgid "Birth Certificate Number"
+msgstr "No. Partida de nacimiento"
+
+#: models.py:67
+msgid "Birth Certificate Folio"
+msgstr "Folio"
+
+#: models.py:69
+msgid "Birth Certificate Book"
+msgstr "Libro"
+
+#: models.py:71
+msgid "Birth Certificate Registrar"
+msgstr "Registrado por"
+
+#: models.py:73
+msgid "Signed documents"
+msgstr "Documentos firmados"
+
+#: models.py:74
+msgid "Mark if the camper's parents have signed the required documents."
+msgstr "Marca esta casilla si los padres del campista firmaron los documentos."
+
+#: models.py:90
+msgid "Mark if this person is exempt of the camp's price"
+msgstr "Marca esta casilla si esta persona no paga por ir al campamento."
+
+#: models.py:112
+msgid "Badge Name"
+msgstr "Gafete"
+
+#: models.py:113
+msgid "The name that appears in the badge."
+msgstr "El nombre que aprece en el gafete."
+
+#: models.py:127 models.py:228
+msgid "Cabin"
+msgstr "Cabaña"
+
+#: models.py:129
+msgid "Bus"
+msgstr "Bus"
+
+#: models.py:149
+msgid "Receipt ID"
+msgstr "No. Recibo"
+
+#: models.py:150
+msgid "Date"
+msgstr "Fecha"
+
+#: models.py:151
+msgid "Amount"
+msgstr "Cantidad"
+
+#: models.py:153
+msgid "Notes"
+msgstr "Notas"
+
+#: models.py:163
+msgid "Payment"
+msgstr "abono"
+
+#: models.py:164
+msgid "Payments"
+msgstr "abonos"
+
+#: models.py:175
+msgid "ID Number"
+msgstr "DUI"
+
+#: models.py:178
+msgid "Parent"
+msgstr "padre"
+
+#: models.py:179
+msgid "Parents"
+msgstr "padres"
+
+#: models.py:189
+msgid "Special Case"
+msgstr "Caso especial"
+
+#: models.py:190
+msgid "Mark if this camper will require special handling."
+msgstr ""
+"Marca esta casilla si este campista requiere trato especial en migración."
+
+#: models.py:194 models.py:208
+msgid "Small Group"
+msgstr "ágape"
+
+#: models.py:201
+msgid "Camper"
+msgstr "campista"
+
+#: models.py:202
+msgid "Campers"
+msgstr "campistas"
+
+#: models.py:211
+msgid "Counselor"
+msgstr "líder"
+
+#: models.py:212
+msgid "Counselors"
+msgstr "líderes"
+
+#: models.py:232
+msgid "Guest"
+msgstr "invitado"
+
+#: models.py:233
+msgid "Guests"
+msgstr "invitados"
