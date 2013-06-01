@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.admin import SimpleListFilter
-from django.conf import settings
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 
@@ -20,6 +19,8 @@ class FullyPaidFilter(SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
+        from django.conf import settings
+
         price = settings.CAMP_PRICE
         if self.value() == "under":
             return queryset.filter(balance__lt=price)
@@ -43,10 +44,11 @@ class HideFromAdminList(admin.ModelAdmin):
 class PersonAdmin(admin.ModelAdmin):
     """Base Admin for all Persons"""
     radio_fields = {"gender": admin.HORIZONTAL}
+    list_per_page = 15
     _ld = ["names", "surnames"]
     list_display_links = ["names", "surnames"]
     _lf = ["gender"]
-    _sf = ["first_name", "second_name", "first_surname", "second_surname"]
+    _sf = ["^first_name", "^second_name", "^first_surname", "^second_surname"]
 
 
 class PayerAdmin(admin.ModelAdmin):
@@ -95,7 +97,7 @@ class MemberAdmin(admin.ModelAdmin):
     _ld = ["dspl_structure", "dspl_generation", "small_group"]
     _rf = ["structure", "generation", "cabin", "bus"]
     _lf = ["structure", "generation", "small_group"]
-    _sf = ["structure", "small_group__title", "cabin", "bus"]
+    _sf = ["^structure", "^small_group__title", "^bus"]
 
     def dspl_structure(self, model):
         return model.get_structure_display()

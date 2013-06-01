@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-31 21:10-0600\n"
+"POT-Creation-Date: 2013-06-01 01:11-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Logistics"
-msgstr "Logística"
-
-#: admin.py:23 models.py:15
+#: admin.py:27 models.py:13
 msgid "Structure"
 msgstr "Estructura"
 
-#: admin.py:28 models.py:13
+#: admin.py:32 models.py:11
 msgid "Generation"
 msgstr "Generación"
+
+#: admin.py:37
+msgid "Campers"
+msgstr "Campistas"
+
+#: admin.py:50
+msgid "Members"
+msgstr "Miembros"
 
 #: choices.py:4
 msgid "Josias 1"
@@ -89,22 +94,25 @@ msgstr ""
 msgid "Bus 4"
 msgstr ""
 
-#: models.py:11
+#: models.py:9
 msgid "Title"
 msgstr "Título"
 
-#: models.py:17
+#: models.py:15
 msgid "Cabin"
 msgstr "Cabaña"
 
-#: models.py:19
+#: models.py:17
 msgid "Bus"
 msgstr "Bus"
 
-#: models.py:24
+#: models.py:22
 msgid "Small Group"
 msgstr "ágape"
 
-#: models.py:25
+#: models.py:23
 msgid "Small Groups"
 msgstr "ágapes"
+
+msgid "Logistics"
+msgstr "Logística"
