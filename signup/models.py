@@ -14,16 +14,15 @@ class Person(models.Model):
         ("f", _("Female")),
     )
 
-    first_name = models.CharField(_("First Name"),
-                                  max_length=64, blank=False)
-    second_name = models.CharField(_("Second Name"),
-                                   max_length=64, blank=True, null=True)
-    first_surname = models.CharField(_("First Surname"),
-                                     max_length=64, blank=False)
-    second_surname = models.CharField(_("Second Surname"),
-                                      max_length=64, blank=False)
+    first_name = models.CharField(_("First Name"), max_length=64, blank=False)
+    second_name = models.CharField(_("Second Name"), max_length=64, blank=True,
+        null=True)
+    first_surname = models.CharField(_("First Surname"), max_length=64,
+        blank=False)
+    second_surname = models.CharField(_("Second Surname"), max_length=64,
+        blank=False)
     gender = models.CharField(_("Gender"), choices=GENDER_CHOICES,
-                              max_length=1, blank=False)
+        max_length=1, blank=False)
 
     class Meta:
         ordering = ["first_surname"]
@@ -48,12 +47,12 @@ class ExtendedInfo(models.Model):
     from signup.choices import STATE_CHOICES
 
     birth_date = models.DateTimeField(_("Birth Date"), blank=True, null=True)
-    state = models.CharField(_("State"), max_length=3,
-                             choices=STATE_CHOICES, blank=True, null=True)
-    province = models.CharField(_("Province"), max_length=32,
-                                blank=True, null=True)
-    occupation = models.CharField(_("Occupation"), max_length=32,
-                                  blank=True, null=True)
+    state = models.CharField(_("State"), max_length=3, blank=True, null=True,
+        choices=STATE_CHOICES)
+    province = models.CharField(_("Province"), max_length=32, blank=True,
+        null=True)
+    occupation = models.CharField(_("Occupation"), max_length=32, blank=True,
+        null=True)
 
     class Meta:
         abstract = True
@@ -62,21 +61,22 @@ class ExtendedInfo(models.Model):
 class Minor(models.Model):
     """Basic model applying to minors for permission handling"""
     passport = models.CharField(_("Passport Number"), max_length=16,
-                                blank=True, null=True)
+        blank=True, null=True)
     birth_cert_num = models.PositiveIntegerField(_("Birth Certificate Number"),
-                                                 blank=True, null=True)
+        blank=True, null=True)
     birth_cert_fol = models.PositiveIntegerField(_("Birth Certificate Folio"),
-                                                 blank=True, null=True)
+        blank=True, null=True)
     birth_cert_book = models.PositiveIntegerField(_("Birth Certificate Book"),
-                                                  blank=True, null=True)
+        blank=True, null=True)
     registrar = models.CharField(_("Birth Certificate Registrar"),
-                                 max_length=256, blank=True, null=True)
+        max_length=256, blank=True, null=True)
     docs_signed = models.BooleanField(_("Signed documents"), blank=False,
-                                      default=False)
+        default=False, help_text=_("Mark if the camper's parents have signed "
+        "the required documents."))
     mother = models.ForeignKey("Parent", related_name="mothered",
-                               blank=True, null=True)
+        blank=True, null=True)
     father = models.ForeignKey("Parent", related_name="fathered",
-                               blank=True, null=True)
+        blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -84,9 +84,10 @@ class Minor(models.Model):
 
 class Payer(models.Model):
     """Class for anyone who has to pay"""
-    balance = models.DecimalField(_("Balance"), max_digits=5,
-                                  decimal_places=2, blank=False, default=0)
-    no_pay = models.BooleanField(_("Doesn't pay"), blank=False, default=False)
+    balance = models.DecimalField(_("Balance"), max_digits=5, decimal_places=2,
+        blank=False, default=0)
+    no_pay = models.BooleanField(_("Doesn't pay"), blank=False, default=False,
+        help_text=_("Mark if this person is exempt of the camp's price"))
     payment_set = generic.GenericRelation("Payment")
 
     class Meta:
@@ -108,8 +109,8 @@ class Payer(models.Model):
 
 class Attendant(models.Model):
     """Basic model of anybody going to camp"""
-    badge_name = models.CharField(_("Badge Name"), max_length=64,
-                                  blank=True, null=True)
+    badge_name = models.CharField(_("Badge Name"), max_length=64, blank=True,
+        null=True, help_text=_("The name that appears in the badge."))
 
     class Meta:
         abstract = True
@@ -120,20 +121,22 @@ class Member(models.Model):
     from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
 
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
-                                             blank=False, choices=GENERATIONS)
+        blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
-                                 null=True, choices=STRUCTURES)
+        null=True, choices=STRUCTURES)
     cabin = models.CharField(_("Cabin"), max_length=16, blank=True, null=True,
-                             choices=CABINS)
+        choices=CABINS)
     bus = models.CharField(_("Bus"), max_length=16, blank=True, null=True,
-                           choices=BUSES)
+        choices=BUSES)
 
     class Meta:
         abstract = True
 
     def save(self, *args, **kwargs):
-        """This method only works if the subclasses of Member have a
-        small_group field"""
+        """
+        This method only works if the subclasses of Member have a
+        small_group field.
+        """
         self.generation = self.small_group.generation
         self.structure = self.small_group.structure
         self.cabin = self.small_group.cabin
@@ -143,11 +146,10 @@ class Member(models.Model):
 
 class Payment(models.Model):
     """A payment done to pay the camps"s price"""
-    receipt_id = models.CharField(_("Receipt ID"), max_length=16,
-                                  blank=False)
+    receipt_id = models.CharField(_("Receipt ID"), max_length=16, blank=False)
     payment_date = models.DateField(_("Date"), blank=True, null=True)
-    amount = models.DecimalField(_("Amount"), max_digits=5,
-                                 decimal_places=2, blank=False)
+    amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2,
+        blank=False)
     notes = models.CharField(_("Notes"), max_length=256, null=True, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
@@ -185,10 +187,11 @@ class Parent(Person, ExtendedInfo):
 class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     """The main model of a child attending camp"""
     special_case = models.BooleanField(_("Special Case"),
-                                       blank=False, default=False)
+        blank=False, default=False, help_text=_("Mark if this camper will "
+        "require special handling."))
     counselor = models.ForeignKey("Counselor", blank=False)
     small_group = models.ForeignKey("logistics.SmallGroup", blank=True,
-                                    null=True)
+        null=True)
 
     def save(self, *args, **kwargs):
         self.small_group = self.counselor.small_group
@@ -222,7 +225,7 @@ class Guest(Person, Payer, Attendant):
     from logistics.choices import CABINS
 
     cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
-                             null=True, choices=CABINS)
+        null=True, choices=CABINS)
 
     class Meta(Person.Meta):
         verbose_name = _("Guest")

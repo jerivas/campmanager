@@ -13,7 +13,7 @@ class SmallGroupAdmin(admin.ModelAdmin):
 
     readonly_fields = ["structure"]
     list_display = ["title", "dspl_structure", "dspl_generation",
-                    "dspl_cabin", "dspl_bus"]
+        "dspl_cabin", "dspl_bus"]
     list_filter = ["structure", "generation", "cabin", "bus"]
     search_fields = ["structure", "title", "cabin", "bus"]
 

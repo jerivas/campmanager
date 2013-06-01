@@ -10,7 +10,7 @@ class TransactionAdmin(admin.ModelAdmin):
               ("origin", "destination"))
 
     list_display = ("transaction_id", "transaction_type", "amount_as_currency",
-                    "transaction_date", "origin", "destination")
+        "transaction_date", "origin", "destination")
     list_filter = ("transaction_type",)
     date_hierarchy = "transaction_date"
     search_fields = ("transaction_id", "origin", "destination")

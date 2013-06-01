@@ -134,14 +134,13 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     ]
 
     list_display = (PersonAdmin._ld + MemberAdmin._ld + PayerAdmin._ld
-                    + ["docs_signed", "special_case"])
+        + ["docs_signed", "special_case"])
     list_editable = ["docs_signed", "special_case"]
     list_filter = MemberAdmin._lf + PayerAdmin._lf + ["docs_signed",
-                                                      "special_case"]
+        "special_case"]
     search_fields = (PersonAdmin._sf + MemberAdmin._sf
-                     + ["counselor__first_name"] + ["counselor__second_name"]
-                     + ["counselor__first_surname"]
-                     + ["counselor__second_surname"])
+        + ["counselor__first_name"] + ["counselor__second_name"]
+        + ["counselor__first_surname"] + ["counselor__second_surname"])
 
 
 class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):

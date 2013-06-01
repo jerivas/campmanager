@@ -9,15 +9,15 @@ class SmallGroup(models.Model):
     from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
 
     title = models.CharField(_("Title"), max_length=32, blank=False,
-                             unique=True)
+        unique=True)
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
-                                             blank=False, choices=GENERATIONS)
+        blank=False, choices=GENERATIONS, default=1)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
-                                 null=True, choices=STRUCTURES)
+        null=True, choices=STRUCTURES)
     cabin = models.CharField(_("Cabin"), max_length=16, blank=True, null=True,
-                             choices=CABINS)
+        choices=CABINS)
     bus = models.CharField(_("Bus"), max_length=16, blank=True, null=True,
-                           choices=BUSES)
+        choices=BUSES)
 
     class Meta:
         ordering = ["generation"]
