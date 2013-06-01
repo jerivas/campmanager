@@ -32,6 +32,10 @@ class SmallGroup(models.Model):
             if self.generation in structure[1]:
                 self.structure = structure[0]
         super(SmallGroup, self).save(*args, **kwargs)
+        self.counselor.save(update_fields=["structure", "generation",
+            "cabin", "bus"])
+        self.camper_set.update(structure=self.structure,
+            generation=self.generation, cabin=self.cabin, bus=self.bus)
 
     def get_members(self):
         m = [self.counselor]
