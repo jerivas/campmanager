@@ -16,15 +16,15 @@ STRUCTURES = (
 
 CABINS = (
     ("huespedes", _("Huespedes")),
-    ("betel", _("Betel")),
-    ("shekinah", _("Shekinah")),
+    # ("betel", _("Betel")),
+    # ("shekinah", _("Shekinah")),
 )
 
 BUSES = (
     ("1", _("Bus 1")),
-    ("2", _("Bus 2")),
-    ("3", _("Bus 3")),
-    ("4", _("Bus 4")),
+    # ("2", _("Bus 2")),
+    # ("3", _("Bus 3")),
+    # ("4", _("Bus 4")),
 )
 
 GENERATION_MATCHING = (
