@@ -111,7 +111,7 @@ STATIC_URL = "/static/"
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "assets"),)
+#STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "assets"),)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -184,3 +184,4 @@ except ImportError:
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 CAMP_PRICE = 75
 LOGIN_URL = "/accounts/login/"
+GRAPPELLI_ADMIN_TITLE = "Montesi&oacute;n 2013"
