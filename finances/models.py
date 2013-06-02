@@ -12,7 +12,7 @@ class Transaction(models.Model):
     transaction_id = models.CharField(_("Transaction ID"), max_length=16,
         blank=False)
     transaction_type = models.CharField(_("Type"), max_length=16, blank=False,
-        choices=TRANSACTION_TYPE_CHOICES, default="income")
+        choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=6, decimal_places=2,
         blank=False)

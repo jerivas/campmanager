@@ -5,6 +5,7 @@ from finances.models import Transaction
 
 
 class TransactionAdmin(admin.ModelAdmin):
+    radio_fields = {"transaction_type": admin.HORIZONTAL}
     fields = (("transaction_id", "transaction_type"),
               ("transaction_date", "amount"),
               ("origin", "destination"))
