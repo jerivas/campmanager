@@ -23,7 +23,7 @@ class Transaction(models.Model):
 
     def __unicode__(self):
         return "%s - $%s (%s)" % (self.transaction_id, self.amount,
-                                  self.transaction_type)
+                                  self.get_transaction_type_display())
 
     class Meta:
         ordering = ["-transaction_date"]
