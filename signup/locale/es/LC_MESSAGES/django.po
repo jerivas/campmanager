@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-01 21:35-0600\n"
+"POT-Creation-Date: 2013-06-02 16:00-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,6 +207,14 @@ msgid "Mark if the camper's parents have signed the required documents."
 msgstr ""
 "Marca esta casilla si los padres del campista firmaron el permiso de "
 "migración."
+
+#: models.py:79
+msgid "Mother"
+msgstr "Madre"
+
+#: models.py:81
+msgid "Father"
+msgstr "Padre"
 
 #: models.py:92
 msgid "Mark if this person is exempt of the camp's price"

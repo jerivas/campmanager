@@ -76,9 +76,9 @@ class Minor(models.Model):
         default=False, help_text=_("Mark if the camper's parents have signed "
         "the required documents."))
     mother = models.ForeignKey("Parent", related_name="mothered",
-        blank=True, null=True)
+        blank=True, null=True, verbose_name=_("Mother"))
     father = models.ForeignKey("Parent", related_name="fathered",
-        blank=True, null=True)
+        blank=True, null=True, verbose_name=_("Father"))
 
     class Meta:
         abstract = True
