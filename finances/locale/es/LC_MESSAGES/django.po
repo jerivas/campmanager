@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-31 21:10-0600\n"
+"POT-Creation-Date: 2013-06-01 21:36-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: __init__.py:2
 msgid "Finances"
 msgstr "Finanzas"
 
-#: admin.py:20 models.py:17
+#: admin.py:22 models.py:17
 msgid "Amount"
 msgstr "Cantida"
 

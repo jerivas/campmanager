@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-01 21:00-0600\n"
+"POT-Creation-Date: 2013-06-01 21:35-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: __init__.py:2
+msgid "Signup"
+msgstr "Inscripción"
 
 #: admin.py:11
 msgid "Balance Status"
@@ -200,11 +204,14 @@ msgstr "Documentos firmados"
 
 #: models.py:76
 msgid "Mark if the camper's parents have signed the required documents."
-msgstr "Marca esta casilla si los padres del campista firmaron el permiso de migración."
+msgstr ""
+"Marca esta casilla si los padres del campista firmaron el permiso de "
+"migración."
 
 #: models.py:92
 msgid "Mark if this person is exempt of the camp's price"
-msgstr "Marca esta casilla si esta persona no debe pagar para ir al campamento."
+msgstr ""
+"Marca esta casilla si esta persona no debe pagar para ir al campamento."
 
 #: models.py:114
 msgid "Badge Name"
@@ -265,7 +272,8 @@ msgstr "Caso especial"
 #: models.py:192
 msgid "Mark if this camper will require special handling."
 msgstr ""
-"Marca esta casilla si este campista requiere consideraciones especiales relacionadas a migración."
+"Marca esta casilla si este campista requiere consideraciones especiales "
+"relacionadas a migración."
 
 #: models.py:195
 msgid "Counselor or Small Group"
@@ -298,6 +306,3 @@ msgstr "invitado"
 #: models.py:236
 msgid "Guests"
 msgstr "invitados"
-
-#~ msgid "Signup"
-#~ msgstr "Inscripción"
