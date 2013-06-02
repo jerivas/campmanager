@@ -191,7 +191,8 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     special_case = models.BooleanField(_("Special Case"),
         blank=False, default=False, help_text=_("Mark if this camper will "
         "require special handling."))
-    counselor = models.ForeignKey("Counselor", blank=False)
+    counselor = models.ForeignKey("Counselor", blank=False,
+        verbose_name=_("Counselor or Small Group"))
     small_group = models.ForeignKey("logistics.SmallGroup", blank=True,
         null=True, verbose_name=_("Small Group"))
 
