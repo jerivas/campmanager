@@ -10,7 +10,7 @@ class Transaction(models.Model):
         ("egress", _("Egress")),
     )
     transaction_id = models.CharField(_("Transaction ID"), max_length=16,
-        blank=False)
+        blank=True, null=True)
     transaction_type = models.CharField(_("Type"), max_length=16, blank=False,
         choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateField(_("Date"), blank=True, null=True)

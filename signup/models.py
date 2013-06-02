@@ -20,7 +20,7 @@ class Person(models.Model):
     first_surname = models.CharField(_("First Surname"), max_length=64,
         blank=False)
     second_surname = models.CharField(_("Second Surname"), max_length=64,
-        blank=False)
+        blank=True, null=True)
     gender = models.CharField(_("Gender"), choices=GENDER_CHOICES,
         max_length=1, blank=False)
 
