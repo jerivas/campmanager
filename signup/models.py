@@ -108,8 +108,12 @@ class Payer(models.Model):
 
 class Attendant(models.Model):
     """Basic model of anybody going to camp"""
+    from logistics.choices import CABINS
+
     badge_name = models.CharField(_("Badge Name"), max_length=64, blank=True,
         help_text=_("The name that appears in the badge."))
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
+        choices=CABINS)
 
     class Meta:
         abstract = True
@@ -117,14 +121,12 @@ class Attendant(models.Model):
 
 class Member(models.Model):
     """A member of a Small Group and Structure (Campers and Counselors)"""
-    from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
+    from logistics.choices import GENERATIONS, STRUCTURES, BUSES
 
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
         blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
         choices=STRUCTURES)
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
-        choices=CABINS)
     bus = models.CharField(_("Bus"), max_length=16, blank=True,
         choices=BUSES)
 
@@ -223,10 +225,6 @@ class Counselor(Person, Payer, Attendant, Member):
 
 class Guest(Person, Payer, Attendant):
     """An attendant that doesn't belong to a small group"""
-    from logistics.choices import CABINS
-
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
-        choices=CABINS)
 
     class Meta(Person.Meta):
         verbose_name = _("Guest")
