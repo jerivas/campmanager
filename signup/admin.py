@@ -6,24 +6,28 @@ from django.contrib.admin import SimpleListFilter
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 
 
-class FullyPaidFilter(SimpleListFilter):
-    """Allows filtering Payers who had fully paid the camp price"""
+class PayerFilter(SimpleListFilter):
+    """
+    Allows filtering Payers according to how much of the camp's price
+    they've paid so far.
+    """
     title = _("Balance Status")
     parameter_name = "balance"
 
     def lookups(self, request, model_admin):
         return (
-            ("under", _("Under price")),
-            ("full", _("Equals price")),
-            ("over", _("Over price")),
+            ("signup", _("Signed up")),
+            ("full", _("Fully paid")),
+            ("over", _("Overpaid")),
         )
 
     def queryset(self, request, queryset):
         from django.conf import settings
 
         price = settings.CAMP_PRICE
-        if self.value() == "under":
-            return queryset.filter(balance__lt=price)
+        signup = settings.SIGNUP_FEE
+        if self.value() == "signup":
+            return queryset.filter(balance__gte=signup)
         if self.value() == "full":
             return queryset.filter(balance__exact=price)
         if self.value() == "over":
@@ -56,7 +60,7 @@ class PayerAdmin(admin.ModelAdmin):
     inlines = [PaymentInline]
     _rf = ["balance_as_currency", "amount_due"]
     _ld = ["fully_paid", "balance_as_currency", "amount_due"]
-    _lf = [FullyPaidFilter]
+    _lf = [PayerFilter]
 
     def save_related(self, request, form, formsets, change):
         """
