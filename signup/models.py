@@ -15,12 +15,11 @@ class Person(models.Model):
     )
 
     first_name = models.CharField(_("First Name"), max_length=64, blank=False)
-    second_name = models.CharField(_("Second Name"), max_length=64, blank=True,
-        null=True)
+    second_name = models.CharField(_("Second Name"), max_length=64, blank=True)
     first_surname = models.CharField(_("First Surname"), max_length=64,
         blank=False)
     second_surname = models.CharField(_("Second Surname"), max_length=64,
-        blank=True, null=True)
+        blank=True)
     gender = models.CharField(_("Gender"), choices=GENDER_CHOICES,
         max_length=1, blank=False)
 
@@ -49,12 +48,10 @@ class ExtendedInfo(models.Model):
     from signup.choices import STATE_CHOICES
 
     birth_date = models.DateTimeField(_("Birth Date"), blank=True, null=True)
-    state = models.CharField(_("State"), max_length=3, blank=True, null=True,
+    state = models.CharField(_("State"), max_length=3, blank=True,
         choices=STATE_CHOICES)
-    province = models.CharField(_("Province"), max_length=32, blank=True,
-        null=True)
-    occupation = models.CharField(_("Occupation"), max_length=32, blank=True,
-        null=True)
+    province = models.CharField(_("Province"), max_length=32, blank=True)
+    occupation = models.CharField(_("Occupation"), max_length=32, blank=True)
 
     class Meta:
         abstract = True
@@ -63,7 +60,7 @@ class ExtendedInfo(models.Model):
 class Minor(models.Model):
     """Basic model applying to minors for permission handling"""
     passport = models.CharField(_("Passport Number"), max_length=16,
-        blank=True, null=True)
+        blank=True)
     birth_cert_num = models.PositiveIntegerField(_("Birth Certificate Number"),
         blank=True, null=True)
     birth_cert_fol = models.PositiveIntegerField(_("Birth Certificate Folio"),
@@ -71,7 +68,7 @@ class Minor(models.Model):
     birth_cert_book = models.PositiveIntegerField(_("Birth Certificate Book"),
         blank=True, null=True)
     registrar = models.CharField(_("Birth Certificate Registrar"),
-        max_length=256, blank=True, null=True)
+        max_length=256, blank=True)
     docs_signed = models.BooleanField(_("Signed documents"), blank=False,
         default=False, help_text=_("Mark if the camper's parents have signed "
         "the required documents."))
@@ -112,7 +109,7 @@ class Payer(models.Model):
 class Attendant(models.Model):
     """Basic model of anybody going to camp"""
     badge_name = models.CharField(_("Badge Name"), max_length=64, blank=True,
-        null=True, help_text=_("The name that appears in the badge."))
+        help_text=_("The name that appears in the badge."))
 
     class Meta:
         abstract = True
@@ -125,10 +122,10 @@ class Member(models.Model):
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
         blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
-        null=True, choices=STRUCTURES)
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True, null=True,
+        choices=STRUCTURES)
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
         choices=CABINS)
-    bus = models.CharField(_("Bus"), max_length=16, blank=True, null=True,
+    bus = models.CharField(_("Bus"), max_length=16, blank=True,
         choices=BUSES)
 
     class Meta:
@@ -152,7 +149,7 @@ class Payment(models.Model):
     payment_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2,
         blank=False)
-    notes = models.CharField(_("Notes"), max_length=256, null=True, blank=True)
+    notes = models.CharField(_("Notes"), max_length=256, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey("content_type", "object_id")
@@ -229,7 +226,7 @@ class Guest(Person, Payer, Attendant):
     from logistics.choices import CABINS
 
     cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
-        null=True, choices=CABINS)
+        choices=CABINS)
 
     class Meta(Person.Meta):
         verbose_name = _("Guest")

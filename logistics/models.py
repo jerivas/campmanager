@@ -11,10 +11,10 @@ class SmallGroup(models.Model):
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
         blank=False, choices=GENERATIONS, default=1)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
-        null=True, choices=STRUCTURES)
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True, null=True,
+        choices=STRUCTURES)
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
         choices=CABINS)
-    bus = models.CharField(_("Bus"), max_length=16, blank=True, null=True,
+    bus = models.CharField(_("Bus"), max_length=16, blank=True,
         choices=BUSES)
 
     class Meta:

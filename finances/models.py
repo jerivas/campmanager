@@ -10,16 +10,15 @@ class Transaction(models.Model):
         ("egress", _("Egress")),
     )
     transaction_id = models.CharField(_("Transaction ID"), max_length=16,
-        blank=True, null=True)
+        blank=True)  
     transaction_type = models.CharField(_("Type"), max_length=16, blank=False,
         choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=6, decimal_places=2,
         blank=False)
-    origin = models.CharField(_("Origin"), max_length=128, blank=True,
-        null=True)
+    origin = models.CharField(_("Origin"), max_length=128, blank=True)
     destination = models.CharField(_("Destination"), max_length=128,
-        blank=True, null=True)
+        blank=True)
 
     def __unicode__(self):
         return "%s - $%s (%s)" % (self.transaction_id, self.amount,
