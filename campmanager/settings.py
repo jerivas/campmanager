@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'signup',
     'logistics',
     'finances',
+    'reports',
 )
 
 MIDDLEWARE_CLASSES = (
