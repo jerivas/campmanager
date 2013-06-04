@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.timezone import now
-from django.db.models import Sum
 
 
 class Person(models.Model):
@@ -100,7 +99,7 @@ class Payer(models.Model):
 
     def save(self, *args, **kwargs):
         if self.payment_set.count() > 0:
-            self.balance = self.payment_set.aggregate(Sum("amount")).values()[0]
+            self.balance = sum(p.amount for p in self.payment_set.all())
         else:
             self.balance = 0
         super(Payer, self).save(*args, **kwargs)
