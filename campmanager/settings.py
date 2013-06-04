@@ -183,7 +183,12 @@ except ImportError:
 ###################
 
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
-CAMP_PRICE = 75
-SIGNUP_FEE = 5
 LOGIN_URL = "/accounts/login/"
 GRAPPELLI_ADMIN_TITLE = "Montesi&oacute;n 2013"
+
+###################
+# CAMP SETTINGS #
+###################
+
+CAMP_PRICE = 75
+SIGNUP_FEE = 5
