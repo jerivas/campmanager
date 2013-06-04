@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
 
 from signup.models import Camper, Counselor, Guest, Parent, Payment
 from logistics.models import SmallGroup
 from finances.models import Transaction
 
 
+@permission_required("finances.add_transaction")
 def full_financial_report(request):
     """A full report spanning Payments and Transactions"""
     template = "reports/full_financial_report.html"
