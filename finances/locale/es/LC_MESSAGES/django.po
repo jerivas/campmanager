@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-01 21:36-0600\n"
+"POT-Creation-Date: 2013-06-03 21:12-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,14 +50,18 @@ msgstr "Fecha"
 msgid "Origin"
 msgstr "Origen"
 
-#: models.py:21
+#: models.py:20
 msgid "Destination"
 msgstr "Destino"
 
-#: models.py:30
+#: models.py:29
 msgid "Transaction"
 msgstr "transacción"
 
-#: models.py:31
+#: models.py:30
 msgid "Transactions"
 msgstr "transacciones"
+
+#: templates/admin/finances/transaction/change_list.html:6
+msgid "View financial report"
+msgstr "Ver reporte financiero"

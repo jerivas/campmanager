@@ -1,0 +1,7 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    <li><a href="{% url 'full_financial_report' %}" class="grp-viewsite-link">{% trans "View financial report" %}</a></li>
+{% endblock %}
