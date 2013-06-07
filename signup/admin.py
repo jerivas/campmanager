@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.admin import SimpleListFilter
+from django.core.urlresolvers import reverse
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 
@@ -37,12 +38,6 @@ class PayerFilter(SimpleListFilter):
 class PaymentInline(generic.GenericTabularInline):
     model = Payment
     extra = 1
-
-
-class HideFromAdminList(admin.ModelAdmin):
-    def get_model_perms(self, request):
-        """Return empty perms dict thus hiding the model from admin index."""
-        return {}
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -184,7 +179,7 @@ class GuestAdmin(PersonAdmin, PayerAdmin):
     search_fields = PersonAdmin._sf + ["cabin"]
 
 
-class ParentAdmin(PersonAdmin, HideFromAdminList):
+class ParentAdmin(PersonAdmin):
     fields = (("first_name", "second_name"),
               ("first_surname", "second_surname"),
               ("gov_id", "known_as"),
@@ -193,12 +188,37 @@ class ParentAdmin(PersonAdmin, HideFromAdminList):
               ("state", "province"),
               "occupation")
 
-    list_display = PersonAdmin._ld
+    list_display = PersonAdmin._ld + ["known_as", "gender"]
     list_filter = PersonAdmin._lf
-    search_fields = PersonAdmin._sf
+    search_fields = PersonAdmin._sf + ["known_as"]
+
+
+class PaymentAdmin(admin.ModelAdmin):
+    readonly_fields = ["link_to_related"]
+
+    fields = (("receipt_id", "payment_date"),
+              ("amount", "notes"),
+              "link_to_related")
+
+    list_display = ["receipt_id", "amount", "payment_date", "link_to_related"]
+    list_display_links = ["receipt_id", "amount"]
+    date_hierarchy = "payment_date"
+    search_fields = ["receipt_id", "notes", "camper__first_name",
+    "counselor__first_name", "guest__first_name", "camper__first_surname",
+    "counselor__first_surname", "guest__first_surname"]
+
+    def link_to_related(self, model):
+        m = model.content_object
+        url_str = "admin:%s_%s_change" % (m._meta.app_label,
+            m._meta.object_name.lower())
+        m_url = reverse(url_str, args=[m.pk])
+        return ("%s: <a href='%s'>%s</a><br>" %
+                (m._meta.verbose_name.title(), m_url, m))
+    link_to_related.short_description = _("Paid by")
+    link_to_related.allow_tags = True
 
 admin.site.register(Camper, CamperAdmin)
 admin.site.register(Counselor, CounselorAdmin)
 admin.site.register(Guest, GuestAdmin)
 admin.site.register(Parent, ParentAdmin)
-admin.site.register(Payment, HideFromAdminList)
+admin.site.register(Payment, PaymentAdmin)
