@@ -5,6 +5,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.timezone import now
 
+from signup.validators import gov_id_validator
+from signup.choices import STATES
+from logistics.choices import STRUCTURES, GENERATIONS, CABINS, BUSES
+
 
 class Person(models.Model):
     """Base class for all people"""
@@ -44,11 +48,10 @@ class Person(models.Model):
 
 class ExtendedInfo(models.Model):
     """Extra info about some people"""
-    from signup.choices import STATE_CHOICES
-
-    birth_date = models.DateTimeField(_("Birth Date"), blank=True, null=True)
+    birth_date = models.DateTimeField(_("Birth Date"), blank=True, null=True,
+        help_text=_("The format is YYYY-MM-DD and 24 hour time."))
     state = models.CharField(_("State"), max_length=3, blank=True,
-        choices=STATE_CHOICES)
+        choices=STATES)
     province = models.CharField(_("Province"), max_length=32, blank=True)
     occupation = models.CharField(_("Occupation"), max_length=32, blank=True)
 
@@ -58,6 +61,15 @@ class ExtendedInfo(models.Model):
 
 class Minor(models.Model):
     """Basic model applying to minors for permission handling"""
+    TITLES = (
+        ("m", _("Mr.")),
+        ("f", _("Mrs.")),
+    )
+    POSITIONS = (
+        ("chief", _("Chief")),
+        ("subchief", _("Subchief")),
+    )
+
     passport = models.CharField(_("Passport Number"), max_length=16,
         blank=True)
     birth_cert_num = models.PositiveIntegerField(_("Birth Certificate Number"),
@@ -68,13 +80,24 @@ class Minor(models.Model):
         blank=True, null=True)
     registrar = models.CharField(_("Birth Certificate Registrar"),
         max_length=256, blank=True)
-    docs_signed = models.BooleanField(_("Signed documents"), blank=False,
-        default=False, help_text=_("Mark if the camper's parents have signed "
-        "the required documents."))
+    registrar_title = models.CharField(_("Birth Certificate Registrar Title"),
+        max_length=16, blank=True, choices=TITLES)
+    registrar_position = models.CharField(_("Birth Certificate Registrar "
+        "Position"), max_length=16, blank=True, choices=POSITIONS)
+    reg_state = models.CharField(_("Registration State"), max_length=3,
+        blank=True, choices=STATES)
+    reg_province = models.CharField(_("Registration Province"), max_length=32,
+        blank=True)
     mother = models.ForeignKey("Parent", related_name="mothered",
         blank=True, null=True, verbose_name=_("Mother"))
     father = models.ForeignKey("Parent", related_name="fathered",
         blank=True, null=True, verbose_name=_("Father"))
+    perm_printed = models.BooleanField(_("Permission Printed"), blank=False,
+        default=False, help_text=_("Mark if the camper's permission has been "
+        "printed and is awaiting the parent's signature."))
+    perm_signed = models.BooleanField(_("Permission Signed"), blank=False,
+        default=False, help_text=_("Mark if the camper's parents have signed "
+        "the permission."))
 
     class Meta:
         abstract = True
@@ -107,8 +130,6 @@ class Payer(models.Model):
 
 class Attendant(models.Model):
     """Basic model of anybody going to camp"""
-    from logistics.choices import CABINS
-
     badge_name = models.CharField(_("Badge Name"), max_length=64, blank=True,
         help_text=_("The name that appears in the badge."))
     cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
@@ -120,8 +141,6 @@ class Attendant(models.Model):
 
 class Member(models.Model):
     """A member of a Small Group and Structure (Campers and Counselors)"""
-    from logistics.choices import GENERATIONS, STRUCTURES, BUSES
-
     generation = models.PositiveIntegerField(_("Generation"), max_length=1,
         blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
@@ -172,7 +191,9 @@ class Payment(models.Model):
 
 class Parent(Person, ExtendedInfo):
     """A parent or legal guardian of a minor"""
-    gov_id = models.CharField(_("ID Number"), max_length=16, blank=False)
+    gov_id = models.CharField(_("ID Number"), max_length=10, blank=False,
+        validators=[gov_id_validator])
+    known_as = models.CharField(_("Known as"), max_length=255, blank=True)
 
     class Meta(Person.Meta):
         verbose_name = _("Parent")

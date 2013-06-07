@@ -130,19 +130,21 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                             ("balance_as_currency", "amount_due")]}),
         (_("Customs"), {"classes": ("grp-collapse grp-closed",),
                         "fields":
-                        [("birth_date", "registrar"),
+                        [("birth_date"),
+                        "registrar",
+                        ("registrar_title", "registrar_position"),
                         ("birth_cert_num", "birth_cert_fol", "birth_cert_book"),
+                        ("reg_state", "reg_province"),
                         ("state", "province"),
-                        "occupation",
-                        "passport",
+                        ("passport", "occupation"),
                         ("mother", "father"),
-                        ("special_case", "docs_signed")]}),
+                        ("special_case", "perm_printed", "perm_signed")]}),
     ]
 
     list_display = (PersonAdmin._ld + MemberAdmin._ld + PayerAdmin._ld
-        + ["docs_signed", "special_case"])
-    list_editable = ["docs_signed", "special_case"]
-    list_filter = MemberAdmin._lf + PayerAdmin._lf + ["docs_signed",
+        + ["perm_signed", "special_case"])
+    list_editable = ["perm_signed", "special_case"]
+    list_filter = MemberAdmin._lf + PayerAdmin._lf + ["perm_signed",
         "special_case"]
     search_fields = (PersonAdmin._sf + MemberAdmin._sf
         + ["counselor__first_name"] + ["counselor__second_name"]
@@ -185,7 +187,7 @@ class GuestAdmin(PersonAdmin, PayerAdmin):
 class ParentAdmin(PersonAdmin, HideFromAdminList):
     fields = (("first_name", "second_name"),
               ("first_surname", "second_surname"),
-              "gov_id",
+              ("gov_id", "known_as"),
               "gender",
               "birth_date",
               ("state", "province"),

@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 
-STATE_CHOICES = (
+STATES = (
     ("ahu", _("Ahuachapan")),
     ("cab", _("Cabanas")),
     ("cha", _("Chalatenango")),
