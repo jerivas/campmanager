@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.admin import SimpleListFilter
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 
@@ -23,7 +24,6 @@ class PayerFilter(SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        from django.conf import settings
 
         price = settings.CAMP_PRICE
         signup = settings.SIGNUP_FEE
@@ -93,20 +93,10 @@ class PayerAdmin(admin.ModelAdmin):
 
 class MemberAdmin(admin.ModelAdmin):
     """Base admin for all Members (Campers and Counselors)"""
-    _ld = ["dspl_structure", "dspl_generation", "small_group"]
+    _ld = ["structure", "generation", "small_group"]
     _rf = ["structure", "generation", "cabin", "bus"]
     _lf = ["structure", "generation", "small_group"]
-    _sf = ["^structure", "^small_group__title", "^bus"]
-
-    def dspl_structure(self, model):
-        return model.get_structure_display()
-    dspl_structure.short_description = _("Structure")
-    dspl_structure.admin_order_field = "structure"
-
-    def dspl_generation(self, model):
-        return model.get_generation_display()
-    dspl_generation.short_description = _("Generation")
-    dspl_generation.admin_order_field = "generation"
+    _sf = ["^structure", "^small_group__title", "bus", "cabin"]
 
 
 class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
@@ -142,8 +132,8 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     list_filter = MemberAdmin._lf + PayerAdmin._lf + ["perm_signed",
         "special_case"]
     search_fields = (PersonAdmin._sf + MemberAdmin._sf
-        + ["counselor__first_name"] + ["counselor__second_name"]
-        + ["counselor__first_surname"] + ["counselor__second_surname"])
+        + ["counselor__first_name", "counselor__second_name",
+        "counselor__first_surname", "counselor__second_surname"])
 
 
 class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
@@ -175,7 +165,7 @@ class GuestAdmin(PersonAdmin, PayerAdmin):
 
     list_display = PersonAdmin._ld + ["cabin"] + PayerAdmin._ld
     list_editable = ["cabin"]
-    list_filter = PersonAdmin._lf + ["no_pay"] + ["cabin"] + PayerAdmin._lf
+    list_filter = PersonAdmin._lf + ["no_pay", "cabin"] + PayerAdmin._lf
     search_fields = PersonAdmin._sf + ["cabin"]
 
 
