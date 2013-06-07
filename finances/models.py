@@ -10,7 +10,7 @@ class Transaction(models.Model):
         ("egress", _("Egress")),
     )
     transaction_id = models.CharField(_("Transaction ID"), max_length=16,
-        blank=True)  
+        unique=True, blank=True)
     transaction_type = models.CharField(_("Type"), max_length=16, blank=False,
         choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateField(_("Date"), blank=True, null=True)
@@ -21,11 +21,11 @@ class Transaction(models.Model):
         blank=True)
 
     def __unicode__(self):
-        return "%s - $%s (%s)" % (self.transaction_id, self.amount,
+        return "%s - $%0.2f (%s)" % (self.transaction_id, self.amount,
                                   self.get_transaction_type_display())
 
     class Meta:
-        ordering = ["-transaction_date"]
+        ordering = ["-transaction_id"]
         verbose_name = _("Transaction")
         verbose_name_plural = _("Transactions")
 

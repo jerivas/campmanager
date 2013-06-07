@@ -165,7 +165,8 @@ class Member(models.Model):
 
 class Payment(models.Model):
     """A payment done to pay the camps"s price"""
-    receipt_id = models.CharField(_("Receipt ID"), max_length=16, blank=False)
+    receipt_id = models.CharField(_("Receipt ID"), max_length=16, unique=True,
+        blank=False)
     payment_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2,
         blank=False)
@@ -178,7 +179,7 @@ class Payment(models.Model):
         return "%s - $%s" % (self.receipt_id, self.amount)
 
     class Meta:
-        ordering = ["-payment_date"]
+        ordering = ["-receipt_id"]
         verbose_name = _("Payment")
         verbose_name_plural = _("Payments")
 
