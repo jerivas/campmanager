@@ -1,38 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
-from django.contrib.admin import SimpleListFilter
 from django.core.urlresolvers import reverse
-from django.conf import settings
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
-
-
-class PayerFilter(SimpleListFilter):
-    """
-    Allows filtering Payers according to how much of the camp's price
-    they've paid so far.
-    """
-    title = _("Balance Status")
-    parameter_name = "balance"
-
-    def lookups(self, request, model_admin):
-        return (
-            ("signup", _("Signed up")),
-            ("full", _("Fully paid")),
-            ("over", _("Overpaid")),
-        )
-
-    def queryset(self, request, queryset):
-
-        price = settings.CAMP_PRICE
-        signup = settings.SIGNUP_FEE
-        if self.value() == "signup":
-            return queryset.filter(balance__gte=signup)
-        if self.value() == "full":
-            return queryset.filter(balance__exact=price)
-        if self.value() == "over":
-            return queryset.filter(balance__gt=price)
+from signup.filters import BalanceStatusFilter, PermissionStatusFilter
+from signup.forms import CamperForm
 
 
 class PaymentInline(generic.GenericTabularInline):
@@ -55,7 +28,7 @@ class PayerAdmin(admin.ModelAdmin):
     inlines = [PaymentInline]
     _rf = ["balance_as_currency", "amount_due"]
     _ld = ["fully_paid", "balance_as_currency", "amount_due"]
-    _lf = [PayerFilter]
+    _lf = [BalanceStatusFilter]
 
     def save_related(self, request, form, formsets, change):
         """
@@ -100,6 +73,7 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
+    form = CamperForm
     raw_id_fields = ("counselor", "mother", "father")
     autocomplete_lookup_fields = {"fk": ["counselor", "mother", "father"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf
@@ -127,14 +101,24 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     ]
 
     list_display = (PersonAdmin._ld + MemberAdmin._ld + PayerAdmin._ld
-        + ["perm_signed", "special_case"])
-    list_editable = ["perm_signed", "special_case"]
-    list_filter = MemberAdmin._lf + PayerAdmin._lf + ["perm_signed",
-        "special_case"]
+        + ["perm_status"])
+    list_filter = MemberAdmin._lf + PayerAdmin._lf + [PermissionStatusFilter]
     search_fields = (PersonAdmin._sf + MemberAdmin._sf
         + ["counselor__first_name", "counselor__second_name",
         "counselor__first_surname", "counselor__second_surname"])
 
+    def perm_status(self, model):
+        """Verbose output of the Camper's permission status"""
+        if model.special_case:
+            return _("Special Case")
+        else:
+            perm_status = _("Not Printed")
+        if model.perm_printed:
+            perm_status = _("Printed")
+        if model.perm_signed:
+            perm_status = _("Signed")
+        return perm_status
+    perm_status.short_description = _("Permission Status")
 
 class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     raw_id_fields = ("small_group",)
@@ -165,7 +149,7 @@ class GuestAdmin(PersonAdmin, PayerAdmin):
 
     list_display = PersonAdmin._ld + ["cabin"] + PayerAdmin._ld
     list_editable = ["cabin"]
-    list_filter = PersonAdmin._lf + ["no_pay", "cabin"] + PayerAdmin._lf
+    list_filter = PersonAdmin._lf + ["cabin"] + PayerAdmin._lf
     search_fields = PersonAdmin._sf + ["cabin"]
 
 

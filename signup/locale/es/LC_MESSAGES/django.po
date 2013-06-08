@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-07 00:00-0600\n"
+"POT-Creation-Date: 2013-06-08 12:42-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,55 +22,51 @@ msgstr ""
 msgid "Signup"
 msgstr "Inscripción"
 
-#: admin.py:15
-msgid "Balance Status"
-msgstr "Estado del saldo"
-
-#: admin.py:20
-msgid "Signed up"
-msgstr "Inscrito"
-
-#: admin.py:21
-msgid "Fully paid"
-msgstr "Pagado"
-
-#: admin.py:22
-msgid "Overpaid"
-msgstr "Sobrepagado"
-
-#: admin.py:73 admin.py:87 models.py:110
+#: admin.py:46 admin.py:60 filters.py:16 models.py:111
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:77 models.py:108
+#: admin.py:50 models.py:109
 msgid "Balance"
 msgstr "Saldo"
 
-#: admin.py:83
+#: admin.py:56
 msgid "Fully Paid"
 msgstr "Pagado"
 
-#: admin.py:91
+#: admin.py:64
 msgid "Amount Due"
 msgstr "Debe"
 
-#: admin.py:103 models.py:146
-msgid "Structure"
-msgstr "Estructura"
-
-#: admin.py:108 models.py:144
-msgid "Generation"
-msgstr "Generación"
-
-#: admin.py:118
+#: admin.py:82
 msgid "Basic Info"
 msgstr "Información básica"
 
-#: admin.py:126
+#: admin.py:90
 msgid "Customs"
 msgstr "Migración"
 
-#: admin.py:217
+#: admin.py:113 filters.py:44 models.py:212
+msgid "Special Case"
+msgstr "Caso especial"
+
+#: admin.py:115 filters.py:45
+msgid "Not Printed"
+msgstr "No impreso"
+
+#: admin.py:117 filters.py:46
+msgid "Printed"
+msgstr "Impreso"
+
+#: admin.py:119 filters.py:47
+msgid "Signed"
+msgstr "Firmado"
+
+#: admin.py:121 filters.py:39
+msgid "Permission Status"
+msgstr "Estado del permiso"
+
+#: admin.py:191
 msgid "Paid by"
 msgstr "Pagado por"
 
@@ -130,127 +126,157 @@ msgstr "Sonsonate"
 msgid "Usulutan"
 msgstr "Usulután"
 
-#: models.py:16
+#: filters.py:11
+msgid "Balance Status"
+msgstr "Estado del saldo"
+
+#: filters.py:17
+msgid "Signed up"
+msgstr "Inscrito"
+
+#: filters.py:18
+msgid "Fully paid"
+msgstr "Pagado"
+
+#: filters.py:19
+msgid "Overpaid"
+msgstr "Sobrepagado"
+
+#: forms.py:14
+msgid "Special cases cannot have 'Permission Printed' status."
+msgstr "No se puede marcar 'Permiso impreso' a un caso especial."
+
+#: forms.py:18
+msgid "Special cases cannot have 'Permission Signed' status."
+msgstr "No se puede marcar 'Permiso firmado' a un caso especial."
+
+#: forms.py:22
+msgid ""
+"Cannot set 'Permission Signed' without first setting 'Permission Printed'."
+msgstr ""
+"No se puede marcar 'Permiso firmado' sin haber marcado 'Permiso impreso'."
+
+#: models.py:17
 msgid "Male"
 msgstr "Masculino"
 
-#: models.py:17
+#: models.py:18
 msgid "Female"
 msgstr "Femenino"
 
-#: models.py:20
+#: models.py:21
 msgid "First Name"
 msgstr "Primer nombre"
 
-#: models.py:21
+#: models.py:22
 msgid "Second Name"
 msgstr "Segundo nombre"
 
-#: models.py:22
+#: models.py:23
 msgid "First Surname"
 msgstr "Primer apellido"
 
-#: models.py:24
+#: models.py:25
 msgid "Second Surname"
 msgstr "Segundo apellido"
 
-#: models.py:26
+#: models.py:27
 msgid "Gender"
 msgstr "Género"
 
-#: models.py:41
+#: models.py:42
 msgid "Names"
 msgstr "Nombres"
 
-#: models.py:46
+#: models.py:47
 msgid "Surnames"
 msgstr "Apellidos"
 
-#: models.py:51
+#: models.py:52
 msgid "Birth Date"
 msgstr "Fecha de nacimiento"
 
-#: models.py:52
+#: models.py:53
 msgid "The format is YYYY-MM-DD and 24 hour time."
 msgstr "El formato es AAAA-MM-DD y reloj de 24 horas."
 
-#: models.py:53
+#: models.py:54
 msgid "State"
 msgstr "Departamento de residencia"
 
-#: models.py:55
+#: models.py:56
 msgid "Province"
 msgstr "Municipio de residencia"
 
-#: models.py:56
+#: models.py:57
 msgid "Occupation"
 msgstr "Ocupación"
 
-#: models.py:65
+#: models.py:66
 msgid "Mr."
 msgstr "Lic."
 
-#: models.py:66
+#: models.py:67
 msgid "Mrs."
 msgstr "Licda."
 
-#: models.py:69
+#: models.py:70
 msgid "Chief"
 msgstr "Jefe"
 
-#: models.py:70
+#: models.py:71
 msgid "Subchief"
 msgstr "Subjefe"
 
-#: models.py:73
+#: models.py:74
 msgid "Passport Number"
 msgstr "No. Pasaporte"
 
-#: models.py:75
+#: models.py:76
 msgid "Birth Certificate Number"
 msgstr "No. Partida de nacimiento"
 
-#: models.py:77
+#: models.py:78
 msgid "Birth Certificate Folio"
 msgstr "Folio"
 
-#: models.py:79
+#: models.py:80
 msgid "Birth Certificate Book"
 msgstr "Libro"
 
-#: models.py:81
+#: models.py:82
 msgid "Birth Certificate Registrar"
 msgstr "Nombre del registrante"
 
-#: models.py:83
+#: models.py:84
 msgid "Birth Certificate Registrar Title"
 msgstr "Título del registrante"
 
-#: models.py:85
+#: models.py:86
 msgid "Birth Certificate Registrar Position"
 msgstr "Cargo del registrante"
 
-#: models.py:87
+#: models.py:88
 msgid "Registration State"
 msgstr "Departamento de registro"
 
-#: models.py:89
+#: models.py:90
 msgid "Registration Province"
 msgstr "Municipio de registro"
 
-#: models.py:92
+#: models.py:93
 msgid "Mother"
 msgstr "Madre"
 
-#: models.py:94
+#: models.py:95
 msgid "Father"
 msgstr "Padre"
 
-#: models.py:95
+#: models.py:96
 msgid "Permission Printed"
 msgstr "Permiso impreso"
 
-#: models.py:96
+#: models.py:97
 msgid ""
 "Mark if the camper's permission has been printed and is awaiting the "
 "parent's signature."
@@ -258,114 +284,118 @@ msgstr ""
 "Marca esta casilla si el permiso ha sido impreso y espera la firma de los "
 "padres."
 
-#: models.py:98
+#: models.py:99
 msgid "Permission Signed"
 msgstr "Permiso firmado"
 
-#: models.py:99
+#: models.py:100
 msgid "Mark if the camper's parents have signed the permission."
 msgstr "Marca esta casilla si los padres ya firmaron el permiso de migración."
 
-#: models.py:111
+#: models.py:112
 msgid "Mark if this person is exempt of the camp's price"
 msgstr ""
 "Marca esta casilla si esta persona no debe pagar para ir al campamento."
 
-#: models.py:133
+#: models.py:134
 msgid "Badge Name"
 msgstr "Gafete"
 
-#: models.py:134
-msgid "The name that appears in the badge."
-msgstr "El nombre que aprece en el gafete."
-
 #: models.py:135
+msgid "The name that appears in the badge."
+msgstr "El nombre que aparece en el gafete."
+
+#: models.py:136
 msgid "Cabin"
 msgstr "Cabaña"
 
-#: models.py:148
+#: models.py:145
+msgid "Generation"
+msgstr "Generación"
+
+#: models.py:147
+msgid "Structure"
+msgstr "Estructura"
+
+#: models.py:149
 msgid "Bus"
 msgstr "Bus"
 
-#: models.py:168
+#: models.py:169
 msgid "Receipt ID"
 msgstr "No. Recibo"
 
-#: models.py:169
+#: models.py:171
 msgid "Date"
 msgstr "Fecha"
 
-#: models.py:170
+#: models.py:172
 msgid "Amount"
 msgstr "Cantidad"
 
-#: models.py:172
+#: models.py:174
 msgid "Notes"
 msgstr "Notas"
 
-#: models.py:182
+#: models.py:184
 msgid "Payment"
 msgstr "abono"
 
-#: models.py:183
+#: models.py:185
 msgid "Payments"
 msgstr "abonos"
 
-#: models.py:194
+#: models.py:196
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:196
+#: models.py:198
 msgid "Known as"
-msgstr "Conocido por"
+msgstr "Conocido como"
 
-#: models.py:199
+#: models.py:201
 msgid "Parent"
 msgstr "padre"
 
-#: models.py:200
+#: models.py:202
 msgid "Parents"
 msgstr "padres"
 
-#: models.py:210
-msgid "Special Case"
-msgstr "Caso especial"
-
-#: models.py:211
+#: models.py:213
 msgid "Mark if this camper will require special handling."
 msgstr ""
 "Marca esta casilla si este campista requiere consideraciones especiales "
 "relacionadas a migración."
 
-#: models.py:214
+#: models.py:216
 msgid "Counselor or Small Group"
 msgstr "Líder o ágape"
 
-#: models.py:216 models.py:230
+#: models.py:218 models.py:232
 msgid "Small Group"
 msgstr "ágape"
 
-#: models.py:223
+#: models.py:225
 msgid "Camper"
 msgstr "campista"
 
-#: models.py:224
+#: models.py:226
 msgid "Campers"
 msgstr "campistas"
 
-#: models.py:233
+#: models.py:235
 msgid "Counselor"
 msgstr "líder"
 
-#: models.py:234
+#: models.py:236
 msgid "Counselors"
 msgstr "líderes"
 
-#: models.py:250
+#: models.py:252
 msgid "Guest"
 msgstr "invitado"
 
-#: models.py:251
+#: models.py:253
 msgid "Guests"
 msgstr "invitados"
 

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.timezone import now
+from django.core.exceptions import ValidationError
 
 from signup.validators import gov_id_validator
 from signup.choices import STATES
