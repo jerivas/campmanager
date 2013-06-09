@@ -1,0 +1,56 @@
+{% extends "admin/base_site.html" %}
+{% load staticfiles %}
+
+{% block extrastyle %}
+    {{ block.super }}
+{% endblock extrastyle %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+    (function($) {
+    $(document).ready(function() {
+        $("#grp-content-container .grp-collapse").grp_collapsible();
+    });
+    })(grp.jQuery);
+    </script>
+{% endblock extrahead %}
+
+{% block title %}Permisos migratorios{% endblock %}
+
+{% block breadcrumbs %}
+<ul>
+    <li><a href="{% url 'admin:index' %}">Inicio</a></li>
+    <li><a href="">Reportes</a></li>
+    <li>Permisos migratorios</li>
+</ul>
+{% endblock %}
+
+{% block pretitle %}
+<ul class="grp-messagelist">
+    <li class="grp-info">Fecha y hora de generación de los permisos: {% now "DATETIME_FORMAT" %}</li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="g-d-c">
+    {% if campers|length > 1 %}
+    <div class="grp-module g-d-12">
+        <h2>{{campers|length}} permisos generados</h2>
+        <div class="grp-row">
+            {{campers|join:", "}}
+        </div>
+    </div>
+    {% endif %}
+    {% for camper in campers %}
+    <div class="grp-module g-d-12 grp-collapse grp-closed">
+        <h2 class="grp-collapse-handler">{{camper}}</h2>
+        <div class="grp-row"><p>
+            {% with father=camper.father mother=camper.mother birth=camper.birth_date %}
+            En la ciudad de San Salvador, a las once horas del día siete de julio de dos mil trece. Ante mí, <strong>JORGE ALBERTO MARTINEZ MARTINEZ</strong>, Notario, de este domicilio, comparecen los señores <strong>{{father|upper}}</strong>, de {{father.age}} años de edad, {{father.occupation|lower}}, a quien conozco, portador de su Documento Único de Identidad número {{father.gov_id}}; y <strong>{{mother|upper}}</strong>, de {{mother.age}} años de edad, {{mother.occupation|lower}}, a quien conozco, portadora de su Documento Único de Identidad número {{mother.gov_id}}; ambos del domicilio de Soyapango Departamento de San Salvador; <strong>Y ME DICEN</strong>: Que por medio del presente documento autorizan a su menor hijo <strong>{{camper|upper}}</strong>, {{camper.occupation|lower}}, del domicilio de esta ciudad, actualmente con pasaporte numero {{camper.passport}}, a salir e ingresar al país, acompañado por <strong>JAVIER ERNESTO SANTILLANA MELENDEZ</strong>, de veinticinco años de edad, estudiante, del domicilio de Antiguo Cuscatlán, departamento de la Libertad, con  Documento Único de Identidad numero cero tres millones trescientos cinco mil ochocientos ochenta y seis – dos; vía terrestre, rumbo a la Republica de Guatemala, para que pueda ingresar a dicho país por cualquier frontera, y permanecer en  dicho país del tres al nueve de agosto del presente año; el presente permiso se otorga por el plazo de un año. <strong>Yo el notario doy fe de haber tenido a la vista:</strong> La Certificación de Partida de Nacimiento del menor <strong>{{camper.names|upper}}</strong>, extendida por la {{camper.get_registrar_title_display}} <strong>{{camper.registrar|upper}}</strong>, {{camper.get_registrar_position_display}} del Registro del Estado Familiar Interino de la Alcaldía Municipal de {{camper.get_reg_state_display}}, asentada al número {{camper.birth_cert_num}}, folio {{camper.birth_cert_fol}} del Libro {{camper.birth_cert_book}} de partidas de nacimientos que llevo dicha Alcaldía Municipal, en el año de {{birth|date:"o"}}, en la que consta que nació a las {{birth|date:"G"}} horas {{birth|date:"i"}} minutos, del día {{birth|date:"j"}} de {{birth|date:"F"|lower}} de {{birth|date:"o"}}, en esta ciudad, y además consta que el menor es hijo de los comparecientes. Así se expresaron los comparecientes, a quienes les explique los efectos legales de esta acta notarial, la cual consta de una hoja útil, y leída que se las hube íntegramente en un solo acto sin interrupción, ratifican su contenido y firmamos. DOY FE.
+            {% endwith %}
+        </p></div>
+    </div>        
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,12 +1,36 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 
 from signup.models import Camper, Counselor, Guest, Parent, Payment
 from logistics.models import SmallGroup
 from finances.models import Transaction
 
 
-@permission_required("finances.add_transaction")
+class Permission(ListView):
+    """Display multiple Camper permissions at once"""
+    context_object_name = "campers"
+    template_name = "reports/permission.html"
+
+    def get_queryset(self):
+        pks = self.kwargs["pks"].split(",")
+        campers = []
+        for pk in pks:
+            try:
+                c = Camper.objects.get(pk=pk)
+            except Camper.DoesNotExist:
+                pass
+            else:
+                campers.append(c)
+        return campers
+
+    @method_decorator(permission_required("signup.view_reports"))
+    def dispatch(self, *args, **kwargs):
+        return super(Permission, self).dispatch(*args, **kwargs)
+
+
+@permission_required("finances.view_reports")
 def full_financial_report(request):
     """A full report spanning Payments and Transactions"""
     template = "reports/full_financial_report.html"
