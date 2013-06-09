@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.timezone import now
-from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 
 from signup.validators import gov_id_validator
 from signup.choices import STATES
@@ -37,12 +37,12 @@ class Person(models.Model):
         return " ".join([self.names(), self.surnames()])
 
     def names(self):
-        return " ".join([self.first_name, self.second_name])
+        return " ".join([self.first_name, self.second_name]).strip()
     names.admin_order_field = "first_name"
     names.short_description = _("Names")
 
     def surnames(self):
-        return " ".join([self.first_surname, self.second_surname])
+        return " ".join([self.first_surname, self.second_surname]).strip()
     surnames.admin_order_field = "first_surname"
     surnames.short_description = _("Surnames")
 
@@ -58,6 +58,16 @@ class ExtendedInfo(models.Model):
 
     class Meta:
         abstract = True
+
+    def age(self):
+        try:
+            birthday = self.birth_date.replace(year=now().year)
+        except ValueError:
+            # raised when birth date is February 29 and the current year is not
+            # a leap year
+            birthday = self.birth_date.replace(year=now().year,
+                                               day=self.birth_date.day - 1)
+        return now().year - self.birth_date.year - (birthday > now())
 
 
 class Minor(models.Model):
@@ -224,6 +234,9 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     class Meta(Person.Meta):
         verbose_name = _("Camper")
         verbose_name_plural = _("Campers")
+
+    def get_absolute_url(self):
+        return reverse("permission", args=[self.pk])
 
 
 class Counselor(Person, Payer, Attendant, Member):
