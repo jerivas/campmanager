@@ -51,7 +51,8 @@ class PermissionStatusFilter(SimpleListFilter):
         if self.value() == "special":
             return queryset.filter(special_case=True)
         if self.value() == "not_printed":
-            return queryset.filter(perm_printed=False)
+            return queryset.filter(perm_printed=False).exclude(
+                special_case=True)
         if self.value() == "printed":
             return queryset.filter(perm_printed=True)
         if self.value() == "signed":
