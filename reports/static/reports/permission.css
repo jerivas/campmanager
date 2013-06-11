@@ -1,0 +1,33 @@
+@media print {
+   body {
+      color: #222;
+      background: #fff;
+   }
+
+   body, .grp-module {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      text-align: justify;
+      font-family: "Arial", sans-serif;
+      font-size: 12px;
+      line-height: 22px;
+   }
+
+   .grp-module {
+      page-break-after: always;
+   }
+
+   .grp-module:last-child {
+      page-break-after: auto;
+   }
+
+   header, .no-print {
+      display: none;
+   }
+
+   @page {
+      margin: 2.5cm;
+      padding: 0;
+   }
+}
