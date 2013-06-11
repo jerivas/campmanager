@@ -24,8 +24,8 @@ class Permission(ListView):
         else:
             for pk in pks:
                 try:
-                    c = Camper.objects.select_related("mother", "father").get(
-                        pk=pk)
+                    c = Camper.objects.select_related("mother", "father",
+                        "small_group").get(pk=pk)
                 except Camper.DoesNotExist:
                     pass
                 else:
