@@ -14,17 +14,23 @@ class Permission(ListView):
     template_name = "reports/permission.html"
 
     def get_queryset(self):
-        pks = self.kwargs["pks"].split(",")
         campers = []
-        for pk in pks:
-            try:
-                c = Camper.objects.select_related("mother", "father").get(
-                    pk=pk)
-            except Camper.DoesNotExist:
-                pass
-            else:
-                campers.append(c)
-        return campers
+        try:
+            pks = self.request.GET.get("id").split(",")
+        except AttributeError:  # Catch trying to split NoneType (no "id")
+            return ""
+        if pks == [""]:  # Deal with empty "id" parameter
+            return ""
+        else:
+            for pk in pks:
+                try:
+                    c = Camper.objects.select_related("mother", "father").get(
+                        pk=pk)
+                except Camper.DoesNotExist:
+                    pass
+                else:
+                    campers.append(c)
+            return campers
 
     @method_decorator(permission_required("signup.view_reports"))
     def dispatch(self, *args, **kwargs):
