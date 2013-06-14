@@ -37,3 +37,13 @@ def gender_suffix(value):
     """
     suffix_dict = {"m": "o", "f": "a"}
     return suffix_dict.get(value)
+
+
+@register.filter
+@stringfilter
+def lstrip(value, char=" "):
+    """
+    Wrapper for python's lstrip
+    """
+    char = str(char)
+    return value.lstrip(char)
