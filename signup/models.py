@@ -227,13 +227,14 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     small_group = models.ForeignKey("logistics.SmallGroup", blank=True,
         null=True, verbose_name=_("Small Group"))
 
-    def save(self, *args, **kwargs):
-        self.small_group = self.counselor.small_group
-        super(Camper, self).save(*args, **kwargs)
-
     class Meta(Person.Meta):
         verbose_name = _("Camper")
         verbose_name_plural = _("Campers")
+        permissions = (("generate_permission", "Generate Permission"),)
+
+    def save(self, *args, **kwargs):
+        self.small_group = self.counselor.small_group
+        super(Camper, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         url = reverse("permission")

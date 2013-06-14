@@ -32,7 +32,7 @@ class Permission(ListView):
                     campers.append(c)
             return campers
 
-    @method_decorator(permission_required("signup.view_reports"))
+    @method_decorator(permission_required("signup.generate_permission"))
     def dispatch(self, *args, **kwargs):
         return super(Permission, self).dispatch(*args, **kwargs)
 

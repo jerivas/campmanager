@@ -28,6 +28,7 @@ class Transaction(models.Model):
         ordering = ["-transaction_id"]
         verbose_name = _("Transaction")
         verbose_name_plural = _("Transactions")
+        permissions = (("view_reports", "View Reports"),)
 
     def save(self, *args, **kwargs):
         """Set default for ``transaction_date`` as now"""
