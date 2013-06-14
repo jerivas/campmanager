@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools-items %}
+<li><a href="history/">Histórico</a></li>
+{% if perms.signup.generate_permission %}
+<li>
+    <a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="grp-state-focus" target="_blank">Generar permiso</a>
+</li>
+{% endif %}
+{% endblock %}
