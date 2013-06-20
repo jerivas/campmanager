@@ -3,7 +3,7 @@ from itertools import groupby
 from django import template
 from django.template.defaultfilters import stringfilter
 
-from signup.num2word_ES import int_to_word
+from reports.num2word_ES import int_to_word
 
 register = template.Library()
 
