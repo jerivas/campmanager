@@ -103,6 +103,9 @@ class Minor(models.Model):
         blank=True, null=True, verbose_name=_("Mother"))
     father = models.ForeignKey("Parent", related_name="fathered",
         blank=True, null=True, verbose_name=_("Father"))
+    documents_ready = models.BooleanField(_("Documentation Delivered"),
+        blank=False, default=False, help_text=_("Mark if the camper has "
+            "delivered the required documents."))
     perm_printed = models.BooleanField(_("Permission Printed"), blank=False,
         default=False, help_text=_("Mark if the camper's permission has been "
         "printed and is awaiting the parent's signature."))

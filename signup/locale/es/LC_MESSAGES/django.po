@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-08 12:42-0600\n"
+"POT-Creation-Date: 2013-07-09 17:31-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Signup"
 msgstr "Inscripción"
 
-#: admin.py:46 admin.py:60 filters.py:16 models.py:111
+#: admin.py:46 admin.py:60 filters.py:16 models.py:124
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:50 models.py:109
+#: admin.py:50 models.py:122
 msgid "Balance"
 msgstr "Saldo"
 
@@ -46,27 +46,31 @@ msgstr "Información básica"
 msgid "Customs"
 msgstr "Migración"
 
-#: admin.py:113 filters.py:44 models.py:212
+#: admin.py:115 filters.py:44 models.py:225
 msgid "Special Case"
 msgstr "Caso especial"
 
-#: admin.py:115 filters.py:45
-msgid "Not Printed"
-msgstr "No impreso"
+#: admin.py:117 filters.py:45
+msgid "Incomplete documents"
+msgstr "Documentos incompletos"
 
-#: admin.py:117 filters.py:46
+#: admin.py:119 filters.py:46
+msgid "Ready to print"
+msgstr "Listo para imprimir"
+
+#: admin.py:121 filters.py:47
 msgid "Printed"
 msgstr "Impreso"
 
-#: admin.py:119 filters.py:47
+#: admin.py:123 filters.py:48
 msgid "Signed"
 msgstr "Firmado"
 
-#: admin.py:121 filters.py:39
+#: admin.py:125 filters.py:39
 msgid "Permission Status"
 msgstr "Estado del permiso"
 
-#: admin.py:191
+#: admin.py:195
 msgid "Paid by"
 msgstr "Pagado por"
 
@@ -142,15 +146,25 @@ msgstr "Pagado"
 msgid "Overpaid"
 msgstr "Sobrepagado"
 
-#: forms.py:14
+#: forms.py:15
+msgid "Special cases cannot deliver documents."
+msgstr "Los casos especiales no pueden entregar documentos."
+
+#: forms.py:19
+msgid ""
+"Cannot set 'Permission Printed' without first setting 'Documents Delivered'."
+msgstr ""
+"No se puede marcar 'Permiso impreso' sin haber marcado 'Documentos entregados'."
+
+#: forms.py:24
 msgid "Special cases cannot have 'Permission Printed' status."
 msgstr "No se puede marcar 'Permiso impreso' a un caso especial."
 
-#: forms.py:18
+#: forms.py:28
 msgid "Special cases cannot have 'Permission Signed' status."
 msgstr "No se puede marcar 'Permiso firmado' a un caso especial."
 
-#: forms.py:22
+#: forms.py:32
 msgid ""
 "Cannot set 'Permission Signed' without first setting 'Permission Printed'."
 msgstr ""
@@ -212,71 +226,79 @@ msgstr "Municipio de residencia"
 msgid "Occupation"
 msgstr "Ocupación"
 
-#: models.py:66
+#: models.py:76
 msgid "Mr."
 msgstr "Lic."
 
-#: models.py:67
+#: models.py:77
 msgid "Mrs."
 msgstr "Licda."
 
-#: models.py:70
+#: models.py:80
 msgid "Chief"
 msgstr "Jefe"
 
-#: models.py:71
+#: models.py:81
 msgid "Subchief"
 msgstr "Subjefe"
 
-#: models.py:74
+#: models.py:84
 msgid "Passport Number"
 msgstr "No. Pasaporte"
 
-#: models.py:76
+#: models.py:86
 msgid "Birth Certificate Number"
 msgstr "No. Partida de nacimiento"
 
-#: models.py:78
+#: models.py:88
 msgid "Birth Certificate Folio"
 msgstr "Folio"
 
-#: models.py:80
+#: models.py:90
 msgid "Birth Certificate Book"
 msgstr "Libro"
 
-#: models.py:82
+#: models.py:92
 msgid "Birth Certificate Registrar"
 msgstr "Nombre del registrante"
 
-#: models.py:84
+#: models.py:94
 msgid "Birth Certificate Registrar Title"
 msgstr "Título del registrante"
 
-#: models.py:86
+#: models.py:96
 msgid "Birth Certificate Registrar Position"
 msgstr "Cargo del registrante"
 
-#: models.py:88
+#: models.py:98
 msgid "Registration State"
 msgstr "Departamento de registro"
 
-#: models.py:90
+#: models.py:100
 msgid "Registration Province"
 msgstr "Municipio de registro"
 
-#: models.py:93
+#: models.py:103
 msgid "Mother"
 msgstr "Madre"
 
-#: models.py:95
+#: models.py:105
 msgid "Father"
 msgstr "Padre"
 
-#: models.py:96
+#: models.py:106
+msgid "Documentation Delivered"
+msgstr "Documentos entregados"
+
+#: models.py:107
+msgid "Mark if the camper has delivered the required documents."
+msgstr "Marca esta casilla si ya se entregaron los documentos necesarios."
+
+#: models.py:109
 msgid "Permission Printed"
 msgstr "Permiso impreso"
 
-#: models.py:97
+#: models.py:110
 msgid ""
 "Mark if the camper's permission has been printed and is awaiting the "
 "parent's signature."
@@ -284,118 +306,118 @@ msgstr ""
 "Marca esta casilla si el permiso ha sido impreso y espera la firma de los "
 "padres."
 
-#: models.py:99
+#: models.py:112
 msgid "Permission Signed"
 msgstr "Permiso firmado"
 
-#: models.py:100
+#: models.py:113
 msgid "Mark if the camper's parents have signed the permission."
 msgstr "Marca esta casilla si los padres ya firmaron el permiso de migración."
 
-#: models.py:112
+#: models.py:125
 msgid "Mark if this person is exempt of the camp's price"
 msgstr ""
 "Marca esta casilla si esta persona no debe pagar para ir al campamento."
 
-#: models.py:134
+#: models.py:147
 msgid "Badge Name"
 msgstr "Gafete"
 
-#: models.py:135
+#: models.py:148
 msgid "The name that appears in the badge."
 msgstr "El nombre que aparece en el gafete."
 
-#: models.py:136
+#: models.py:149
 msgid "Cabin"
 msgstr "Cabaña"
 
-#: models.py:145
+#: models.py:158
 msgid "Generation"
 msgstr "Generación"
 
-#: models.py:147
+#: models.py:160
 msgid "Structure"
 msgstr "Estructura"
 
-#: models.py:149
+#: models.py:162
 msgid "Bus"
 msgstr "Bus"
 
-#: models.py:169
+#: models.py:182
 msgid "Receipt ID"
 msgstr "No. Recibo"
 
-#: models.py:171
+#: models.py:184
 msgid "Date"
 msgstr "Fecha"
 
-#: models.py:172
+#: models.py:185
 msgid "Amount"
 msgstr "Cantidad"
 
-#: models.py:174
+#: models.py:187
 msgid "Notes"
 msgstr "Notas"
 
-#: models.py:184
+#: models.py:197
 msgid "Payment"
 msgstr "abono"
 
-#: models.py:185
+#: models.py:198
 msgid "Payments"
 msgstr "abonos"
 
-#: models.py:196
+#: models.py:209
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:198
+#: models.py:211
 msgid "Known as"
 msgstr "Conocido como"
 
-#: models.py:201
+#: models.py:214
 msgid "Parent"
 msgstr "padre"
 
-#: models.py:202
+#: models.py:215
 msgid "Parents"
 msgstr "padres"
 
-#: models.py:213
+#: models.py:226
 msgid "Mark if this camper will require special handling."
 msgstr ""
 "Marca esta casilla si este campista requiere consideraciones especiales "
 "relacionadas a migración."
 
-#: models.py:216
+#: models.py:229
 msgid "Counselor or Small Group"
 msgstr "Líder o ágape"
 
-#: models.py:218 models.py:232
+#: models.py:231 models.py:250
 msgid "Small Group"
 msgstr "ágape"
 
-#: models.py:225
+#: models.py:234
 msgid "Camper"
 msgstr "campista"
 
-#: models.py:226
+#: models.py:235
 msgid "Campers"
 msgstr "campistas"
 
-#: models.py:235
+#: models.py:253
 msgid "Counselor"
 msgstr "líder"
 
-#: models.py:236
+#: models.py:254
 msgid "Counselors"
 msgstr "líderes"
 
-#: models.py:252
+#: models.py:270
 msgid "Guest"
 msgstr "invitado"
 
-#: models.py:253
+#: models.py:271
 msgid "Guests"
 msgstr "invitados"
 

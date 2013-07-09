@@ -97,7 +97,8 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                         ("state", "province"),
                         ("passport", "occupation"),
                         ("mother", "father"),
-                        ("special_case", "perm_printed", "perm_signed")]}),
+                        ("special_case", "documents_ready"),
+                        ("perm_printed", "perm_signed")]}),
     ]
 
     list_display = (PersonAdmin._ld + MemberAdmin._ld + PayerAdmin._ld
@@ -109,10 +110,13 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
 
     def perm_status(self, model):
         """Verbose output of the Camper's permission status"""
+        perm_status = ""
         if model.special_case:
-            return _("Special Case")
+            perm_status = _("Special Case")
+        elif not model.documents_ready:
+            perm_status = _("Incomplete documents")
         else:
-            perm_status = _("Not Printed")
+            perm_status = _("Ready to print")
         if model.perm_printed:
             perm_status = _("Printed")
         if model.perm_signed:
