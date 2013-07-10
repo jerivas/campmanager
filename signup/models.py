@@ -245,10 +245,6 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
         self.small_group = self.counselor.small_group
         super(Camper, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        url = reverse("permission")
-        return "%s?id=%s" % (url, self.pk)
-
 
 class Counselor(Person, Payer, Attendant, Member):
     """A counselor for campers"""
