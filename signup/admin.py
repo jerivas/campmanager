@@ -95,7 +95,7 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                         ("state", "province"),
                         ("passport", "occupation"),
                         ("mother", "father"),
-                        ("permission_status")]}),
+                        ("lawyer", "permission_status")]}),
     ]
 
     list_display = (PersonAdmin._ld + MemberAdmin._ld + PayerAdmin._ld

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
 
 STATES = (
@@ -15,4 +16,9 @@ STATES = (
     ("sav", _("San Vicente")),
     ("son", _("Sonsonate")),
     ("usu", _("Usulutan")),
+)
+
+LAWYERS = (
+    ("jorge", "Jorge Alberto Martínez Martínez"),
+    ("silvia", "Silvia Anabel Morales de Martínez"),
 )
