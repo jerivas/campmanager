@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-10 05:46-0600\n"
+"POT-Creation-Date: 2013-07-10 06:39-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,62 +49,6 @@ msgstr "Migración"
 #: admin.py:178
 msgid "Paid by"
 msgstr "Pagado por"
-
-#: choices.py:5
-msgid "Ahuachapan"
-msgstr "Ahuachapán"
-
-#: choices.py:6
-msgid "Cabanas"
-msgstr "Cabañas"
-
-#: choices.py:7
-msgid "Chalatenango"
-msgstr "Chalatenango"
-
-#: choices.py:8
-msgid "Cuscatlan"
-msgstr "Cuscatlán"
-
-#: choices.py:9
-msgid "La Libertad"
-msgstr "La Libertad"
-
-#: choices.py:10
-msgid "La Paz"
-msgstr "La Paz"
-
-#: choices.py:11
-msgid "La Union"
-msgstr "La Unión"
-
-#: choices.py:12
-msgid "Morazan"
-msgstr "Morazán"
-
-#: choices.py:13
-msgid "Santa Ana"
-msgstr "Santa Ana"
-
-#: choices.py:14
-msgid "San Miguel"
-msgstr "San Miguel"
-
-#: choices.py:15
-msgid "San Salvador"
-msgstr "San Salvador"
-
-#: choices.py:16
-msgid "San Vicente"
-msgstr "San Vicente"
-
-#: choices.py:17
-msgid "Sonsonate"
-msgstr "Sonsonate"
-
-#: choices.py:18
-msgid "Usulutan"
-msgstr "Usulután"
 
 #: filters.py:11
 msgid "Balance Status"
@@ -339,7 +283,7 @@ msgstr "padres"
 msgid "Counselor or Small Group"
 msgstr "Líder o ágape"
 
-#: models.py:237 models.py:256
+#: models.py:237 models.py:252
 msgid "Small Group"
 msgstr "ágape"
 
@@ -351,19 +295,19 @@ msgstr "campista"
 msgid "Campers"
 msgstr "campistas"
 
-#: models.py:259
+#: models.py:255
 msgid "Counselor"
 msgstr "líder"
 
-#: models.py:260
+#: models.py:256
 msgid "Counselors"
 msgstr "líderes"
 
-#: models.py:276
+#: models.py:272
 msgid "Guest"
 msgstr "invitado"
 
-#: models.py:277
+#: models.py:273
 msgid "Guests"
 msgstr "invitados"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-01 21:36-0600\n"
+"POT-Creation-Date: 2013-07-10 06:32-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,85 +22,25 @@ msgstr ""
 msgid "Logistics"
 msgstr "Logística"
 
-#: admin.py:27 models.py:13
-msgid "Structure"
-msgstr "Estructura"
-
-#: admin.py:32 models.py:11
-msgid "Generation"
-msgstr "Generación"
-
-#: admin.py:37
+#: admin.py:29
 msgid "Campers"
 msgstr "Campistas"
 
-#: admin.py:50
+#: admin.py:40
 msgid "Members"
 msgstr "Miembros"
-
-#: choices.py:4
-msgid "Josias 1"
-msgstr "Josías 1"
-
-#: choices.py:5
-msgid "Josias 2"
-msgstr "Josías 2"
-
-#: choices.py:6
-msgid "Freshmen"
-msgstr ""
-
-#: choices.py:7
-msgid "Sophomores"
-msgstr ""
-
-#: choices.py:8
-msgid "Juniors"
-msgstr ""
-
-#: choices.py:9
-msgid "Seniors"
-msgstr ""
-
-#: choices.py:13
-msgid "Preju"
-msgstr ""
-
-#: choices.py:14
-msgid "Josias"
-msgstr "Josías"
-
-#: choices.py:18
-msgid "Huespedes"
-msgstr "Huéspeds"
-
-#: choices.py:19
-msgid "Betel"
-msgstr ""
-
-#: choices.py:20
-msgid "Shekinah"
-msgstr ""
-
-#: choices.py:24
-msgid "Bus 1"
-msgstr ""
-
-#: choices.py:25
-msgid "Bus 2"
-msgstr ""
-
-#: choices.py:26
-msgid "Bus 3"
-msgstr ""
-
-#: choices.py:27
-msgid "Bus 4"
-msgstr ""
 
 #: models.py:9
 msgid "Title"
 msgstr "Título"
+
+#: models.py:11
+msgid "Generation"
+msgstr "Generación"
+
+#: models.py:13
+msgid "Structure"
+msgstr "Estructura"
 
 #: models.py:15
 msgid "Cabin"

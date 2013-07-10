@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
-from django.utils.translation import ugettext_lazy as _
 
 STATES = (
-    ("ahu", _("Ahuachapan")),
-    ("cab", _("Cabanas")),
-    ("cha", _("Chalatenango")),
-    ("cus", _("Cuscatlan")),
-    ("lal", _("La Libertad")),
-    ("lap", _("La Paz")),
-    ("lau", _("La Union")),
-    ("mor", _("Morazan")),
-    ("saa", _("Santa Ana")),
-    ("sam", _("San Miguel")),
-    ("sas", _("San Salvador")),
-    ("sav", _("San Vicente")),
-    ("son", _("Sonsonate")),
-    ("usu", _("Usulutan")),
+    ("ahu", "Ahuachapán"),
+    ("cab", "Cabañas"),
+    ("cha", "Chalatenango"),
+    ("cus", "Cuscatlán"),
+    ("lal", "La Libertad"),
+    ("lap", "La Paz"),
+    ("lau", "La Unión"),
+    ("mor", "Morazán"),
+    ("saa", "Santa Ana"),
+    ("sam", "San Miguel"),
+    ("sas", "San Salvador"),
+    ("sav", "San Vicente"),
+    ("son", "Sonsonate"),
+    ("usu", "Usulután"),
 )
 
 LAWYERS = (
