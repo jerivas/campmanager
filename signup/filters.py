@@ -30,35 +30,3 @@ class BalanceStatusFilter(SimpleListFilter):
             return queryset.filter(balance__exact=price)
         if self.value() == "over":
             return queryset.filter(balance__gt=price)
-
-
-class PermissionStatusFilter(SimpleListFilter):
-    """
-    Allows filtering Campers according to the status of their legal permission.
-    """
-    title = _("Permission Status")
-    parameter_name = "permission"
-
-    def lookups(self, request, model_admin):
-        return (
-            ("special", _("Special Case")),
-            ("incomplete", _("Incomplete documents")),
-            ("to_print", _("Ready to print")),
-            ("printed", _("Printed")),
-            ("signed", _("Signed")),
-        )
-
-    def queryset(self, request, queryset):
-        if self.value() == "special":
-            return queryset.filter(special_case=True)
-        if self.value() == "incomplete":
-            return queryset.filter(documents_ready=False).exclude(
-                special_case=True)
-        if self.value() == "to_print":
-            return queryset.filter(documents_ready=True).exclude(
-                perm_printed=True)
-        if self.value() == "printed":
-            return queryset.filter(perm_printed=True).exclude(
-                perm_signed=True)
-        if self.value() == "signed":
-            return queryset.filter(perm_signed=True)

@@ -80,6 +80,19 @@ class Minor(models.Model):
         ("chief", _("Chief")),
         ("subchief", _("Subchief")),
     )
+    # Chocies for permission status
+    INCOMPLETE = 0
+    TO_PRINT = 1
+    PRINTED = 2
+    SIGNED = 3
+    SPECIAL = 4
+    PERMISSION_STATUS = (
+        (INCOMPLETE, _("Incomplete Documentation")),
+        (TO_PRINT, _("Ready to Print")),
+        (PRINTED, _("Printed")),
+        (SIGNED, _("Signed")),
+        (SPECIAL, _("Special Case")),
+    )
 
     passport = models.CharField(_("Passport Number"), max_length=16,
         blank=True)
@@ -103,15 +116,9 @@ class Minor(models.Model):
         blank=True, null=True, verbose_name=_("Mother"))
     father = models.ForeignKey("Parent", related_name="fathered",
         blank=True, null=True, verbose_name=_("Father"))
-    documents_ready = models.BooleanField(_("Documentation Delivered"),
-        blank=False, default=False, help_text=_("Mark if the camper has "
-            "delivered the required documents."))
-    perm_printed = models.BooleanField(_("Permission Printed"), blank=False,
-        default=False, help_text=_("Mark if the camper's permission has been "
-        "printed and is awaiting the parent's signature."))
-    perm_signed = models.BooleanField(_("Permission Signed"), blank=False,
-        default=False, help_text=_("Mark if the camper's parents have signed "
-        "the permission."))
+    permission_status = models.IntegerField(_("Permission Status"),
+        max_length=1, blank=False, choices=PERMISSION_STATUS,
+        default=INCOMPLETE)
 
     class Meta:
         abstract = True
@@ -222,9 +229,6 @@ class Parent(Person, ExtendedInfo):
 
 class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     """The main model of a child attending camp"""
-    special_case = models.BooleanField(_("Special Case"),
-        blank=False, default=False, help_text=_("Mark if this camper will "
-        "require special handling."))
     counselor = models.ForeignKey("Counselor", blank=False,
         verbose_name=_("Counselor or Small Group"))
     small_group = models.ForeignKey("logistics.SmallGroup", blank=True,

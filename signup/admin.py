@@ -4,8 +4,7 @@ from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
-from signup.filters import BalanceStatusFilter, PermissionStatusFilter
-from signup.forms import CamperForm
+from signup.filters import BalanceStatusFilter
 
 
 class PaymentInline(generic.GenericTabularInline):
@@ -73,7 +72,6 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
-    form = CamperForm
     raw_id_fields = ("counselor", "mother", "father")
     autocomplete_lookup_fields = {"fk": ["counselor", "mother", "father"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf
@@ -97,32 +95,17 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                         ("state", "province"),
                         ("passport", "occupation"),
                         ("mother", "father"),
-                        ("special_case", "documents_ready"),
-                        ("perm_printed", "perm_signed")]}),
+                        ("permission_status")]}),
     ]
 
     list_display = (PersonAdmin._ld + MemberAdmin._ld + PayerAdmin._ld
-        + ["perm_status"])
-    list_filter = MemberAdmin._lf + PayerAdmin._lf + [PermissionStatusFilter]
+        + ["permission_status"])
+    list_filter = MemberAdmin._lf + PayerAdmin._lf + ["permission_status"]
+    list_editable = ["permission_status"]
     search_fields = (PersonAdmin._sf + MemberAdmin._sf
         + ["counselor__first_name", "counselor__second_name",
         "counselor__first_surname", "counselor__second_surname"])
 
-    def perm_status(self, model):
-        """Verbose output of the Camper's permission status"""
-        perm_status = ""
-        if model.special_case:
-            perm_status = _("Special Case")
-        elif not model.documents_ready:
-            perm_status = _("Incomplete documents")
-        else:
-            perm_status = _("Ready to print")
-        if model.perm_printed:
-            perm_status = _("Printed")
-        if model.perm_signed:
-            perm_status = _("Signed")
-        return perm_status
-    perm_status.short_description = _("Permission Status")
 
 class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     raw_id_fields = ("small_group",)
