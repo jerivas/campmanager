@@ -5,7 +5,8 @@ from django.core.urlresolvers import reverse
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 from signup.filters import BalanceStatusFilter
-from signup.actions import move_permission_forward, move_permission_backwards
+from signup.actions import (move_permission_forward, move_permission_backwards,
+                            generate_permission)
 
 
 class PaymentInline(generic.GenericTabularInline):
@@ -106,7 +107,8 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     search_fields = (PersonAdmin._sf + MemberAdmin._sf
         + ["counselor__first_name", "counselor__second_name",
         "counselor__first_surname", "counselor__second_surname"])
-    actions = [move_permission_forward, move_permission_backwards]
+    actions = [move_permission_forward, move_permission_backwards,
+               generate_permission]
 
 
 class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
