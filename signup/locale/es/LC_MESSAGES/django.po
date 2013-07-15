@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-10 06:39-0600\n"
+"POT-Creation-Date: 2013-07-10 08:55-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,31 +22,57 @@ msgstr ""
 msgid "Signup"
 msgstr "Inscripción"
 
-#: admin.py:45 admin.py:59 filters.py:16 models.py:133
+#: actions.py:16
+msgid "No Campers were updated."
+msgstr "No se actualizó ningún campista."
+
+#: actions.py:19
+msgid "one Camper"
+msgstr "un campista"
+
+#: actions.py:21
+#, python-format
+msgid "%s Campers"
+msgstr "%s campistas"
+
+#: actions.py:23
+#, python-format
+msgid "The permission status of %s was updated."
+msgstr "Se actualizó el estado del permiso de %s."
+
+#: actions.py:29
+msgid "Move permission status forward"
+msgstr "Mover el estado del permiso hacia adelante"
+
+#: actions.py:35
+msgid "Move permission status backwards"
+msgstr "Mover el estado del permiso hacia atrás"
+
+#: admin.py:46 admin.py:60 filters.py:16 models.py:133
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:49 models.py:131
+#: admin.py:50 models.py:131
 msgid "Balance"
 msgstr "Saldo"
 
-#: admin.py:55
+#: admin.py:56
 msgid "Fully Paid"
 msgstr "Pagado"
 
-#: admin.py:63
+#: admin.py:64
 msgid "Amount Due"
 msgstr "Debe"
 
-#: admin.py:80
+#: admin.py:81
 msgid "Basic Info"
 msgstr "Información básica"
 
-#: admin.py:88
+#: admin.py:89
 msgid "Customs"
 msgstr "Migración"
 
-#: admin.py:178
+#: admin.py:180
 msgid "Paid by"
 msgstr "Pagado por"
 
