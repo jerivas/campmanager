@@ -55,15 +55,30 @@
     {% if not campers %}
     <div class="grp-module g-d-12">
         <h2>No se seleccionaron campistas</h2>
-        <div class="grp-row">Regresa a la página anterior y selecciona uno o varios campistas para generar los permisos migratorios.</div>
+        <div class="grp-row">Regresa a la página anterior y selecciona uno o varios campistas para generar los permisos migratorios. Asegúrtate que los campistas tengan los documentos completos y no estén marcados como "Caso especial" para poder generar los permisos.</div>
     </div>
     {% elif campers|length > 1 %}
-    <div class="grp-module g-d-12 grp-collapse grp-closed">
-        <h2 class="grp-collapse-handler">{{campers|length}} permisos generados</h2>
+    <div class="grp-module g-d-12 grp-collapse">
+        <h2 class="grp-collapse-handler">{{campers|length}} permisos migratorios</h2>
         <div class="grp-row">
             Generado en: {% now "DATETIME_FORMAT" %}
         </div>
         <div class="grp-row">
+            {% if first_print and reprint or omitted %}
+            <p>Se solicitaron {{total}} permisos en total.</p>
+            {% endif %}
+            {% if omitted %}
+            <p>Se omitieron {{omitted}} permisos (caso especial o incompleto).</p>
+            {% endif %}
+            {% if first_print %}
+            <p>Se generaron {{first_print}} permisos por primera vez y se marcaron como "Impresos".</p>
+            {% endif %}
+            {% if reprint %}
+            <p>Se generaron {{reprint}} permisos que ya habían sido generados anteriormente.</p>
+            {% endif %}
+        </div>
+        <div class="grp-row">
+            <strong>Los permisos generados pertenecen a:</strong>
             <ol>
                 {% for camper in campers %}
                 <li>{{camper}} ({{camper.small_group}} - {{camper.get_generation_display}})</li>

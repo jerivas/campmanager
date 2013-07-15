@@ -1,26 +1,33 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic.base import TemplateView
 
-from signup.models import Camper, Counselor, Guest, Parent, Payment
-from logistics.models import SmallGroup
+from signup.models import Camper, Payment
 from finances.models import Transaction
 
 
-class Permission(ListView):
-    """Display multiple Camper permissions at once"""
-    context_object_name = "campers"
+class Permission(TemplateView):
+    """Display multiple Camper permissions at once."""
     template_name = "reports/permission.html"
 
-    def get_queryset(self):
-        campers = []
+    def get_context_data(self, **kwargs):
+        """
+        Filter out and categorize Campers according to their permission
+        status. Also, update Campers if their permission is being printed
+        for the first time.
+        """
+        context = super(Permission, self).get_context_data(**kwargs)
+        context["campers"] = []  # Empty list to hold campers
+        context.update(dict.fromkeys(
+            # Set this counters to zero
+            ["omitted", "first_print", "reprint", "total"], 0))
         try:
             pks = self.request.GET.get("id").split(",")
         except AttributeError:  # Catch trying to split NoneType (no "id")
-            return ""
+            pass
         if pks == [""]:  # Deal with empty "id" parameter
-            return ""
+            pass
         else:
             for pk in pks:
                 try:
@@ -29,8 +36,25 @@ class Permission(ListView):
                 except Camper.DoesNotExist:
                     pass
                 else:
-                    campers.append(c)
-            return campers
+                    # Special cases or incomplete docs are added to the
+                    # "omitted" count, but not to the "campers" list.
+                    if (c.permission_status == Camper.SPECIAL or
+                        c.permission_status == Camper.INCOMPLETE):
+                        context["omitted"] += 1
+                    else:
+                        # Ready to print are bumbped up to "printed".
+                        if c.permission_status == Camper.TO_PRINT:
+                            c.permission_status = Camper.PRINTED
+                            c.save()
+                            context["first_print"] += 1
+                        else:
+                            context["reprint"] += 1
+                        # Append camper to "campers" list if it's a first
+                        # print or reprint.
+                        context["campers"].append(c)
+                    # Count all requested permissions, omitted or not.
+                    context["total"] += 1
+        return context
 
     @method_decorator(permission_required("signup.generate_permission"))
     def dispatch(self, *args, **kwargs):
@@ -39,7 +63,7 @@ class Permission(ListView):
 
 @permission_required("finances.view_reports")
 def full_financial_report(request):
-    """A full report spanning Payments and Transactions"""
+    """A full report spanning Payments and Transactions."""
     template = "reports/full_financial_report.html"
     payments_income = sum(p.amount for p in Payment.objects.all())
     payment_count = Payment.objects.count()
