@@ -21,6 +21,7 @@ class SmallGroup(models.Model):
         ordering = ["generation"]
         verbose_name = _("Small Group")
         verbose_name_plural = _("Small Groups")
+        permissions = (("view_reports", "View Reports"),)
 
     def __unicode__(self):
         return self.title

@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
 from signup.models import Camper, Payment
 from finances.models import Transaction
+from logistics.models import SmallGroup
 
 
 class Permission(TemplateView):
@@ -59,6 +61,17 @@ class Permission(TemplateView):
     @method_decorator(permission_required("signup.generate_permission"))
     def dispatch(self, *args, **kwargs):
         return super(Permission, self).dispatch(*args, **kwargs)
+
+
+class CabinReport(ListView):
+    """Generates a list of Small Groups in each Cabin."""
+    template_name = "reports/cabin_report.html"
+    context_object_name = "small_groups"
+    queryset = SmallGroup.objects.select_related("counselor").order_by("cabin", "generation")
+
+    @method_decorator(permission_required("logistics.view_reports"))
+    def dispatch(self, *args, **kwargs):
+        return super(CabinReport, self).dispatch(*args, **kwargs)
 
 
 @permission_required("finances.view_reports")

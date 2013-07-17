@@ -1,0 +1,14 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+{{ block.super }}
+{% comment %}
+These buttons are only rendered if the user has permission for generating bus and cabin reports.
+{% endcomment %}
+{% if perms.logistics.view_reports %}
+<li>
+    <a href="{% url 'cabin_report' %}" class="grp-state-focus" target="_blank">{% trans "Cabin Report" %}</a>
+</li>
+{% endif %}
+{% endblock %}

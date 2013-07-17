@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-10 06:32-0600\n"
+"POT-Creation-Date: 2013-07-16 18:38-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,3 +57,7 @@ msgstr "ágape"
 #: models.py:23
 msgid "Small Groups"
 msgstr "ágapes"
+
+#: templates/admin/logistics/smallgroup/change_list.html:11
+msgid "Cabin Report"
+msgstr "Reporte de cabañas"

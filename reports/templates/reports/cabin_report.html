@@ -1,0 +1,77 @@
+{% extends "reports/print_base.html" %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    @media screen {
+        table {border: 0;}
+    }
+    @media print {
+        table {
+            width: 100%;
+            font-size: 16px;
+            line-height: 32px;
+        }
+        table, th, td {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        th, td {padding: 0 10px;}
+    }
+</style>
+{% endblock extrastyle %}
+
+{% block title %}Reporte de cabañas{% endblock title %}
+
+{% block breadcrumbs %}
+<ul>
+    <li><a href="{% url 'admin:index' %}">Inicio</a></li>
+    <li><a href="">Reportes</a></li>
+    <li>Reporte de cabañas</li>
+</ul>
+{% endblock %}
+
+{% block pretitle %}
+<ul class="grp-messagelist">
+    <li class="grp-info">Fecha y hora de generación del reporte: {% now "DATETIME_FORMAT" %}</li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="g-d-c">
+{% for small_group in small_groups %}
+    {% ifchanged small_group.cabin %}
+    {% if not forloop.first %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    <div class="grp-module g-d-16 grp-collapse grp-closed">
+        <h2 class="grp-collapse-handler">
+            {{small_group.get_cabin_display|default:"Ágapes sin cabaña"}}
+        </h2>
+        <table class="big grp-full-width">
+            <thead>
+                <tr>
+                    <th>Ágape</th>
+                    <th>Líder</th>
+                    <th>Generación</th>
+                    <th>Integrantes</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% endifchanged %}
+                <tr>
+                    <th>{{small_group}}</th>
+                    <td>{{small_group.counselor}}</td>
+                    <td>{{small_group.get_generation_display}}</td>
+                    <td>{{small_group.get_members|length}}</td>
+                </tr>
+    {% if forloop.last %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+{% endblock content %}
