@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
@@ -67,28 +66,35 @@ class CabinReport(ListView):
     """Generates a list of Small Groups in each Cabin."""
     template_name = "reports/cabin_report.html"
     context_object_name = "small_groups"
-    queryset = SmallGroup.objects.select_related("counselor").order_by("cabin", "generation")
+    queryset = SmallGroup.objects.select_related("counselor").order_by(
+        "cabin", "generation")
 
     @method_decorator(permission_required("logistics.view_reports"))
     def dispatch(self, *args, **kwargs):
         return super(CabinReport, self).dispatch(*args, **kwargs)
 
 
-@permission_required("finances.view_reports")
-def full_financial_report(request):
+class FinancesReport(TemplateView):
     """A full report spanning Payments and Transactions."""
-    template = "reports/full_financial_report.html"
-    payments_income = sum(p.amount for p in Payment.objects.all())
-    payment_count = Payment.objects.count()
-    incomes = Transaction.objects.filter(transaction_type="income")
-    transaction_income = sum(i.amount for i in incomes)
-    income_count = incomes.count()
-    egresses = Transaction.objects.filter(transaction_type="egress")
-    transaction_egress = sum(e.amount for e in egresses)
-    egress_count = egresses.count()
-    total = payments_income + transaction_income - transaction_egress
-    context = {"transaction_income": transaction_income, "transaction_egress":
-               transaction_egress, "payments_income": payments_income,
-               "income_count": income_count, "egress_count": egress_count,
-               "payment_count": payment_count, "total": total}
-    return render(request, template, context)
+    template_name = "reports/finances_report.html"
+
+    def get_context_data(self, **kwargs):
+        payments_income = sum(p.amount for p in Payment.objects.all())
+        payment_count = Payment.objects.count()
+        incomes = Transaction.objects.filter(transaction_type="income")
+        transaction_income = sum(i.amount for i in incomes)
+        income_count = incomes.count()
+        egresses = Transaction.objects.filter(transaction_type="egress")
+        transaction_egress = sum(e.amount for e in egresses)
+        egress_count = egresses.count()
+        total = payments_income + transaction_income - transaction_egress
+        context = {"transaction_income": transaction_income,
+            "transaction_egress": transaction_egress,
+            "payments_income": payments_income, "income_count": income_count,
+            "egress_count": egress_count, "payment_count": payment_count,
+            "total": total}
+        return context
+
+    @method_decorator(permission_required("finances.view_reports"))
+    def dispatch(self, *args, **kwargs):
+        return super(FinancesReport, self).dispatch(*args, **kwargs)
