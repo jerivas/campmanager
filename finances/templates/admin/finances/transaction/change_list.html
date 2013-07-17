@@ -3,5 +3,9 @@
 
 {% block object-tools-items %}
     {{ block.super }}
-    <li><a href="{% url 'finances_report' %}" class="grp-viewsite-link">{% trans "Finances Report" %}</a></li>
+    {% if perms.finances.view_reports %}
+    <li>
+    	<a href="{% url 'finances_report' %}" class="grp-viewsite-link">{% trans "Finances Report" %}</a>
+    </li>
+    {% endif %}
 {% endblock %}

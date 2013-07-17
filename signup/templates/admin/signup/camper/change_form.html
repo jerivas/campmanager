@@ -2,13 +2,10 @@
 {% load i18n %}
 
 {% block object-tools-items %}
-{{ block.super }}
-{% comment %}
-This button is only rendered if the user has permission for generating permissions and if the status is not incomplete nor special.
-{% endcomment %}
-{% if perms.signup.generate_permission and not original.permission_status == original.INCOMPLETE and not original.permission_status == original.SPECIAL %}
-<li>
-    <a href="{% url 'permission' %}?id={{original.pk}}" class="grp-state-focus" target="_blank">{% trans "Generate Permission" %}</a>
-</li>
-{% endif %}
+    {{ block.super }}
+    {% if perms.signup.generate_permission and not original.permission_status == original.INCOMPLETE and not original.permission_status == original.SPECIAL %}
+    <li>
+        <a href="{% url 'permission' %}?id={{original.pk}}" class="grp-state-focus" target="_blank">{% trans "Generate Permission" %}</a>
+    </li>
+    {% endif %}
 {% endblock %}
