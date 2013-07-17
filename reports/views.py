@@ -110,6 +110,7 @@ class FinancesReport(TemplateView):
     template_name = "reports/finances_report.html"
 
     def get_context_data(self, **kwargs):
+        context = super(FinancesReport, self).get_context_data(**kwargs)
         payments_income = sum(p.amount for p in Payment.objects.all())
         payment_count = Payment.objects.count()
         incomes = Transaction.objects.filter(transaction_type="income")
