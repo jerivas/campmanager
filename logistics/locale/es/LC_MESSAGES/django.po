@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-16 21:03-0600\n"
+"POT-Creation-Date: 2013-07-16 23:30-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,10 +58,19 @@ msgstr "ágape"
 msgid "Small Groups"
 msgstr "ágapes"
 
-#: templates/admin/logistics/smallgroup/change_list.html:11
+#: templates/admin/logistics/smallgroup/change_list.html:9
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/logistics/smallgroup/change_list.html:14
 msgid "Cabin Report"
 msgstr "Reporte de cabañas"
 
-#: templates/admin/logistics/smallgroup/change_list.html:14
+#: templates/admin/logistics/smallgroup/change_list.html:17
 msgid "Bus Report"
 msgstr "Reporte de buses"
+
+#: templates/admin/logistics/smallgroup/change_list.html:22
+msgid "Badge Report"
+msgstr "Reporte de gafetes"

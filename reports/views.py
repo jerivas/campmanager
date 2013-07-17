@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
-from signup.models import Camper, Payment
+from signup.models import Camper, Payment, Counselor
 from finances.models import Transaction
 from logistics.models import SmallGroup
 
@@ -84,6 +84,25 @@ class BusReport(ListView):
     @method_decorator(permission_required("logistics.view_reports"))
     def dispatch(self, *args, **kwargs):
         return super(BusReport, self).dispatch(*args, **kwargs)
+
+
+class BadgeReport(ListView):
+    """Displays the badge names of all the members of a Small Group"""
+    template_name = "reports/badge_report.html"
+    context_object_name = "small_groups"
+    queryset = SmallGroup.objects.select_related("counselor")
+
+    def get_context_data(self, **kwargs):
+        context = super(BadgeReport, self).get_context_data(**kwargs)
+        camper_badges = Camper.objects.exclude(badge_name="").count()
+        counselor_badges = Counselor.objects.exclude(badge_name="").count()
+        context["badge_count"] = camper_badges + counselor_badges
+        return context
+
+
+    @method_decorator(permission_required("logistics.badge_report"))
+    def dispatch(self, *args, **kwargs):
+        return super(BadgeReport, self).dispatch(*args, **kwargs)
 
 
 class FinancesReport(TemplateView):
