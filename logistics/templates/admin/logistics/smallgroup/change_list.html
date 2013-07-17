@@ -8,7 +8,7 @@ These buttons are only rendered if the user has permission for generating bus an
 {% endcomment %}
 {% if perms.logistics.view_reports %}
 <li>
-    <a href="{% url 'cabin_report' %}" class="grp-state-focus" target="_blank">{% trans "Cabin Report" %}</a>
+    <a href="{% url 'cabin_report' %}" class="grp-viewsite-link">{% trans "Cabin Report" %}</a>
 </li>
 {% endif %}
 {% endblock %}
