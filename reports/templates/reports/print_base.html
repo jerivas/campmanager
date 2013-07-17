@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    @media print {
+        body {
+            color: #222;
+            background: #fff;
+        }
+        body, .grp-module {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: justify;
+            font-family: "Arial", sans-serif;
+            font-size: 12px;
+            line-height: 22px;
+        }
+        header, .no-print {display: none;}
+        .grp-module {page-break-after: always;}
+        .grp-module:last-child {page-break-after: auto;}
+    }
+</style>
+{% endblock extrastyle %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+    (function($) {
+    $(document).ready(function() {
+      $("#grp-content-container .grp-collapse").grp_collapsible();
+    });
+    })(grp.jQuery);
+    </script>
+{% endblock extrahead %}

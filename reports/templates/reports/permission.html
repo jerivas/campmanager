@@ -1,44 +1,14 @@
-{% extends "admin/base_site.html" %}
-{% load staticfiles reports_tags %}
+{% extends "reports/print_base.html" %}
+{% load reports_tags %}
 
 {% block extrastyle %}
-    {{ block.super }}
-    <style>
-        @media print {
-           body {
-              color: #222;
-              background: #fff;
-           }
-           body, .grp-module {
-              width: 100%;
-              margin: 0;
-              padding: 0;
-              text-align: justify;
-              font-family: "Arial", sans-serif;
-              font-size: 12px;
-              line-height: 22px;
-           }
-           .grp-module {page-break-after: always;}
-           .grp-module:last-child {page-break-after: auto;}
-           header, .no-print {display: none;}
-           @page {
-              margin: 2.5cm;
-              padding: 0;
-           }
-        }
-    </style>
+{{ block.super }}
+<style>
+    @media print {
+        @page {margin: 2.5cm; padding: 0;}
+  }
+</style>
 {% endblock extrastyle %}
-
-{% block extrahead %}
-    {{ block.super }}
-    <script>
-    (function($) {
-    $(document).ready(function() {
-        $("#grp-content-container .grp-collapse").grp_collapsible();
-    });
-    })(grp.jQuery);
-    </script>
-{% endblock extrahead %}
 
 {% block title %}Permisos migratorios{% endblock %}
 
