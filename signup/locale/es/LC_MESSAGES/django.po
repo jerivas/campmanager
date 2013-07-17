@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-10 08:55-0600\n"
+"POT-Creation-Date: 2013-07-16 23:30-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,57 +22,61 @@ msgstr ""
 msgid "Signup"
 msgstr "Inscripción"
 
-#: actions.py:16
+#: actions.py:24
 msgid "No Campers were updated."
 msgstr "No se actualizó ningún campista."
 
-#: actions.py:19
+#: actions.py:27
 msgid "one Camper"
 msgstr "un campista"
 
-#: actions.py:21
+#: actions.py:29
 #, python-format
 msgid "%s Campers"
 msgstr "%s campistas"
 
-#: actions.py:23
+#: actions.py:31
 #, python-format
 msgid "The permission status of %s was updated."
 msgstr "Se actualizó el estado del permiso de %s."
 
-#: actions.py:29
+#: actions.py:37
 msgid "Move permission status forward"
 msgstr "Mover el estado del permiso hacia adelante"
 
-#: actions.py:35
+#: actions.py:43
 msgid "Move permission status backwards"
 msgstr "Mover el estado del permiso hacia atrás"
 
-#: admin.py:46 admin.py:60 filters.py:16 models.py:133
+#: actions.py:54 templates/admin/signup/camper/change_form.html:8
+msgid "Generate Permission"
+msgstr "Generar permiso"
+
+#: admin.py:47 admin.py:61 filters.py:16 models.py:133
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:50 models.py:131
+#: admin.py:51 models.py:131
 msgid "Balance"
 msgstr "Saldo"
 
-#: admin.py:56
+#: admin.py:57
 msgid "Fully Paid"
 msgstr "Pagado"
 
-#: admin.py:64
+#: admin.py:65
 msgid "Amount Due"
 msgstr "Debe"
 
-#: admin.py:81
+#: admin.py:82
 msgid "Basic Info"
 msgstr "Información básica"
 
-#: admin.py:89
+#: admin.py:90
 msgid "Customs"
 msgstr "Migración"
 
-#: admin.py:180
+#: admin.py:182
 msgid "Paid by"
 msgstr "Pagado por"
 
@@ -341,6 +345,11 @@ msgstr "invitados"
 msgid "Invalid Government ID"
 msgstr "No. de DUI no válido"
 
-#: templates/admin/signup/camper/change_form.html:11
-msgid "Generate Permission"
-msgstr "Generar permiso"
+#: templates/admin/signup/camper/change_list.html:9
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/signup/camper/change_list.html:14
+msgid "Badge Report"
+msgstr "Reporte de gafetes"
