@@ -21,13 +21,13 @@
 </style>
 {% endblock extrastyle %}
 
-{% block title %}Reporte de gafetes{% endblock title %}
+{% block title %}Reporte de asistencia{% endblock title %}
 
 {% block breadcrumbs %}
 <ul>
     <li><a href="{% url 'admin:index' %}">Inicio</a></li>
     <li><a href="">Reportes</a></li>
-    <li>Reporte de gafetes</li>
+    <li>Reporte de asistencia</li>
 </ul>
 {% endblock %}
 
@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block content_title %}
-    <h1>Reporte de gafetes ({{badge_count}})</h1>
+    <h1>Integrantes de ágapes ({{member_count}})</h1>
 {% endblock %}
 
 {% block content %}
@@ -48,7 +48,7 @@
     {% if not forloop.first %}
     </div>
     {% endif %}
-    <div class="grp-module g-d-12 grp-collapse">
+    <div class="grp-module g-d-12 grp-collapse grp-closed">
         <h2 class="grp-collapse-handler">
             {{small_group.get_generation_display}}
         </h2>
@@ -77,6 +77,28 @@
         </div>
         {% endwith %}
 {% endfor %}
+    </div>
+</div>
+
+<h1>Invitados ({{guests|length}})</h1>
+<div class="g-d-c">
+    <div class="grp-module g-d-12 grp-collapse">
+        <table class="big grp-full-width">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Gafete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for guest in guests %}    
+                <tr>
+                    <th>{{guest}}</th>
+                    <td>{{guest.badge_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock content %}

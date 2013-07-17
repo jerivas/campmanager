@@ -9,9 +9,9 @@
             <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="grp-add-link grp-state-focus">{% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a>
         </li>
         {% endif %}
-        {% if perms.logistics.badge_report %}
+        {% if perms.logistics.attendant_report %}
         <li>
-            <a href="{% url 'badge_report' %}" class="grp-viewsite-link">{% trans "Badge Report" %}</a>
+            <a href="{% url 'attendant_report' %}" class="grp-viewsite-link">{% trans "Attendant Report" %}</a>
         </li>
         {% endif %}
         {% endblock %}

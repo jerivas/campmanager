@@ -17,9 +17,9 @@
             <a href="{% url 'bus_report' %}" class="grp-viewsite-link">{% trans "Bus Report" %}</a>
         </li>
         {% endif %}
-        {% if perms.logistics.badge_report %}
+        {% if perms.logistics.attendant_report %}
         <li>
-            <a href="{% url 'badge_report' %}" class="grp-viewsite-link">{% trans "Badge Report" %}</a>
+            <a href="{% url 'attendant_report' %}" class="grp-viewsite-link">{% trans "Attendant Report" %}</a>
         </li>
         {% endif %}
         {% endblock %}

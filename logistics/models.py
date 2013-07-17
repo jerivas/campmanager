@@ -22,7 +22,7 @@ class SmallGroup(models.Model):
         verbose_name = _("Small Group")
         verbose_name_plural = _("Small Groups")
         permissions = (("view_reports", "View Reports"),
-                       ("badge_report", "Badge Report"),)
+                       ("attendant_report", "Attendant Report"),)
 
     def __unicode__(self):
         return self.title
