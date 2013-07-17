@@ -74,6 +74,18 @@ class CabinReport(ListView):
         return super(CabinReport, self).dispatch(*args, **kwargs)
 
 
+class BusReport(ListView):
+    """Generates a list of Small Groups in each Bus."""
+    template_name = "reports/bus_report.html"
+    context_object_name = "small_groups"
+    queryset = SmallGroup.objects.select_related("counselor").order_by(
+        "bus", "generation")
+
+    @method_decorator(permission_required("logistics.view_reports"))
+    def dispatch(self, *args, **kwargs):
+        return super(BusReport, self).dispatch(*args, **kwargs)
+
+
 class FinancesReport(TemplateView):
     """A full report spanning Payments and Transactions."""
     template_name = "reports/finances_report.html"
