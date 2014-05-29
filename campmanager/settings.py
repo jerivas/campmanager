@@ -40,9 +40,6 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = "2p)k!j0qf!vbn53@^#78td*nqy_lzkso@6t$)%8suwt^(@9h!u"
-
 # Tuple of IP addresses, as strings, that:
 #   * See debug comments, when DEBUG is true
 #   * Receive x-headers
@@ -149,8 +146,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'debug_toolbar',
     'south',
-    'signup',
     'logistics',
+    'signup',
     'finances',
     'reports',
 )
@@ -161,7 +158,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -182,7 +178,6 @@ except ImportError:
 # CUSTOM SETTINGS #
 ###################
 
-DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 LOGIN_URL = "/accounts/login/"
 GRAPPELLI_ADMIN_TITLE = "Montesi&oacute;n 2013"
 
