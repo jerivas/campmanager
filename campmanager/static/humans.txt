@@ -1,8 +1,0 @@
-# humanstxt.org/
-# The humans responsible & technology colophon
-
-# TEAM
-
-    Eduardo Rivas   	-- Web developer    -- www.jerivas.com
-    Josías & Preju      -- Youth Groups
-
