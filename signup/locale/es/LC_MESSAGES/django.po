@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 16:06-0600\n"
+"POT-Creation-Date: 2014-05-30 10:17-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,11 +52,11 @@ msgstr "Mover el estado del permiso hacia atrás"
 msgid "Generate Permission"
 msgstr "Generar permiso"
 
-#: admin.py:47 admin.py:61 filters.py:16 models.py:133
+#: admin.py:47 admin.py:61 filters.py:16 models.py:134
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:51 models.py:131
+#: admin.py:51 models.py:132
 msgid "Balance"
 msgstr "Saldo"
 
@@ -84,7 +84,7 @@ msgstr "Pagado por"
 msgid "Balance Status"
 msgstr "Estado del saldo"
 
-#: filters.py:17
+#: filters.py:17 models.py:131
 msgid "Signed up"
 msgstr "Inscrito"
 
@@ -240,104 +240,104 @@ msgstr "Padre"
 msgid "Permission Status"
 msgstr "Estado del permiso"
 
-#: models.py:134
+#: models.py:135
 msgid "Mark if this person is exempt of the camp's price"
 msgstr ""
 "Marca esta casilla si esta persona no debe pagar para ir al campamento."
 
-#: models.py:156
+#: models.py:161
 msgid "Badge Name"
 msgstr "Gafete"
 
-#: models.py:157
+#: models.py:162
 msgid "The name that appears in the badge."
 msgstr "El nombre que aparece en el gafete."
 
-#: models.py:158
+#: models.py:163
 msgid "Cabin"
 msgstr "Cabaña"
 
-#: models.py:167
+#: models.py:172
 msgid "Generation"
 msgstr "Generación"
 
-#: models.py:169
+#: models.py:174
 msgid "Structure"
 msgstr "Estructura"
 
-#: models.py:171
+#: models.py:176
 msgid "Bus"
 msgstr "Bus"
 
-#: models.py:191
+#: models.py:196
 msgid "Receipt ID"
 msgstr "No. Recibo"
 
-#: models.py:193
+#: models.py:198
 msgid "Date"
 msgstr "Fecha"
 
-#: models.py:194
+#: models.py:199
 msgid "Amount"
 msgstr "Cantidad"
 
-#: models.py:196
+#: models.py:201
 msgid "Notes"
 msgstr "Notas"
 
-#: models.py:206
+#: models.py:211
 msgid "Payment"
 msgstr "abono"
 
-#: models.py:207
+#: models.py:212
 msgid "Payments"
 msgstr "abonos"
 
-#: models.py:218
+#: models.py:223
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:220
+#: models.py:225
 msgid "Known as"
 msgstr "Conocido como"
 
-#: models.py:223
+#: models.py:228
 msgid "Parent"
 msgstr "padre"
 
-#: models.py:224
+#: models.py:229
 msgid "Parents"
 msgstr "padres"
 
-#: models.py:235
+#: models.py:240
 msgid "Counselor or Small Group"
 msgstr "Líder o ágape"
 
-#: models.py:237 models.py:252
+#: models.py:242 models.py:257
 msgid "Small Group"
 msgstr "ágape"
 
-#: models.py:240
+#: models.py:245
 msgid "Camper"
 msgstr "campista"
 
-#: models.py:241
+#: models.py:246
 msgid "Campers"
 msgstr "campistas"
 
-#: models.py:255
+#: models.py:260
 msgid "Counselor"
 msgstr "líder"
 
-#: models.py:256
+#: models.py:261
 msgid "Counselors"
 msgstr "líderes"
 
-#: models.py:272
+#: models.py:277
 msgid "Guest"
 msgstr "invitado"
 
-#: models.py:273
+#: models.py:278
 msgid "Guests"
 msgstr "invitados"
 

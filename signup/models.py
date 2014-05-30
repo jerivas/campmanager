@@ -128,6 +128,7 @@ class Minor(models.Model):
 
 class Payer(models.Model):
     """Class for anyone who has to pay"""
+    signed_up = models.BooleanField(_("Signed up"), blank=False, default=False)
     balance = models.DecimalField(_("Balance"), max_digits=5, decimal_places=2,
         blank=False, default=0)
     no_pay = models.BooleanField(_("Doesn't pay"), blank=False, default=False,
@@ -148,6 +149,10 @@ class Payer(models.Model):
             self.balance = sum(p.amount for p in self.payment_set.all())
         else:
             self.balance = 0
+        if self.no_pay or self.balance >= settings.SIGNUP_FEE:
+            self.signed_up = True
+        else:
+            self.signed_up = False
         super(Payer, self).save(*args, **kwargs)
 
 

@@ -21,11 +21,10 @@ class BalanceStatusFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         price = settings.CAMP_PRICE
-        signup = settings.SIGNUP_FEE
         if self.value() == "no_pay":
             return queryset.filter(no_pay=True)
         if self.value() == "signup":
-            return queryset.filter(balance__gte=signup)
+            return queryset.filter(signed_up=True)
         if self.value() == "full":
             return queryset.filter(balance__exact=price)
         if self.value() == "over":

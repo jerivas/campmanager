@@ -28,7 +28,7 @@ class PayerAdmin(admin.ModelAdmin):
     """Base Admin for all Payers"""
     inlines = [PaymentInline]
     _rf = ["balance_as_currency", "amount_due"]
-    _ld = ["fully_paid", "balance_as_currency", "amount_due"]
+    _ld = ["signed_up", "fully_paid", "balance_as_currency", "amount_due"]
     _lf = [BalanceStatusFilter]
 
     def save_related(self, request, form, formsets, change):
