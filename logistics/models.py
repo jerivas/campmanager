@@ -50,9 +50,13 @@ class SmallGroup(models.Model):
         self.camper_set.update(structure=self.structure,
             generation=self.generation, cabin=self.cabin, bus=self.bus)
 
-    def get_members(self):
-        m = [self.counselor]
-        m.extend(self.camper_set.all())
+    def get_members(self, signed_up=False):
+        if signed_up:
+            m = [self.counselor] if self.counselor.signed_up else []
+            m.extend(self.camper_set.filter(signed_up=True))
+        else:
+            m = [self.counselor]
+            m.extend(self.camper_set.all())
         return m
 
     @staticmethod

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 16:05-0600\n"
+"POT-Creation-Date: 2014-05-30 16:33-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,10 +23,18 @@ msgid "Logistics"
 msgstr "Logística"
 
 #: admin.py:29
-msgid "Campers"
-msgstr "Campistas"
+msgid "Signed up members"
+msgstr "Miembros inscritos"
 
-#: admin.py:40
+#: admin.py:37
+msgid "Signed up"
+msgstr "Inscrito"
+
+#: admin.py:37
+msgid "Not signed up"
+msgstr "No inscrito"
+
+#: admin.py:41
 msgid "Members"
 msgstr "Miembros"
 
