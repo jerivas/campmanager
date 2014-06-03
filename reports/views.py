@@ -91,14 +91,13 @@ class AttendantReport(TemplateView):
     template_name = "reports/attendant_report.html"
 
     def get_context_data(self, **kwargs):
-        context = super(AttendantReport, self).get_context_data(**kwargs)
-        camper_count = Camper.objects.count()
-        counselor_count = Counselor.objects.count()
-        context["member_count"] = camper_count + counselor_count
-        context["small_groups"] = SmallGroup.objects.select_related(
-            "counselor")
-        context["guests"] = Guest.objects.all()
-        return context
+        c = super(AttendantReport, self).get_context_data(**kwargs)
+        counselors = Counselor.objects.filter(signed_up=True).count()
+        campers = Camper.objects.filter(signed_up=True).count()
+        c["total"] = counselors + campers
+        c["small_groups"] = SmallGroup.objects.select_related()
+        c["guests"] = Guest.objects.filter(signed_up=True)
+        return c
 
     @method_decorator(permission_required("logistics.attendant_report"))
     def dispatch(self, *args, **kwargs):

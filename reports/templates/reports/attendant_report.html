@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block content_title %}
-    <h1>Integrantes de ágapes ({{member_count}})</h1>
+    <h1>Integrantes de ágapes ({{total}})</h1>
 {% endblock %}
 
 {% block content %}
@@ -53,10 +53,10 @@
             {{small_group.get_generation_display}}
         </h2>
     {% endifchanged %}
-        {% with small_group.get_members as members %}    
+        {% with small_group.get_attendants as attendants %}    
         <div class="grp-module g-d-12 grp-collapse grp-closed no-break">
             <h3 class="grp-collapse-handler">
-                {{small_group}} ({{members|length}})
+                {{small_group}} ({{attendants|length}})
             </h3>
             <table class="big grp-full-width">
                 <thead>
@@ -66,10 +66,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for member in members %}    
+                    {% for attendant in attendants %}    
                     <tr>
-                        <th>{{member}}</th>
-                        <td>{{member.badge_name}}</td>
+                        <th>{{attendant}}</th>
+                        <td>{{attendant.badge_name}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
