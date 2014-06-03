@@ -568,8 +568,8 @@ def deploy(first=False, backup=False):
     manage("collectstatic -v 0 --noinput")
     static_dir = static() + "/.htaccess"
     upload_template("deploy/htaccess", static_dir, backup=False)
-    #manage("syncdb --noinput")
-    # manage("migrate --noinput")
+    manage("syncdb --noinput")
+    manage("migrate --noinput")
     if first:
         run("supervisorctl update")
     else:
