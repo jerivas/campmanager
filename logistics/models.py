@@ -50,14 +50,23 @@ class SmallGroup(models.Model):
         self.camper_set.update(structure=self.structure,
             generation=self.generation, cabin=self.cabin, bus=self.bus)
 
-    def get_members(self, signed_up=False):
-        if signed_up:
-            m = [self.counselor] if self.counselor.signed_up else []
-            m.extend(self.camper_set.filter(signed_up=True))
-        else:
+    def get_members(self, signed_up=None):
+        """
+        Allows filtering Small Group members by signup status.
+        """
+        if signed_up is None:
             m = [self.counselor]
             m.extend(self.camper_set.all())
+        else:
+            m = [self.counselor] if self.counselor.signed_up == signed_up else []
+            m.extend(self.camper_set.filter(signed_up=signed_up))
         return m
+
+    def get_attendants(self):
+        """
+        Simple wrapper to call get_members() from templates with signed_up=True
+        """
+        return self.get_members(signed_up=True)
 
     @staticmethod
     def autocomplete_search_fields():
