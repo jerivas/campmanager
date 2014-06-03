@@ -1,26 +1,5 @@
 {% extends "reports/print_base.html" %}
 
-{% block extrastyle %}
-{{ block.super }}
-<style>
-    @media screen {
-        table {border: 0;}
-    }
-    @media print {
-        table {
-            width: 100%;
-            font-size: 16px;
-            line-height: 32px;
-        }
-        table, th, td {
-            border-collapse: collapse;
-            border: 1px solid black;
-        }
-        th, td {padding: 0 10px;}
-    }
-</style>
-{% endblock extrastyle %}
-
 {% block title %}Reporte de cabañas{% endblock title %}
 
 {% block breadcrumbs %}

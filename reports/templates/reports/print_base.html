@@ -3,6 +3,9 @@
 {% block extrastyle %}
 {{ block.super }}
 <style>
+    @media screen {
+        table {border: 0;}
+    }
     @media print {
         body {
             color: #222;
@@ -21,6 +24,16 @@
         .grp-module {page-break-after: always;}
         .grp-module:last-child {page-break-after: auto;}
         .no-break {page-break-after: avoid;}
+        table {
+            width: 100%;
+            font-size: 16px;
+            line-height: 32px;
+        }
+        table, th, td {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        th, td {padding: 0 10px;}
     }
 </style>
 {% endblock extrastyle %}
