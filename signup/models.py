@@ -60,14 +60,15 @@ class ExtendedInfo(models.Model):
         abstract = True
 
     def age(self):
-        try:
-            birthday = self.birth_date.replace(year=now().year)
-        except ValueError:
-            # raised when birth date is February 29 and the current year is not
-            # a leap year
-            birthday = self.birth_date.replace(year=now().year,
-                                               day=self.birth_date.day - 1)
-        return now().year - self.birth_date.year - (birthday > now())
+        if self.birth_date is not None:
+            try:
+                birthday = self.birth_date.replace(year=now().year)
+            except ValueError:
+                # raised when birth date is February 29 and the current year is
+                # not a leap year
+                birthday = self.birth_date.replace(year=now().year,
+                                                   day=self.birth_date.day - 1)
+            return now().year - self.birth_date.year - (birthday > now())
 
 
 class Minor(models.Model):
