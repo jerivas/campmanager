@@ -2,6 +2,27 @@
 
 {% block title %}Reporte de asistencia{% endblock title %}
 
+{% block extrahead %}
+{{ block.super }}
+<script>
+// Toggle table rows marked as "paid"
+(function($) {
+    $(document).ready(function() {
+        var toggle = $("#paid-toggle");
+        var first = true;
+        toggle.click(function() {
+            if (first) {
+                $(".paid").closest("tr").hide();
+                first = false;
+            } else {
+                $(".paid").closest("tr").toggle();
+            }
+        });
+    });
+})(grp.jQuery);
+</script>
+{% endblock extrahead %}
+
 {% block breadcrumbs %}
 <ul>
     <li><a href="{% url 'admin:index' %}">Inicio</a></li>
@@ -16,8 +37,14 @@
 </ul>
 {% endblock %}
 
+{% block page-tools %}
+<ul>
+    <li><a id="paid-toggle" href="#">Mostrar solo campistas con pagos pendientes</a></li>
+</ul>
+{% endblock %}
+
 {% block content_title %}
-    <h1>Integrantes de ágapes ({{total}})</h1>
+<h1>Integrantes de ágapes ({{total}})</h1>
 {% endblock %}
 
 {% block content %}
@@ -32,7 +59,7 @@
             {{small_group.get_generation_display}}
         </h2>
     {% endifchanged %}
-        {% with small_group.get_attendants as attendants %}    
+        {% with small_group.get_attendants as attendants %}
         <div class="grp-module g-d-12 grp-collapse grp-closed no-break">
             <h3 class="grp-collapse-handler">
                 {{small_group}} ({{attendants|length}})
@@ -42,13 +69,21 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Gafete</th>
+                        <th>Debe</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for attendant in attendants %}    
+                    {% for attendant in attendants %}
                     <tr>
                         <th>{{attendant}}</th>
                         <td>{{attendant.badge_name}}</td>
+                        {% with attendant.amount_due as due %}
+                            {% if due > 0 %}
+                            <td>${{due}}</td>
+                            {% else %}
+                            <td class="paid">--</td>
+                            {% endif %}
+                        {% endwith %}
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -67,13 +102,21 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Gafete</th>
+                    <th>Debe</th>
                 </tr>
             </thead>
             <tbody>
-                {% for guest in guests %}    
+                {% for guest in guests %}
                 <tr>
                     <th>{{guest}}</th>
                     <td>{{guest.badge_name}}</td>
+                    {% with guest.amount_due as due %}
+                        {% if due > 0 %}
+                        <td>${{due}}</td>
+                        {% else %}
+                        <td class="paid">--</td>
+                        {% endif %}
+                    {% endwith %}
                 </tr>
                 {% endfor %}
             </tbody>
