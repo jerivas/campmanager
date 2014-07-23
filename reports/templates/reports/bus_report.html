@@ -25,36 +25,37 @@
 {% for small_group in small_groups %}
     {% ifchanged small_group.bus %}
     {% if not forloop.first %}
-            </tbody>
-        </table>
     </div>
     {% endif %}
-    <div class="grp-module g-d-16 grp-collapse grp-closed">
+    <div class="grp-module g-d-12 grp-collapse grp-closed">
         <h2 class="grp-collapse-handler">
             {{small_group.get_bus_display|default:"Ágapes sin bus asignado"}}
         </h2>
-        <table class="big grp-full-width">
-            <thead>
-                <tr>
-                    <th>Ágape</th>
-                    <th>Líder</th>
-                    <th>Generación</th>
-                    <th>Integrantes</th>
-                </tr>
-            </thead>
-            <tbody>
     {% endifchanged %}
-                <tr>
-                    <th>{{small_group}}</th>
-                    <td>{{small_group.counselor}}</td>
-                    <td>{{small_group.get_generation_display}}</td>
-                    <td>{{small_group.get_attendants|length}}</td>
-                </tr>
-    {% if forloop.last %}
-            </tbody>
-        </table>
-    </div>
-    {% endif %}
+        {% with small_group.get_attendants as attendants %}    
+        <div class="grp-module g-d-12 grp-collapse grp-closed no-break">
+            <h3 class="grp-collapse-handler">
+                {{small_group}} ({{attendants|length}})
+            </h3>
+            <table class="big grp-full-width">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Gafete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendant in attendants %}    
+                    <tr>
+                        <th>{{attendant}}</th>
+                        <td>{{attendant.badge_name}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endwith %}
 {% endfor %}
+    </div>
 </div>
 {% endblock content %}
