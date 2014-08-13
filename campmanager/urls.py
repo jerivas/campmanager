@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-admin.autodiscover()
 
+from views import Home
+
+admin.autodiscover()
 urlpatterns = patterns("",
     # Examples:
     # url(r"^$", "campmanager.views.home", name="home"),
@@ -23,4 +24,7 @@ urlpatterns = patterns("",
 
     # Reports app URL patterns
     url(r"^reports/", include("reports.urls")),
+
+    # General URLs
+    url(r"^$", Home.as_view(), name="home"),
 )
