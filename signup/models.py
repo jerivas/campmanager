@@ -120,8 +120,7 @@ class Minor(models.Model):
     father = models.ForeignKey("Parent", related_name="fathered",
         blank=True, null=True, verbose_name=_("Father"))
     permission_status = models.IntegerField(_("Permission Status"),
-        max_length=1, blank=False, choices=PERMISSION_STATUS,
-        default=INCOMPLETE)
+        blank=False, choices=PERMISSION_STATUS, default=INCOMPLETE)
 
     class Meta:
         abstract = True
@@ -170,7 +169,7 @@ class Attendant(models.Model):
 
 class Member(models.Model):
     """A member of a Small Group and Structure (Campers and Counselors)"""
-    generation = models.PositiveIntegerField(_("Generation"), max_length=1,
+    generation = models.PositiveIntegerField(_("Generation"),
         blank=False, choices=GENERATIONS)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
         choices=STRUCTURES)

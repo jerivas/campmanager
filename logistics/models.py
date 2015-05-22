@@ -8,7 +8,7 @@ class SmallGroup(models.Model):
 
     title = models.CharField(_("Title"), max_length=32, blank=False,
         unique=True)
-    generation = models.PositiveIntegerField(_("Generation"), max_length=1,
+    generation = models.PositiveIntegerField(_("Generation"),
         blank=False, choices=GENERATIONS, default=1)
     structure = models.CharField(_("Structure"), max_length=16, blank=True,
         choices=STRUCTURES)
