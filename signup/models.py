@@ -2,9 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.utils.timezone import now
-from django.core.urlresolvers import reverse
 
 from signup.validators import gov_id_validator
 from signup.choices import STATES, LAWYERS
@@ -133,7 +132,7 @@ class Payer(models.Model):
         blank=False, default=0)
     no_pay = models.BooleanField(_("Doesn't pay"), blank=False, default=False,
         help_text=_("Mark if this person is exempt of the camp's price"))
-    payment_set = generic.GenericRelation("Payment")
+    payment_set = GenericRelation("Payment")
 
     class Meta:
         abstract = True
@@ -201,7 +200,7 @@ class Payment(models.Model):
     notes = models.CharField(_("Notes"), max_length=256, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey("content_type", "object_id")
+    content_object = GenericForeignKey("content_type", "object_id")
 
     def __unicode__(self):
         return "%s - $%s" % (self.receipt_id, self.amount)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.core.urlresolvers import reverse
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
@@ -9,7 +9,7 @@ from signup.actions import (move_permission_forward, move_permission_backwards,
                             generate_permission)
 
 
-class PaymentInline(generic.GenericTabularInline):
+class PaymentInline(GenericTabularInline):
     model = Payment
     extra = 1
 
