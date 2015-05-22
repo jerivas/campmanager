@@ -146,7 +146,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'general',
     'debug_toolbar',
-    'south',
+    # 'south',
     'logistics',
     'signup',
     'finances',
