@@ -77,6 +77,7 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     raw_id_fields = ("counselor", "mother", "father")
     autocomplete_lookup_fields = {"fk": ["counselor", "mother", "father"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf
+    radio_fields = {"registrar_title": admin.HORIZONTAL}
 
     fieldsets = [
         (_("Basic Info"), {"fields":
@@ -89,9 +90,8 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                             ("balance_as_currency", "amount_due")]}),
         (_("Customs"), {"classes": ("grp-collapse grp-closed",),
                         "fields":
-                        [("birth_date"),
-                        "registrar",
-                        ("registrar_title", "registrar_position"),
+                        [("birth_date", "registrar_title"),
+                        ("registrar", "registrar_position"),
                         ("birth_cert_num", "birth_cert_fol", "birth_cert_book"),
                         ("reg_state", "reg_province"),
                         ("state", "province"),

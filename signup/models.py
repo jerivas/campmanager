@@ -76,10 +76,6 @@ class Minor(models.Model):
         ("m", _("Mr.")),
         ("f", _("Mrs.")),
     )
-    POSITIONS = (
-        ("chief", _("Chief")),
-        ("subchief", _("Subchief")),
-    )
     # Chocies for permission status
     INCOMPLETE = 0
     TO_PRINT = 1
@@ -109,8 +105,9 @@ class Minor(models.Model):
         max_length=256, blank=True)
     registrar_title = models.CharField(_("Birth Certificate Registrar Title"),
         max_length=16, blank=True, choices=TITLES)
-    registrar_position = models.CharField(_("Birth Certificate Registrar "
-        "Position"), max_length=16, blank=True, choices=POSITIONS)
+    registrar_position = models.CharField(
+        _("Birth Certificate Registrar Position"), max_length=100, blank=True,
+        help_text=_("Position at the municipality"))
     reg_state = models.CharField(_("Registration State"), max_length=3,
         blank=True, choices=STATES)
     reg_province = models.CharField(_("Registration Province"), max_length=32,

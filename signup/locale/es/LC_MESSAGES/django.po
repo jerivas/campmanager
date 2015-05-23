@@ -1,22 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2013
 # This file is distributed under the same license as the Signup package.
-# Eduardo Rivas, e@jerivas.com, 2013.
+# Eduardo Rivas <e@jerivas.com>, e@jerivas.com, 2013, 2015.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-30 10:17-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Eduardo Rivas\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2015-05-22 23:04-0600\n"
+"PO-Revision-Date: 2015-05-22 23:05-0600\n"
+"Last-Translator: Eduardo Rivas <e@jerivas.com>\n"
+"Language-Team: Español; Castellano <>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: __init__.py:2
 msgid "Signup"
@@ -52,11 +52,11 @@ msgstr "Mover el estado del permiso hacia atrás"
 msgid "Generate Permission"
 msgstr "Generar permiso"
 
-#: admin.py:47 admin.py:61 filters.py:16 models.py:134
+#: admin.py:47 admin.py:61 filters.py:16 models.py:135
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:51 models.py:132
+#: admin.py:51 models.py:133
 msgid "Balance"
 msgstr "Saldo"
 
@@ -68,11 +68,11 @@ msgstr "Pagado"
 msgid "Amount Due"
 msgstr "Debe"
 
-#: admin.py:82
+#: admin.py:83
 msgid "Basic Info"
 msgstr "Información básica"
 
-#: admin.py:90
+#: admin.py:91
 msgid "Customs"
 msgstr "Migración"
 
@@ -84,7 +84,7 @@ msgstr "Pagado por"
 msgid "Balance Status"
 msgstr "Estado del saldo"
 
-#: filters.py:17 models.py:131
+#: filters.py:17 models.py:132
 msgid "Signed up"
 msgstr "Inscrito"
 
@@ -96,59 +96,59 @@ msgstr "Pagado"
 msgid "Overpaid"
 msgstr "Sobrepagado"
 
-#: models.py:17
+#: models.py:16
 msgid "Male"
 msgstr "Masculino"
 
-#: models.py:18
+#: models.py:17
 msgid "Female"
 msgstr "Femenino"
 
-#: models.py:21
+#: models.py:20
 msgid "First Name"
 msgstr "Primer nombre"
 
-#: models.py:22
+#: models.py:21
 msgid "Second Name"
 msgstr "Segundo nombre"
 
-#: models.py:23
+#: models.py:22
 msgid "First Surname"
 msgstr "Primer apellido"
 
-#: models.py:25
+#: models.py:24
 msgid "Second Surname"
 msgstr "Segundo apellido"
 
-#: models.py:27
+#: models.py:26
 msgid "Gender"
 msgstr "Género"
 
-#: models.py:42
+#: models.py:41
 msgid "Names"
 msgstr "Nombres"
 
-#: models.py:47
+#: models.py:46
 msgid "Surnames"
 msgstr "Apellidos"
 
-#: models.py:52
+#: models.py:51
 msgid "Birth Date"
 msgstr "Fecha de nacimiento"
 
-#: models.py:53
+#: models.py:52
 msgid "The format is YYYY-MM-DD and 24 hour time."
 msgstr "El formato es AAAA-MM-DD y reloj de 24 horas."
 
-#: models.py:54
+#: models.py:53
 msgid "State"
 msgstr "Departamento de residencia"
 
-#: models.py:56
+#: models.py:55
 msgid "Province"
 msgstr "Municipio de residencia"
 
-#: models.py:57
+#: models.py:56
 msgid "Occupation"
 msgstr "Ocupación"
 
@@ -188,168 +188,171 @@ msgstr "Firmado"
 msgid "Special Case"
 msgstr "Caso especial"
 
-#: models.py:97
+#: models.py:98
 msgid "Assigned Lawyer"
 msgstr "Abogado asignado"
 
-#: models.py:99
+#: models.py:100
 msgid "Passport Number"
 msgstr "No. Pasaporte"
 
-#: models.py:101
+#: models.py:102
 msgid "Birth Certificate Number"
 msgstr "No. Partida de nacimiento"
 
-#: models.py:103
+#: models.py:104
 msgid "Birth Certificate Folio"
 msgstr "Folio"
 
-#: models.py:105
+#: models.py:106
 msgid "Birth Certificate Book"
 msgstr "Libro"
 
-#: models.py:107
+#: models.py:108
 msgid "Birth Certificate Registrar"
 msgstr "Nombre del registrante"
 
-#: models.py:109
+#: models.py:110
 msgid "Birth Certificate Registrar Title"
 msgstr "Título del registrante"
 
-#: models.py:111
+#: models.py:113
 msgid "Birth Certificate Registrar Position"
 msgstr "Cargo del registrante"
 
-#: models.py:113
+#: models.py:114
+msgid "Position at the municipality"
+msgstr "Cargo en la alcaldía"
+
+#: models.py:115
 msgid "Registration State"
 msgstr "Departamento de registro"
 
-#: models.py:115
+#: models.py:117
 msgid "Registration Province"
 msgstr "Municipio de registro"
 
-#: models.py:118
+#: models.py:120
 msgid "Mother"
 msgstr "Madre"
 
-#: models.py:120
+#: models.py:122
 msgid "Father"
 msgstr "Padre"
 
-#: models.py:121
+#: models.py:123
 msgid "Permission Status"
 msgstr "Estado del permiso"
 
-#: models.py:135
+#: models.py:136
 msgid "Mark if this person is exempt of the camp's price"
-msgstr ""
-"Marca esta casilla si esta persona no debe pagar para ir al campamento."
+msgstr "Esta persona no necesita pagar para asistir"
 
-#: models.py:161
+#: models.py:162
 msgid "Badge Name"
 msgstr "Gafete"
 
-#: models.py:162
+#: models.py:163
 msgid "The name that appears in the badge."
 msgstr "El nombre que aparece en el gafete."
 
-#: models.py:163
+#: models.py:164
 msgid "Cabin"
 msgstr "Cabaña"
 
-#: models.py:172
+#: models.py:173
 msgid "Generation"
 msgstr "Generación"
 
-#: models.py:174
+#: models.py:175
 msgid "Structure"
 msgstr "Estructura"
 
-#: models.py:176
+#: models.py:177
 msgid "Bus"
 msgstr "Bus"
 
-#: models.py:196
+#: models.py:197
 msgid "Receipt ID"
 msgstr "No. Recibo"
 
-#: models.py:198
+#: models.py:199
 msgid "Date"
 msgstr "Fecha"
 
-#: models.py:199
+#: models.py:200
 msgid "Amount"
 msgstr "Cantidad"
 
-#: models.py:201
+#: models.py:202
 msgid "Notes"
 msgstr "Notas"
 
-#: models.py:211
+#: models.py:212
 msgid "Payment"
 msgstr "abono"
 
-#: models.py:212
+#: models.py:213
 msgid "Payments"
 msgstr "abonos"
 
-#: models.py:223
+#: models.py:224
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:225
+#: models.py:226
 msgid "Known as"
 msgstr "Conocido como"
 
-#: models.py:228
+#: models.py:229
 msgid "Parent"
 msgstr "padre"
 
-#: models.py:229
+#: models.py:230
 msgid "Parents"
 msgstr "padres"
 
-#: models.py:240
+#: models.py:241
 msgid "Counselor or Small Group"
 msgstr "Líder o ágape"
 
-#: models.py:242 models.py:257
+#: models.py:243 models.py:258
 msgid "Small Group"
 msgstr "ágape"
 
-#: models.py:245
+#: models.py:246
 msgid "Camper"
 msgstr "campista"
 
-#: models.py:246
+#: models.py:247
 msgid "Campers"
 msgstr "campistas"
 
-#: models.py:260
+#: models.py:261
 msgid "Counselor"
 msgstr "líder"
 
-#: models.py:261
+#: models.py:262
 msgid "Counselors"
 msgstr "líderes"
 
-#: models.py:277
+#: models.py:278
 msgid "Guest"
 msgstr "invitado"
 
-#: models.py:278
+#: models.py:279
 msgid "Guests"
 msgstr "invitados"
-
-#: validators.py:10
-msgid "Invalid Government ID"
-msgstr "No. de DUI no válido"
 
 #: templates/admin/signup/camper/change_list.html:9
 #, python-format
 msgid "Add %(name)s"
-msgstr ""
+msgstr "Agregar %(name)s"
 
 #: templates/admin/signup/camper/change_list.html:14
 msgid "Attendant Report"
 msgstr "Reporte de asistencia"
+
+#: validators.py:10
+msgid "Invalid Government ID"
+msgstr "No. de DUI no válido"
