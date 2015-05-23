@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Eduardo Rivas <e@jerivas.com>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-22 18:32-0600\n"
+"PO-Revision-Date: 2015-05-22 18:34-0600\n"
+"Last-Translator: Eduardo Rivas <e@jerivas.com>\n"
+"Language-Team: Español; Castellano <>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: models.py:16
+msgid "Title"
+msgstr "Título"
+
+#: models.py:18
+msgid "Destination"
+msgstr "Destino"
+
+#: models.py:18
+msgid "The Republic of..."
+msgstr "La República de..."
+
+#: models.py:19
+msgid "Start date"
+msgstr "Fecha de inicio"
+
+#: models.py:20
+msgid "End date"
+msgstr "Fecha de finalización"
+
+#: models.py:22
+msgid "Permission timestamp"
+msgstr "Fecha y hora de permisos"
+
+#: models.py:23
+msgid "The date and time when the permissions are signed"
+msgstr "La fecha y hora en que se firman los permisos"
+
+#: models.py:25
+msgid "Permission location"
+msgstr "Ubicación de permisos"
+
+#: models.py:26
+msgid "The location where the permission are signed"
+msgstr "La ubicación donde se firman los permisos"
+
+#: models.py:29 models.py:39 models.py:51
+msgid "Camp"
+msgstr "Campamento"
+
+#: models.py:41
+msgid "ID Number"
+msgstr "No. de DUI"
+
+#: models.py:44
+msgid "Chaperone"
+msgstr "Encargado"
+
+#: models.py:54
+msgid "Lawyer"
+msgstr "Abogado"
+
+#: models.py:55
+msgid "Lawyers"
+msgstr "Abogados"
