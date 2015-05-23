@@ -16,8 +16,9 @@ class Camp(SingletonModel):
     title = models.CharField(_("Title"), max_length=75)
     destination = models.CharField(
         _("Destination"), max_length=75, help_text=_("The Republic of..."))
-    start = models.DateField(_("Start date"))
-    end = models.DateField(_("End date"))
+    duration = models.CharField(
+        _("Duration"), max_length=100, help_text=_("Text describing the "
+                                                   "camp's duration"))
     permission_timestamp = models.DateTimeField(
         _("Permission timestamp"),
         help_text=_("The date and time when the permissions are signed"))

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-22 18:32-0600\n"
-"PO-Revision-Date: 2015-05-22 18:34-0600\n"
+"POT-Creation-Date: 2015-05-22 21:47-0600\n"
+"PO-Revision-Date: 2015-05-22 21:48-0600\n"
 "Last-Translator: Eduardo Rivas <e@jerivas.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: \n"
@@ -31,46 +31,53 @@ msgstr "Destino"
 msgid "The Republic of..."
 msgstr "La República de..."
 
-#: models.py:19
-msgid "Start date"
-msgstr "Fecha de inicio"
+#: models.py:20
+#| msgid "Destination"
+msgid "Duration"
+msgstr "Duración"
 
 #: models.py:20
-msgid "End date"
-msgstr "Fecha de finalización"
+msgid "Text describing the camp's duration"
+msgstr "Texto que indica la duración del campamento"
 
-#: models.py:22
+#: models.py:23
 msgid "Permission timestamp"
 msgstr "Fecha y hora de permisos"
 
-#: models.py:23
+#: models.py:24
 msgid "The date and time when the permissions are signed"
 msgstr "La fecha y hora en que se firman los permisos"
 
-#: models.py:25
+#: models.py:26
 msgid "Permission location"
 msgstr "Ubicación de permisos"
 
-#: models.py:26
+#: models.py:27
 msgid "The location where the permission are signed"
 msgstr "La ubicación donde se firman los permisos"
 
-#: models.py:29 models.py:39 models.py:51
+#: models.py:30 models.py:40 models.py:52
 msgid "Camp"
 msgstr "Campamento"
 
-#: models.py:41
+#: models.py:42
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:44
+#: models.py:45
 msgid "Chaperone"
 msgstr "Encargado"
 
-#: models.py:54
+#: models.py:55
 msgid "Lawyer"
 msgstr "Abogado"
 
-#: models.py:55
+#: models.py:56
 msgid "Lawyers"
 msgstr "Abogados"
+
+#~ msgid "Start date"
+#~ msgstr "Fecha de inicio"
+
+#~ msgid "End date"
+#~ msgstr "Fecha de finalización"

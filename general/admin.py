@@ -26,7 +26,7 @@ class CampAdmin(SingletonModelAdmin):
     inlines = [ChaperoneInlineAdmin, LawyerInlineAdmin]
     fieldsets = (
         (None, {"fields":
-         (("title", "start"), ("destination", "end"),
+         ("title", ("destination", "duration"),
           ("permission_location", "permission_timestamp"))
         }),
     )
