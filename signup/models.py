@@ -6,7 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKe
 from django.utils.timezone import now
 
 from signup.validators import gov_id_validator
-from signup.choices import STATES, LAWYERS
+from signup.choices import STATES
 from logistics.choices import STRUCTURES, GENERATIONS, CABINS, BUSES
 
 
@@ -94,8 +94,9 @@ class Minor(models.Model):
         (SPECIAL, _("Special Case")),
     )
 
-    lawyer = models.CharField(_("Assigned Lawyer"), max_length=16, blank=True,
-        choices=LAWYERS)
+    lawyer = models.ForeignKey(
+        "general.Lawyer", verbose_name=_("Assigned Lawyer"), blank=True,
+        null=True)
     passport = models.CharField(_("Passport Number"), max_length=16,
         blank=True)
     birth_cert_num = models.PositiveIntegerField(_("Birth Certificate Number"),

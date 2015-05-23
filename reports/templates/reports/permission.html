@@ -69,7 +69,7 @@
 
 		{% with father=camper.father mother=camper.mother birth=camper.birth_date chap=camp.chaperone %}
 		En la ciudad de {{camp.permission_location}}, a las {{camp.permission_timestamp|date:"DATE_FORMAT"}}.
-		Ante mí, <strong>{{camper.get_lawyer_display|upper}}</strong>, Notario, de este domicilio,
+		Ante mí, <strong>{{camper.lawyer|upper}}</strong>, Notario, de este domicilio,
 		comparecen los señores <strong>{{father|upper}}</strong>,{% if father.known_as %} conocido por <strong>{{father.known_as|upper}}</strong>,{% endif %}
 		de {{father.age|to_word:"adjective"}} años de edad, {{father.occupation|upper}},
 		a quien conozco, portador de su Documento Único de Identidad número {{father.gov_id|to_word}},

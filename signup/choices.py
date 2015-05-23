@@ -16,8 +16,3 @@ STATES = (
     ("son", "Sonsonate"),
     ("usu", "Usulután"),
 )
-
-LAWYERS = (
-    ("jorge", "Jorge Alberto Martínez Martínez"),
-    ("silvia", "Silvia Anabel Morales de Martínez"),
-)
