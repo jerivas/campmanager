@@ -6,5 +6,5 @@ parent_dir = project_dir.rsplit("/", 1)[0]
 sys.path.extend([project_dir, parent_dir])
 os.environ["DJANGO_SETTINGS_MODULE"] = "settings"
 
-import django.core.handlers.wsgi
-application = django.core.handlers.wsgi.WSGIHandler()
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
