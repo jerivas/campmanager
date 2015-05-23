@@ -67,8 +67,11 @@
 		<h2 class="grp-collapse-handler no-print">{{camper}} ({{camper.small_group}} - {{camper.get_generation_display}})</h2>
 		<div class="grp-row"><p>
 
-		{% with father=camper.father mother=camper.mother birth=camper.birth_date chap=camp.chaperone %}
-		En la ciudad de {{camp.permission_location}}, a las {{camp.permission_timestamp|date:"DATE_FORMAT"}}.
+		{% with father=camper.father mother=camper.mother birth=camper.birth_date chap=camp.chaperone datetime=camp.permission_timestamp %}
+		En la ciudad de {{camp.permission_location}}, a las {{datetime|date:"G"|to_word:"adjective"}} horas
+		{{datetime|date:"i"|lstrip:"0"|to_word:"adjective"}} minutos,
+		del día {{datetime|date:"j"|to_word}}
+		de {{datetime|date:"F"|lower}} de {{datetime|date:"o"|to_word}}.
 		Ante mí, <strong>{{camper.lawyer|upper}}</strong>, Notario, de este domicilio,
 		comparecen los señores <strong>{{father|upper}}</strong>,{% if father.known_as %} conocido por <strong>{{father.known_as|upper}}</strong>,{% endif %}
 		de {{father.age|to_word:"adjective"}} años de edad, {{father.occupation|upper}},
