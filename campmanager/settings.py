@@ -181,7 +181,7 @@ except ImportError:
 ###################
 
 LOGIN_URL = "/accounts/login/"
-GRAPPELLI_ADMIN_TITLE = "Altavoz 2014"
+# GRAPPELLI_ADMIN_TITLE = "Altavoz 2014"
 
 ###################
 # CAMP SETTINGS #

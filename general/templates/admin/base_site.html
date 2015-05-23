@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n solo_tags %}
+
+{% block title %}
+{% get_solo "general.Camp" as camp %}
+{{ title }} | {{ camp.title }}
+{% endblock %}
+
+{% block admin_title %}
+{% get_solo "general.Camp" as camp %}
+<h1 id="grp-admin-title">{{ camp.title }}</h1>
+{% endblock %}
