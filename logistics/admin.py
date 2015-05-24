@@ -14,7 +14,7 @@ class SmallGroupAdmin(admin.ModelAdmin):
               "member_list")
 
     readonly_fields = ["structure", "member_list"]
-    list_display = ["title", "counselor", "signed_up_count", "structure",
+    list_display = ["title", "signed_up_count", "structure",
         "generation", "cabin", "bus"]
     list_editable = ["cabin", "bus"]
     list_filter = ["structure", "generation", "cabin", "bus"]
