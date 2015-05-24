@@ -29,8 +29,9 @@ class Command(BaseCommand):
             else:
                 group.generation += 1
                 group.save()
-                group.camper_set.update(balance=0, no_pay=False,
-                                        permission_status=0)
+                group.camper_set.update(
+                    balance=0, no_pay=False, permission_status=0,
+                    signed_up=False)
                 group.counselor.balance = 0
                 group.counselor.no_pay = False
                 group.counselor.save()
