@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 
 from solo.admin import SingletonModelAdmin
 
@@ -26,9 +27,14 @@ class CampAdmin(SingletonModelAdmin):
     inlines = [ChaperoneInlineAdmin, LawyerInlineAdmin]
     fieldsets = (
         (None, {"fields":
-         ("title", ("destination", "duration"),
-          ("permission_location", "permission_timestamp"))
+         (("title", "price"),
+          ("signup_fee", "fine"))
         }),
+        (_("Customs"), {"fields":
+         (("destination", "duration"),
+          ("permission_location", "permission_timestamp")),
+         "classes": ("grp-collapse grp-closed",),
+         }),
     )
 
     def has_add_permission(self, request):

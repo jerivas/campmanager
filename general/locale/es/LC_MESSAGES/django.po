@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-22 21:47-0600\n"
-"PO-Revision-Date: 2015-05-22 21:48-0600\n"
+"POT-Creation-Date: 2015-05-24 17:24-0600\n"
+"PO-Revision-Date: 2015-05-24 17:24-0600\n"
 "Last-Translator: Eduardo Rivas <e@jerivas.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: \n"
@@ -19,60 +19,75 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
+#: admin.py:33
+msgid "Customs"
+msgstr "Migración"
+
 #: models.py:16
 msgid "Title"
 msgstr "Título"
 
-#: models.py:18
+#: models.py:17
+msgid "Price"
+msgstr "Precio"
+
+#: models.py:19
+msgid "Signup fee"
+msgstr "Valor de inscripción"
+
+#: models.py:20
+msgid "Fine"
+msgstr "Multa"
+
+#: models.py:22
 msgid "Destination"
 msgstr "Destino"
 
-#: models.py:18
+#: models.py:22
 msgid "The Republic of..."
 msgstr "La República de..."
 
-#: models.py:20
-#| msgid "Destination"
+#: models.py:24
 msgid "Duration"
 msgstr "Duración"
 
-#: models.py:20
+#: models.py:24
 msgid "Text describing the camp's duration"
 msgstr "Texto que indica la duración del campamento"
 
-#: models.py:23
+#: models.py:27
 msgid "Permission timestamp"
 msgstr "Fecha y hora de permisos"
 
-#: models.py:24
+#: models.py:28
 msgid "The date and time when the permissions are signed"
 msgstr "La fecha y hora en que se firman los permisos"
 
-#: models.py:26
+#: models.py:30
 msgid "Permission location"
 msgstr "Ubicación de permisos"
 
-#: models.py:27
+#: models.py:31
 msgid "The location where the permission are signed"
 msgstr "La ubicación donde se firman los permisos"
 
-#: models.py:30 models.py:40 models.py:52
+#: models.py:34 models.py:44 models.py:56
 msgid "Camp"
 msgstr "Campamento"
 
-#: models.py:42
+#: models.py:46
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:45
+#: models.py:49
 msgid "Chaperone"
 msgstr "Encargado"
 
-#: models.py:55
+#: models.py:59
 msgid "Lawyer"
 msgstr "Abogado"
 
-#: models.py:56
+#: models.py:60
 msgid "Lawyers"
 msgstr "Abogados"
 

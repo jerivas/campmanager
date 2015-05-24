@@ -14,6 +14,10 @@ class Camp(SingletonModel):
     Singleton model to store general camp information.
     """
     title = models.CharField(_("Title"), max_length=75)
+    price = models.DecimalField(_("Price"), max_digits=5, decimal_places=2)
+    signup_fee = models.DecimalField(
+        _("Signup fee"), max_digits=5, decimal_places=2)
+    fine = models.DecimalField(_("Fine"), max_digits=5, decimal_places=2)
     destination = models.CharField(
         _("Destination"), max_length=75, help_text=_("The Republic of..."))
     duration = models.CharField(
