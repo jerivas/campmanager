@@ -17,7 +17,7 @@ class PaymentInline(GenericTabularInline):
 class PersonAdmin(admin.ModelAdmin):
     """Base Admin for all Persons"""
     radio_fields = {"gender": admin.HORIZONTAL}
-    list_per_page = 15
+    list_per_page = 50
     _ld = ["names", "surnames"]
     list_display_links = ["names", "surnames"]
     _lf = ["gender"]
