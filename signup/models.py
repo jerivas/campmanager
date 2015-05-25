@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.utils.timezone import now
@@ -130,23 +129,41 @@ class Payer(models.Model):
         blank=False, default=0)
     no_pay = models.BooleanField(_("Doesn't pay"), blank=False, default=False,
         help_text=_("Mark if this person is exempt of the camp's price"))
+    fined = models.BooleanField(
+        _("Fined"), default=False, help_text=_("This person must pay a fine"))
     payment_set = GenericRelation("Payment")
 
     class Meta:
         abstract = True
 
+    def get_price(self):
+        """
+        Calculates the price this person has to pay to  attend camp. The price
+        varies depending on the fine.
+        """
+        from general.models import Camp
+        camp = Camp.objects.get()  # Get the camp information
+
+        price = camp.price
+        if self.fined:
+            price += camp.fine
+        return price
+
     def fully_paid(self):
-        return self.balance == settings.CAMP_PRICE
+        return self.balance == self.get_price()
 
     def amount_due(self):
-        return settings.CAMP_PRICE - self.balance
+        return self.get_price() - self.balance
 
     def save(self, *args, **kwargs):
+        from general.models import Camp
+        camp = Camp.objects.get()  # Get the camp information
+
         if self.payment_set.count() > 0:
             self.balance = sum(p.amount for p in self.payment_set.all())
         else:
             self.balance = 0
-        if self.no_pay or self.balance >= settings.SIGNUP_FEE:
+        if self.no_pay or self.balance >= camp.signup_fee:
             self.signed_up = True
         else:
             self.signed_up = False

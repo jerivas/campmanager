@@ -28,7 +28,7 @@ class PayerAdmin(admin.ModelAdmin):
     """Base Admin for all Payers"""
     inlines = [PaymentInline]
     _rf = ["balance_as_currency", "amount_due"]
-    _ld = ["signed_up", "fully_paid", "balance_as_currency", "amount_due"]
+    _ld = ["signed_up", "fined", "fully_paid", "balance_as_currency", "amount_due"]
     _lf = [BalanceStatusFilter]
 
     def save_related(self, request, form, formsets, change):
@@ -77,14 +77,16 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     raw_id_fields = ("counselor", "mother", "father")
     autocomplete_lookup_fields = {"fk": ["counselor", "mother", "father"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf
-    radio_fields = {"registrar_title": admin.HORIZONTAL}
+    radio_fields = {"registrar_title": admin.HORIZONTAL,
+                    "gender": admin.HORIZONTAL}
 
     fieldsets = [
         (_("Basic Info"), {"fields":
                            [("first_name", "second_name"),
                             ("first_surname", "second_surname"),
                             ("badge_name", "counselor"),
-                            ("gender", "no_pay"),
+                            "gender",
+                            ("no_pay", "fined"),
                             ("structure", "generation"),
                             ("cabin", "bus"),
                             ("balance_as_currency", "amount_due")]}),
@@ -119,7 +121,8 @@ class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     fields = (("first_name", "second_name"),
               ("first_surname", "second_surname"),
               ("badge_name", "small_group"),
-              ("gender", "no_pay"),
+              "gender",
+              ("no_pay", "fined"),
               ("structure", "generation"),
               ("cabin", "bus"),
               ("balance_as_currency", "amount_due"))
@@ -135,7 +138,8 @@ class GuestAdmin(PersonAdmin, PayerAdmin):
     fields = (("first_name", "second_name"),
               ("first_surname", "second_surname"),
               ("badge_name", "cabin"),
-              ("gender", "no_pay"),
+              "gender",
+              ("no_pay", "fined"),
               ("balance_as_currency", "amount_due"))
 
     list_display = PersonAdmin._ld + ["cabin"] + PayerAdmin._ld

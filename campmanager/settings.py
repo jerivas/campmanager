@@ -182,10 +182,3 @@ except ImportError:
 
 LOGIN_URL = "/accounts/login/"
 # GRAPPELLI_ADMIN_TITLE = "Altavoz 2014"
-
-###################
-# CAMP SETTINGS #
-###################
-
-CAMP_PRICE = 75
-SIGNUP_FEE = 5
