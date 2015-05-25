@@ -141,8 +141,8 @@ class Payer(models.Model):
         Calculates the price this person has to pay to  attend camp. The price
         varies depending on the fine.
         """
-        from general.models import Camp
-        camp = Camp.objects.get()  # Get the camp information
+        from solo.templatetags.solo_tags import get_solo
+        camp = get_solo("general.Camp")  # Get the camp information
 
         price = camp.price
         if self.fined:
@@ -156,8 +156,8 @@ class Payer(models.Model):
         return self.get_price() - self.balance
 
     def save(self, *args, **kwargs):
-        from general.models import Camp
-        camp = Camp.objects.get()  # Get the camp information
+        from solo.templatetags.solo_tags import get_solo
+        camp = get_solo("general.Camp")  # Get the camp information
 
         if self.payment_set.count() > 0:
             self.balance = sum(p.amount for p in self.payment_set.all())

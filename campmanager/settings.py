@@ -182,3 +182,7 @@ except ImportError:
 
 LOGIN_URL = "/accounts/login/"
 # GRAPPELLI_ADMIN_TITLE = "Altavoz 2014"
+
+# Django Solo settings
+SOLO_CACHE = "default"
+SOLO_CACHE_TIMEOUT = None  # Solo cache never expires
