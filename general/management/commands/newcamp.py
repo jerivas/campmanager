@@ -28,6 +28,7 @@ class Command(BaseCommand):
                 group.delete()
             else:
                 group.generation += 1
+                group.cabin = group.bus = ""
                 group.save()
                 group.camper_set.update(
                     balance=0, no_pay=False, permission_status=0,
