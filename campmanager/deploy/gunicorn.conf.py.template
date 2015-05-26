@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 bind = "unix:%(proj_path)s/gunicorn.sock"
-workers = 2
+workers = 4
 errorlog = "/home/%(user)s/logs/%(proj_name)s_error.log"
 loglevel = "error"
 proc_name = "%(proj_name)s"
