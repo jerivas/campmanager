@@ -95,8 +95,7 @@
 		La Certificación de Partida de Nacimiento de{% if camper.gender == "m" %}l{% else %} la{% endif %} menor {{camper.names|upper}},
 		expedida por {% if camper.registrar_title == "m" %}el Licenciado {% elif camper.registrar_title %}la Licenciada {% endif %}<strong>{{camper.registrar|upper}}</strong>,
 		{{camper.registrar_position}} de la Alcaldía Municipal de {{camper.reg_province}},
-		asentada al número {{camper.birth_cert_num|to_word}}
-		{% if camper.birth_cert_fol %}, folio {{camper.birth_cert_fol|to_word}}{% endif %}{% if camper.birth_cert_book %} del libro {{camper.birth_cert_book|to_word}} de partidas de nacimientos que llevo dicha Alcaldía Municipal{% endif %},
+		asentada al número {{camper.birth_cert_num|to_word}}{% if camper.birth_cert_fol %}, folio {{camper.birth_cert_fol|to_word}}{% endif %}{% if camper.birth_cert_book %} del libro {{camper.birth_cert_book|to_word}} de partidas de nacimientos que lleva dicha Alcaldía Municipal{% endif %},
 		en el año de {{birth|date:"o"|to_word}}, en la que consta que nació a las {{birth|date:"G"|to_word:"adjective"}} horas y {{birth|date:"i"|lstrip:"0"|to_word:"adjective"}} minutos, del día {{birth|date:"j"|to_word}} de {{birth|date:"F"|lower}} de {{birth|date:"o"|to_word}},
 		en {{camper.reg_province}}, Departamento de {{camper.get_reg_state_display}};
 
