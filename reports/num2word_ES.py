@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
+
 UNIDADES = (
     '',
     'un',
@@ -18,7 +20,7 @@ UNIDADES = (
     'trece',
     'catorce',
     'quince',
-    'dieciseis',
+    'dieciséis',
     'diecisiete',
     'dieciocho',
     'diecinueve',
@@ -47,6 +49,14 @@ CENTENAS = (
     'setecientos',
     'ochocientos',
     'novecientos'
+)
+
+# Spelling special cases
+ORTOGRAFIA = (
+    (re.compile(r'iun\b'), 'iún'),  # 21
+    (re.compile(r'idos\b'), 'idós'),  # 22
+    (re.compile(r'itres\b'), 'itrés'),  # 23
+    (re.compile(r'iseis\b'), 'iséis'),  # 26
 )
 
 
@@ -88,7 +98,12 @@ def int_to_word(number, noun=False):
         if hundreds[2] == '1' and hundreds[1:] != '11' and noun:
             converted += 'o'
 
-    return " ".join(converted.split())  # Get rid of multiple whitespace
+    # Get rid of multiple whitespace
+    converted = " ".join(converted.split())
+    # Substitute a few spelling special cases
+    for k, v in ORTOGRAFIA:
+        converted = k.sub(v, converted)
+    return converted
 
 
 def __convert_group(n):
