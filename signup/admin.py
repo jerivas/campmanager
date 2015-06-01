@@ -96,7 +96,8 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                         ("registrar", "registrar_position"),
                         ("birth_cert_num", "birth_cert_fol", "birth_cert_book"),
                         ("reg_state", "reg_province"),
-                        ("state", "province"),
+                        # Campers simply use their mother's state and province
+                        # ("state", "province"),
                         ("passport", "occupation"),
                         ("mother", "father"),
                         ("lawyer", "permission_status")]}),
