@@ -14,15 +14,13 @@ class Permission(TemplateView):
 
     def get_context_data(self, **kwargs):
         """
-        Filter out and categorize Campers according to their permission
-        status. Also, update Campers if their permission is being printed
-        for the first time.
+        Get all the selected Campers into the template context.
         """
         context = super(Permission, self).get_context_data(**kwargs)
         context["campers"] = []  # Empty list to hold campers
         context.update(dict.fromkeys(
             # Set this counters to zero
-            ["omitted", "first_print", "reprint", "total"], 0))
+            ["omitted", "total"], 0))
         try:
             pks = self.request.GET.get("id").split(",")
         except AttributeError:  # Catch trying to split NoneType (no "id")
@@ -43,15 +41,7 @@ class Permission(TemplateView):
                         c.permission_status == Camper.INCOMPLETE):
                         context["omitted"] += 1
                     else:
-                        # Ready to print are bumbped up to "printed".
-                        if c.permission_status == Camper.TO_PRINT:
-                            c.permission_status = Camper.PRINTED
-                            c.save()
-                            context["first_print"] += 1
-                        else:
-                            context["reprint"] += 1
-                        # Append camper to "campers" list if it's a first
-                        # print or reprint.
+                        # Otherwise, append camper to "campers" list
                         context["campers"].append(c)
                     # Count all requested permissions, omitted or not.
                     context["total"] += 1
