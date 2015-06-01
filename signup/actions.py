@@ -13,7 +13,7 @@ def _move_permission(forward, modeladmin, request, queryset):
     Checks for lower and upper limits. See all permission choices in
     signup.models module.
     """
-    boundary = Camper.SIGNED if forward else Camper.INCOMPLETE
+    boundary = Camper.PROOFREAD if forward else Camper.INCOMPLETE
     special = Camper.SPECIAL
     increment = 1 if forward else -1
     queryset = queryset.exclude(permission_status=boundary).exclude(

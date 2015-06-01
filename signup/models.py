@@ -80,12 +80,14 @@ class Minor(models.Model):
     TO_PRINT = 1
     PRINTED = 2
     SIGNED = 3
-    SPECIAL = 4
+    PROOFREAD = 4
+    SPECIAL = 5
     PERMISSION_STATUS = (
-        (INCOMPLETE, _("Incomplete Documentation")),
+        (INCOMPLETE, _("Pending Documentation")),
         (TO_PRINT, _("Ready to Print")),
         (PRINTED, _("Printed")),
         (SIGNED, _("Signed")),
+        (PROOFREAD, _("Proofread")),
         (SPECIAL, _("Special Case")),
     )
 
