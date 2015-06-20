@@ -93,7 +93,10 @@
 		del día {{birth.day|to_word}} de {{birth|date:"F"|lower}} de {{birth.year|to_word}},
 		en {{camper.reg_province}}, Departamento de {{camper.get_reg_state_display}};
 
-		y además consta que el menor es hijo de los comparecientes. Así se expresaron los comparecientes, a quienes les explique los efectos legales de esta acta notarial, la cual consta de una hoja útil, y leída que se las hube íntegramente en un solo acto sin interrupción, ratifican su contenido y firmamos.
+		y además consta que
+		{% if camper.gender == "m" %}el menor es hijo{% else %}la menor es hija{% endif %}
+		de los comparecientes.
+		Así se expresaron los comparecientes, a quienes les explique los efectos legales de esta acta notarial, la cual consta de una hoja útil, y leída que se las hube íntegramente en un solo acto sin interrupción, ratifican su contenido y firmamos.
 		<strong>DOY FE.</strong>
 		{% endwith %}
 		</p></div>
