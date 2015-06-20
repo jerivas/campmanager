@@ -60,10 +60,10 @@
 		<div class="grp-row"><p>
 
 		{% with father=camper.father mother=camper.mother birth=camper.birth_date chap=camp.chaperone datetime=camp.permission_timestamp %}
-		En la ciudad de {{camp.permission_location}}, a las {{datetime|date:"G"|to_word:"adjective"}} horas
-		con {{datetime|date:"i"|lstrip:"0"|to_word:"adjective"}} minutos,
-		del día {{datetime|date:"j"|to_word}}
-		de {{datetime|date:"F"|lower}} de {{datetime|date:"o"|to_word}}.
+		En la ciudad de {{camp.permission_location}}, a las {{datetime.hour|to_word:"adjective"}} horas
+		con {{datetime.minute|to_word:"adjective"}} minutos,
+		del día {{datetime.day|to_word}}
+		de {{datetime|date:"F"|lower}} de {{datetime.year|to_word}}.
 		Ante mí, <strong>{{camper.lawyer|upper}}</strong>, Notario, de este domicilio,
 		comparecen los señores <strong>{{father|upper}}</strong>,{% if father.known_as %} conocido por <strong>{{father.known_as|upper}}</strong>,{% endif %}
 		de {{father.age|to_word:"adjective"}} años de edad, {{father.occupation}},
@@ -88,7 +88,7 @@
 		expedida por {% if camper.registrar_title == "m" %}el Licenciado {% elif camper.registrar_title %}la Licenciada {% endif %}<strong>{{camper.registrar|upper}}</strong>,
 		{{camper.registrar_position}} de la Alcaldía Municipal de {{camper.reg_province}},
 		asentada al número {{camper.birth_cert_num|to_word}}{% if camper.birth_cert_fol %}, folio {{camper.birth_cert_fol|to_word}}{% endif %}{% if camper.birth_cert_book %} del libro {{camper.birth_cert_book|to_word}} de partidas de nacimientos que llevó dicha Alcaldía Municipal{% endif %},
-		en el año {{birth|date:"o"|to_word}}, en la que consta que nació a las {{birth|date:"G"|to_word:"adjective"}} horas y {{birth|date:"i"|lstrip:"0"|to_word:"adjective"}} minutos, del día {{birth|date:"j"|to_word}} de {{birth|date:"F"|lower}} de {{birth|date:"o"|to_word}},
+		en el año {{birth.year|to_word}}, en la que consta que nació a las {{birth.hour|to_word:"adjective"}} horas y {{birth.minute|to_word:"adjective"}} minutos, del día {{birth.day|to_word}} de {{birth|date:"F"|lower}} de {{birth.year|to_word}},
 		en {{camper.reg_province}}, Departamento de {{camper.get_reg_state_display}};
 
 		y además consta que el menor es hijo de los comparecientes. Así se expresaron los comparecientes, a quienes les explique los efectos legales de esta acta notarial, la cual consta de una hoja útil, y leída que se las hube íntegramente en un solo acto sin interrupción, ratifican su contenido y firmamos.
