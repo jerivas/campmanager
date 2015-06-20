@@ -48,3 +48,13 @@
     })(grp.jQuery);
     </script>
 {% endblock extrahead %}
+
+{% block content_title %}<h1>Report</h1>{% endblock %}
+
+{% block object-tools %}
+<ul class="grp-object-tools">
+    <li>
+        <a href="{{ request.get_full_path }}&amp;format=pdf" class="grp-state-focus">Descargar PDF</a>
+    </li>
+</ul>
+{% endblock object-tools %}
