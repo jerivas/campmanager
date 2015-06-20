@@ -24,7 +24,7 @@ class Permission(TemplateView):
         try:
             pks = self.request.GET.get("id").split(",")
         except AttributeError:  # Catch trying to split NoneType (no "id")
-            pass
+            return context
         if pks == [""]:  # Deal with empty "id" parameter
             pass
         else:
