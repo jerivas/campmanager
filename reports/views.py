@@ -1,16 +1,60 @@
 from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponse
+from django.template.loader import get_template
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
+
+from xhtml2pdf import pisa
 
 from signup.models import Payment, Camper, Counselor, Guest
 from finances.models import Transaction
 from logistics.models import SmallGroup
 
 
-class Permission(TemplateView):
-    """Display multiple Camper permissions at once."""
+class PDFMixin(object):
+    """
+    Allows rendering any template as PDF.
+    Child classes must implement the pdf_template_name attribute.
+    """
+
+    def get_pdf_name(self, request, *args, **kwargs):
+        """
+        Gets the name that the final PDF document will have.
+        """
+        try:
+            return self.pdf_name
+        except AttributeError:
+            return "document"
+
+    def get(self, request, *args, **kwargs):
+        """
+        Render the template as PDF by checking a URL parameter.
+        """
+        if request.GET.get("format") == "pdf":
+            context = self.get_context_data(**kwargs)
+            response = HttpResponse(content_type="application/pdf")
+            name = self.get_pdf_name(request)
+            response["Content-Disposition"] = "attachment; filename=%s.pdf" % name
+            html = get_template(self.pdf_template_name).render(context)
+            pisa.CreatePDF(html, response)
+            return response
+        return super(PDFMixin, self).get(request, *args, **kwargs)
+
+
+class Permission(PDFMixin, TemplateView):
+    """
+    Display a single or multiple Camper permissions at once.
+    """
     template_name = "reports/permission.html"
+    pdf_template_name = "reports/pdf_permission.html"
+
+    def get_pdf_name(self, request, *args, **kwargs):
+        """
+        Name each PDF with a timestamp.
+        """
+        from datetime import datetime
+        return str(datetime.now().strftime("%d-%m-%Y_%H-%M-%S"))
 
     def get_context_data(self, **kwargs):
         """
