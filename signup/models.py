@@ -52,7 +52,7 @@ class ExtendedInfo(models.Model):
     state = models.CharField(_("State"), max_length=3, blank=True,
         choices=STATES)
     province = models.CharField(_("Province"), max_length=32, blank=True)
-    occupation = models.CharField(_("Occupation"), max_length=32, blank=True)
+    occupation = models.CharField(_("Occupation"), max_length=99, blank=True)
 
     class Meta:
         abstract = True
