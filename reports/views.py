@@ -54,7 +54,7 @@ class Permission(PDFMixin, TemplateView):
         Name each PDF with a timestamp.
         """
         from datetime import datetime
-        return str(datetime.now().strftime("%d-%m-%Y_%H-%M-%S"))
+        return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
     def get_context_data(self, **kwargs):
         """
