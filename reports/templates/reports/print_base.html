@@ -8,32 +8,35 @@
     }
     @media print {
         body {
-            color: #222;
+            color: #000;
             background: #fff;
+            line-height: 1;
+            font-size: 9pt;
+            font-family: Arial;
         }
-        body, .grp-module {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            text-align: justify;
-            font-family: "Arial", sans-serif;
-            font-size: 12px;
-            line-height: 22px;
+        #grp-header, .grp-header,
+        .grp-messagelist,
+        .grp-object-tools,
+        .no-print {
+            display: none;
         }
-        header, .no-print {display: none;}
-        .grp-module {page-break-after: always;}
-        .grp-module:last-child {page-break-after: auto;}
-        .no-break {page-break-after: avoid;}
+        .page {
+            page-break-after: always;
+        }
         table {
             width: 100%;
-            font-size: 16px;
-            line-height: 32px;
-        }
-        table, th, td {
             border-collapse: collapse;
-            border: 1px solid black;
+            margin-bottom: 2.5em;
         }
-        th, td {padding: 0 10px;}
+        tbody, thead, .no-break {
+            page-break-inside: avoid;
+        }
+        th, td {
+            border: 1px solid black;
+            text-align: left;
+            padding: 4px;
+            vertical-align: middle;
+        }
     }
 </style>
 {% endblock extrastyle %}
@@ -54,7 +57,7 @@
 {% block object-tools %}
 <ul class="grp-object-tools">
     <li>
-        <a href="{{ request.get_full_path }}&amp;format=pdf" class="grp-state-focus">Descargar PDF</a>
+        <a href="{% block pdf_link %}?format=pdf{% endblock %}" class="grp-state-focus">Descargar PDF</a>
     </li>
 </ul>
 {% endblock object-tools %}

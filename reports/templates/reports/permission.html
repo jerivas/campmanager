@@ -5,7 +5,16 @@
 {{ block.super }}
 <style>
 	@media print {
-		@page {margin: 2.5cm; padding: 0;}
+		@page {
+			margin: 2.5cm; padding: 0;
+		}
+		body {
+			line-height: 1.5;
+			text-align: justify;
+		}
+		#grp-content-title {
+			display: none;
+		}
   }
 </style>
 {% endblock extrastyle %}
@@ -22,6 +31,8 @@
 
 {% block content_title %}<h1>Permisos migratorios</h1>{% endblock %}
 
+{% block pdf_link %}{{ request.get_full_path }}&amp;format=pdf{% endblock %}
+
 {% block content %}
 <div class="g-d-c">
 	{% if not campers %}
@@ -30,7 +41,7 @@
 		<div class="grp-row">Regresa a la página anterior y selecciona uno o varios campistas para generar los permisos migratorios. Asegúrate que el estado del permiso de los campistas no esté marcado como "Documentos pendientes" o "Caso especial" para poder generar los permisos.</div>
 	</div>
 	{% elif campers|length > 1 %}
-	<div class="grp-module g-d-12 grp-collapse">
+	<div class="grp-module g-d-12 grp-collapse page">
 		<h2 class="grp-collapse-handler">{{campers|length}} permisos migratorios</h2>
 		<div class="grp-row">
 			Generado en: {% now "DATETIME_FORMAT" %}
@@ -57,7 +68,7 @@
 
 	{# Render permission for each camper #}
 	{% for camper in campers %}
-	<div class="grp-module g-d-12{% if campers|length > 1 %} grp-collapse grp-closed{% endif %}">
+	<div class="grp-module g-d-12 page{% if campers|length > 1 %} grp-collapse grp-closed{% endif %}">
 		<h2 class="grp-collapse-handler no-print">{{camper}} ({{camper.small_group}} - {{camper.get_generation_display}})</h2>
 		<div class="grp-row"><p>
 
