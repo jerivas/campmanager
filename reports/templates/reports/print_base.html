@@ -3,61 +3,61 @@
 {% block extrastyle %}
 {{ block.super }}
 <style>
-    @media screen {
-        table {border: 0;}
-    }
-    @media print {
-        body {
-            color: #000;
-            background: #fff;
-            line-height: 1;
-            font-size: 9pt;
-            font-family: Arial;
-        }
-        #grp-header, .grp-header,
-        .grp-messagelist,
-        .grp-object-tools,
-        .no-print {
-            display: none;
-        }
-        .page {
-            page-break-after: always;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2.5em;
-        }
-        tbody, thead, .no-break {
-            page-break-inside: avoid;
-        }
-        th, td {
-            border: 1px solid black;
-            text-align: left;
-            padding: 4px;
-            vertical-align: middle;
-        }
-    }
+	@media screen {
+		table {border: 0;}
+	}
+	@media print {
+		body {
+			color: #000;
+			background: #fff;
+			line-height: 1;
+			font-size: 9pt;
+			font-family: Arial;
+		}
+		#grp-header, .grp-header,
+		.grp-messagelist,
+		.grp-object-tools,
+		.no-print {
+			display: none;
+		}
+		.page {
+			page-break-after: always;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 2.5em;
+		}
+		tbody, thead, .no-break {
+			page-break-inside: avoid;
+		}
+		th, td {
+			border: 1px solid black;
+			text-align: left;
+			padding: 4px;
+			vertical-align: middle;
+		}
+	}
 </style>
 {% endblock extrastyle %}
 
 {% block extrahead %}
-    {{ block.super }}
-    <script>
-    (function($) {
-    $(document).ready(function() {
-      $("#grp-content-container .grp-collapse").grp_collapsible();
-    });
-    })(grp.jQuery);
-    </script>
+	{{ block.super }}
+	<script>
+	(function($) {
+	$(document).ready(function() {
+	  $("#grp-content-container .grp-collapse").grp_collapsible();
+	});
+	})(grp.jQuery);
+	</script>
 {% endblock extrahead %}
 
 {% block content_title %}<h1>Report</h1>{% endblock %}
 
 {% block object-tools %}
 <ul class="grp-object-tools">
-    <li>
-        <a href="{% block pdf_link %}?format=pdf{% endblock %}" class="grp-state-focus">Descargar PDF</a>
-    </li>
+	<li>
+		<a href="{% block pdf_link %}?format=pdf{% endblock %}" class="grp-state-focus">Descargar PDF</a>
+	</li>
 </ul>
 {% endblock object-tools %}

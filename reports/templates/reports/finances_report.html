@@ -4,42 +4,42 @@
 
 {% block breadcrumbs %}
 <ul>
-    <li><a href="{% url 'admin:index' %}">Inicio</a></li>
-    <li><a href="">Reportes</a></li>
-    <li>Reporte financiero completo</li>
+	<li><a href="{% url 'admin:index' %}">Inicio</a></li>
+	<li><a href="">Reportes</a></li>
+	<li>Reporte financiero completo</li>
 </ul>
 {% endblock %}
 
 {% block pretitle %}
 <ul class="grp-messagelist">
-    <li class="grp-info">Fecha y hora de generación del reporte: {% now "DATETIME_FORMAT" %}</li>
+	<li class="grp-info">Fecha y hora de generación del reporte: {% now "DATETIME_FORMAT" %}</li>
 </ul>
 {% endblock %}
 
 {% block content_title %}
-    <h1>Reporte financiero completo</h1>
+	<h1>Reporte financiero completo</h1>
 {% endblock %}
 
 {% block content %}
 <div class="g-d-c">
-    <div class="grp-module g-d-8">
-        <h2>Abonos</h2>
-        <div class="grp-row"><p>Número de abonos: {{payment_count}}</p></div>
-        <div class="grp-row"><p>Total: ${{payments_income}}</p></div>
-    </div>
-    <div class="grp-module g-d-8">
-        <h2>Transacciones: Ingresos</h2>
-        <div class="grp-row"><p>Número de ingresos: {{income_count}}</p></div>
-        <div class="grp-row"><p>Total: ${{transaction_income}}</p></div>
-    </div>
-    <div class="grp-module g-d-8">
-        <h2>Transacciones: Egresos</h2>
-        <div class="grp-row"><p>Número de egresos: {{egress_count}}</p></div>
-        <div class="grp-row"><p>Total: ${{transaction_egress}}</p></div>
-    </div>
-    <div class="grp-module g-d-8">
-        <h2>Balance</h2>
-        <div class="grp-row"><p><strong>Total: ${{total}}</strong></p></div>
-    </div>
+	<div class="grp-module g-d-8">
+		<h2>Abonos</h2>
+		<div class="grp-row"><p>Número de abonos: {{payment_count}}</p></div>
+		<div class="grp-row"><p>Total: ${{payments_income}}</p></div>
+	</div>
+	<div class="grp-module g-d-8">
+		<h2>Transacciones: Ingresos</h2>
+		<div class="grp-row"><p>Número de ingresos: {{income_count}}</p></div>
+		<div class="grp-row"><p>Total: ${{transaction_income}}</p></div>
+	</div>
+	<div class="grp-module g-d-8">
+		<h2>Transacciones: Egresos</h2>
+		<div class="grp-row"><p>Número de egresos: {{egress_count}}</p></div>
+		<div class="grp-row"><p>Total: ${{transaction_egress}}</p></div>
+	</div>
+	<div class="grp-module g-d-8">
+		<h2>Balance</h2>
+		<div class="grp-row"><p><strong>Total: ${{total}}</strong></p></div>
+	</div>
 </div>
 {% endblock %}
