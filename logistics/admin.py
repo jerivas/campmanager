@@ -18,7 +18,6 @@ class SmallGroupAdmin(admin.ModelAdmin):
         "generation", "cabin", "bus"]
     list_editable = ["cabin", "bus"]
     list_filter = ["structure", "generation", "cabin", "bus"]
-    list_per_page = 15
     search_fields = ["^structure", "title", "^cabin", "^bus",
         "^counselor__first_name", "^counselor__second_name",
         "^counselor__first_surname", "^counselor__second_surname",
