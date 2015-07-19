@@ -14,32 +14,50 @@ from logistics.models import SmallGroup
 
 class PDFMixin(object):
     """
-    Allows rendering any template as PDF.
-    Child classes must implement the pdf_template_name attribute.
+    Mixin to enable PDF rendering of any view.
     """
 
-    def get_pdf_name(self, request, *args, **kwargs):
+    def get_pdf_template_name(self, request, *args, **kwargs):
         """
-        Gets the name that the final PDF document will have.
+        Gets the template name for the PDF.
         """
         try:
-            return self.pdf_name
+            return self.pdf_template_name
         except AttributeError:
-            return "document"
+            return self.get_template_names()[0]
 
-    def get(self, request, *args, **kwargs):
+    def get_pdf_filename(self, request, *args, **kwargs):
+        """
+        Gets the name that the generated PDF document will have.
+        By default, a simple timestamp is used as name.
+        """
+        try:
+            return self.pdf_filename
+        except AttributeError:
+            return self.get_timestamp()
+
+    @staticmethod
+    def get_timestamp():
+        """
+        Generates a filename-friendly timestamp.
+        """
+        from django.utils import timezone
+        tz = timezone.get_default_timezone()
+        return timezone.now().astimezone(tz).strftime("%Y-%m-%d_%H-%M-%S")
+
+    def render_to_response(self, context, **response_kwargs):
         """
         Render the template as PDF by checking a URL parameter.
         """
-        if request.GET.get("format") == "pdf":
-            context = self.get_context_data(**kwargs)
+        if self.request.GET.get("format") == "pdf":
+            filename = self.get_pdf_filename(self.request)
+            template = self.get_pdf_template_name(self.request)
             response = HttpResponse(content_type="application/pdf")
-            name = self.get_pdf_name(request)
-            response["Content-Disposition"] = "attachment; filename=%s.pdf" % name
-            html = get_template(self.pdf_template_name).render(context)
+            response["Content-Disposition"] = "attachment; filename=%s.pdf" % filename
+            html = get_template(template).render(context)
             pisa.CreatePDF(html, response)
             return response
-        return super(PDFMixin, self).get(request, *args, **kwargs)
+        return super(PDFMixin, self).render_to_response(context, **response_kwargs)
 
 
 class Permission(PDFMixin, TemplateView):
@@ -47,14 +65,9 @@ class Permission(PDFMixin, TemplateView):
     Display a single or multiple Camper permissions at once.
     """
     template_name = "reports/permission.html"
-    pdf_template_name = "reports/pdf_permission.html"
 
-    def get_pdf_name(self, request, *args, **kwargs):
-        """
-        Name each PDF with a timestamp.
-        """
-        from datetime import datetime
-        return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    def get_pdf_filename(self, request, *args, **kwargs):
+        return "permiso-migratorio-{}".format(self.get_timestamp())
 
     def get_context_data(self, **kwargs):
         """
@@ -96,33 +109,42 @@ class Permission(PDFMixin, TemplateView):
         return super(Permission, self).dispatch(*args, **kwargs)
 
 
-class CabinReport(ListView):
+class CabinReport(PDFMixin, ListView):
     """Generates a list of Small Groups in each Cabin."""
     template_name = "reports/cabin_report.html"
     context_object_name = "small_groups"
     queryset = SmallGroup.objects.select_related("counselor").order_by(
         "cabin", "generation")
 
+    def get_pdf_filename(self, request, *args, **kwargs):
+        return "reporte-de-cabanas-{}".format(self.get_timestamp())
+
     @method_decorator(permission_required("logistics.view_reports"))
     def dispatch(self, *args, **kwargs):
         return super(CabinReport, self).dispatch(*args, **kwargs)
 
 
-class BusReport(ListView):
+class BusReport(PDFMixin, ListView):
     """Generates a list of Small Groups in each Bus."""
     template_name = "reports/bus_report.html"
     context_object_name = "small_groups"
     queryset = SmallGroup.objects.select_related("counselor").order_by(
         "bus", "generation")
 
+    def get_pdf_filename(self, request, *args, **kwargs):
+        return "reporte-de-buses-{}".format(self.get_timestamp())
+
     @method_decorator(permission_required("logistics.view_reports"))
     def dispatch(self, *args, **kwargs):
         return super(BusReport, self).dispatch(*args, **kwargs)
 
 
-class AttendantReport(TemplateView):
+class AttendantReport(PDFMixin, TemplateView):
     """Displays all attendants, members of Small Groups and Guests."""
     template_name = "reports/attendant_report.html"
+
+    def get_pdf_filename(self, request, *args, **kwargs):
+        return "reporte-de-asistencia-{}".format(self.get_timestamp())
 
     def get_context_data(self, **kwargs):
         c = super(AttendantReport, self).get_context_data(**kwargs)
@@ -138,9 +160,12 @@ class AttendantReport(TemplateView):
         return super(AttendantReport, self).dispatch(*args, **kwargs)
 
 
-class FinancesReport(TemplateView):
+class FinancesReport(PDFMixin, TemplateView):
     """A full report spanning Payments and Transactions."""
     template_name = "reports/finances_report.html"
+
+    def get_pdf_filename(self, request, *args, **kwargs):
+        return "reporte-financiero-{}".format(self.get_timestamp())
 
     def get_context_data(self, **kwargs):
         context = super(FinancesReport, self).get_context_data(**kwargs)
