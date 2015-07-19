@@ -2,27 +2,6 @@
 
 {% block title %}Reporte de asistencia{% endblock title %}
 
-{% block extrahead %}
-{{ block.super }}
-<script>
-// Toggle table rows marked as "paid"
-(function($) {
-    $(document).ready(function() {
-        var toggle = $("#paid-toggle");
-        var first = true;
-        toggle.click(function() {
-            if (first) {
-                $(".paid").closest("tr").hide();
-                first = false;
-            } else {
-                $(".paid").closest("tr").toggle();
-            }
-        });
-    });
-})(grp.jQuery);
-</script>
-{% endblock extrahead %}
-
 {% block breadcrumbs %}
 <ul>
     <li><a href="{% url 'admin:index' %}">Inicio</a></li>
@@ -34,12 +13,6 @@
 {% block pretitle %}
 <ul class="grp-messagelist">
     <li class="grp-info">Fecha y hora de generación del reporte: {% now "DATETIME_FORMAT" %}</li>
-</ul>
-{% endblock %}
-
-{% block page-tools %}
-<ul>
-    <li><a id="paid-toggle" href="#">Mostrar solo campistas con pagos pendientes</a></li>
 </ul>
 {% endblock %}
 
@@ -69,7 +42,6 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Gafete</th>
-                        <th>Debe</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,13 +49,6 @@
                     <tr>
                         <th>{{attendant}}</th>
                         <td>{{attendant.badge_name}}</td>
-                        {% with attendant.amount_due as due %}
-                            {% if due > 0 %}
-                            <td>${{due}}</td>
-                            {% else %}
-                            <td class="paid">--</td>
-                            {% endif %}
-                        {% endwith %}
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -102,7 +67,6 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Gafete</th>
-                    <th>Debe</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,13 +74,6 @@
                 <tr>
                     <th>{{guest}}</th>
                     <td>{{guest.badge_name}}</td>
-                    {% with guest.amount_due as due %}
-                        {% if due > 0 %}
-                        <td>${{due}}</td>
-                        {% else %}
-                        <td class="paid">--</td>
-                        {% endif %}
-                    {% endwith %}
                 </tr>
                 {% endfor %}
             </tbody>
