@@ -1,0 +1,40 @@
+{% extends "admin/import_export/base.html" %}
+{% load i18n admin_urls import_export_tags %}
+
+{% block title %}{% trans "Export" %} {{ block.super }}{% endblock %}
+
+{% block breadcrumbs_last %}{% trans "Export" %}{% endblock %}
+
+{% block content_title %}<h1>{% trans "Export" %}</h1>{% endblock %}
+
+{% block content %}
+<form action="" method="POST">
+
+	{# Export select #}
+	{% csrf_token %}
+	<fieldset class="module aligned">
+	{% for field in form %}
+		<div class="form-row">
+			{{ field.errors }}
+
+			{{ field.label_tag }}
+
+			{{ field }}
+
+			{% if field.field.help_text %}
+			<p class="help">{{ field.field.help_text|safe }}</p>
+			{% endif %}
+		</div>
+	{% endfor %}
+	</fieldset>
+
+	{# Submit/Cancel buttons #}
+	<div id="submit" class="grp-module grp-submit-row grp-fixed-footer">
+		<ul>
+			<li class="grp-float-left"><a href=".." class="grp-button grp-cancel-link">{% trans "Cancel" %}</a></li>
+			<li><input type="submit" value="{% trans 'Export' %}" class="grp-button grp-default" /></li>
+		</ul>
+	</div>
+
+</form>
+{% endblock %}
