@@ -3,10 +3,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.core.urlresolvers import reverse
 
+from import_export.admin import ExportMixin
+
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 from signup.filters import BalanceStatusFilter
 from signup.actions import (move_permission_forward, move_permission_backwards,
                             generate_permission)
+from .resources import CamperResource, PaymentResource, CounselorResource, GuestResource
 
 
 class PaymentInline(GenericTabularInline):
@@ -73,7 +76,8 @@ class MemberAdmin(admin.ModelAdmin):
     _sf = ["^structure", "^small_group__title", "bus", "cabin"]
 
 
-class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
+class CamperAdmin(ExportMixin, PersonAdmin, PayerAdmin, MemberAdmin):
+    resource_class = CamperResource
     raw_id_fields = ("counselor", "mother", "father")
     autocomplete_lookup_fields = {"fk": ["counselor", "mother", "father"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf
@@ -114,7 +118,8 @@ class CamperAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
                generate_permission]
 
 
-class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
+class CounselorAdmin(ExportMixin, PersonAdmin, PayerAdmin, MemberAdmin):
+    resource_class = CounselorResource
     raw_id_fields = ("small_group",)
     autocomplete_lookup_fields = {"fk": ["small_group"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf
@@ -133,7 +138,8 @@ class CounselorAdmin(PersonAdmin, PayerAdmin, MemberAdmin):
     search_fields = PersonAdmin._sf + MemberAdmin._sf
 
 
-class GuestAdmin(PersonAdmin, PayerAdmin):
+class GuestAdmin(ExportMixin, PersonAdmin, PayerAdmin):
+    resource_class = GuestResource
     readonly_fields = PayerAdmin._rf
 
     fields = (("first_name", "second_name"),
@@ -163,7 +169,8 @@ class ParentAdmin(PersonAdmin):
     search_fields = PersonAdmin._sf + ["known_as"]
 
 
-class PaymentAdmin(admin.ModelAdmin):
+class PaymentAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = PaymentResource
     readonly_fields = ["link_to_related"]
 
     fields = (("receipt_id", "payment_date"),
