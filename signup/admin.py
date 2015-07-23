@@ -78,6 +78,7 @@ class MemberAdmin(admin.ModelAdmin):
 
 class CamperAdmin(ExportMixin, PersonAdmin, PayerAdmin, MemberAdmin):
     resource_class = CamperResource
+    change_list_template = "admin/signup/camper/change_list.html"
     raw_id_fields = ("counselor", "mother", "father")
     autocomplete_lookup_fields = {"fk": ["counselor", "mother", "father"]}
     readonly_fields = PayerAdmin._rf + MemberAdmin._rf

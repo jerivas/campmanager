@@ -4,14 +4,16 @@
 {% block object-tools %}
 	<ul class="grp-object-tools">
 		{% block object-tools-items %}
-		{% if has_add_permission %}
-		<li>
-			<a href="add/{% if is_popup %}?_popup=1{% endif %}" class="grp-add-link grp-state-focus">{% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a>
-		</li>
-		{% endif %}
+		{# <li><a href="import/" class="grp-viewsite-link">{% trans "Import" %}</a></li> #}
+  	<li><a href="export/{{ cl.get_query_string }}" class="grp-viewsite-link">{% trans "Export" %}</a></li>
 		{% if perms.logistics.attendant_report %}
 		<li>
 			<a href="{% url 'attendant_report' %}" class="grp-viewsite-link">{% trans "Attendant Report" %}</a>
+		</li>
+		{% endif %}
+		{% if has_add_permission %}
+		<li>
+			<a href="add/{% if is_popup %}?_popup=1{% endif %}" class="grp-add-link grp-state-focus">{% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a>
 		</li>
 		{% endif %}
 		{% endblock %}
