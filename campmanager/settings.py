@@ -177,6 +177,7 @@ INSTALLED_APPS = (
     'finances',
     'reports',
     'debug_toolbar',
+    'import_export',
 )
 
 MIDDLEWARE_CLASSES = (
