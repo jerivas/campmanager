@@ -35,6 +35,7 @@ class Command(BaseCommand):
                     "no_pay": False,
                     "signed_up": False,
                     "permission_status": Minor.INCOMPLETE,
+                    "fined": False,
                 }
                 group.camper_set.update(**reset_fields)
                 for field, value in reset_fields.items():
