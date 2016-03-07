@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         from logistics.choices import GENERATIONS
         from logistics.models import SmallGroup
-        from signup.models import Payment, Guest, Parent
+        from signup.models import Payment, Guest, Parent, Minor
         from finances.models import Transaction
 
         self.stdout.write("Deleting financial records")
@@ -30,11 +30,18 @@ class Command(BaseCommand):
                 group.generation += 1
                 group.cabin = group.bus = ""
                 group.save()
-                group.camper_set.update(
-                    balance=0, no_pay=False, permission_status=0,
-                    signed_up=False)
-                group.counselor.balance = 0
-                group.counselor.no_pay = False
+                reset_fields = {
+                    "balance": 0,
+                    "no_pay": False,
+                    "signed_up": False,
+                    "permission_status": Minor.INCOMPLETE,
+                }
+                group.camper_set.update(**reset_fields)
+                for field, value in reset_fields.items():
+                    try:
+                        setattr(group.counselor, field, value)
+                    except AttributeError:
+                        pass
                 group.counselor.save()
         self.stdout.write("All generations graduated successfully")
 
