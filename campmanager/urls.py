@@ -1,23 +1,19 @@
-from django.conf.urls import patterns, include, url
+from __future__ import unicode_literals
 
+from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import login
 
-from views import Home
+from .views import Home
 
-admin.autodiscover()
-urlpatterns = patterns("",
-    # Examples:
-    # url(r"^$", "campmanager.views.home", name="home"),
-    # url(r"^campmanager/", include("campmanager.foo.urls")),
+urlpatterns = [
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r"^admin/doc/", include("django.contrib.admindocs.urls")),
-
+    # Grappelli admin skin
     url(r"^grappelli/", include("grappelli.urls")),
 
     # Login page with redirection capabilities via "next" param
-    url(r"^accounts/login/$", "django.contrib.auth.views.login",
-        {"template_name": "admin/login.html"}),
+    url(r"^accounts/login/$",
+        login, {"template_name": "admin/login.html"}, name="login"),
 
     # Uncomment the next line to enable the admin:
     url(r"^staff/", include(admin.site.urls)),
@@ -27,4 +23,4 @@ urlpatterns = patterns("",
 
     # General URLs
     url(r"^$", Home.as_view(), name="home"),
-)
+]

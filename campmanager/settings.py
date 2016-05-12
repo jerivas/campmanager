@@ -2,14 +2,6 @@
 # MAIN DJANGO SETTINGS #
 ########################
 
-# People who get code error notifications.
-# In the format (('Full Name', 'email@example.com'),
-#                ('Full Name', 'anotheremail@example.com'))
-ADMINS = (
-    ('Eduardo Rivas', 'e@jerivas.com'),
-)
-MANAGERS = ADMINS
-
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -44,12 +36,6 @@ USE_I18N = True
 #   * See debug comments, when DEBUG is true
 #   * Receive x-headers
 INTERNAL_IPS = ("127.0.0.1",)
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    "django.template.loaders.filesystem.Loader",
-    "django.template.loaders.app_directories.Loader",
-)
 
 # New template settings introduced in Django 1.8
 TEMPLATES = [
@@ -133,8 +119,6 @@ STATIC_URL = "/static/"
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
-#STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "assets"),)
-
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -147,17 +131,11 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
 # Package/module name to import the root urlpatterns from for the project.
 ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 
-# Put strings here, like "/home/html/django_templates"
-# or "C:/www/django/templates".
-# Always use forward slashes, even on Windows.
-# Don't forget to use absolute paths, not relative paths.
-# TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
-
 ################
 # APPLICATIONS #
 ################
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -166,29 +144,27 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'general',
     'grappelli',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'solo',
-    # 'south',
     'logistics',
     'signup',
     'finances',
     'reports',
     'debug_toolbar',
     'import_export',
-)
+]
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
+MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
 
 ##################
 # LOCAL SETTINGS #
