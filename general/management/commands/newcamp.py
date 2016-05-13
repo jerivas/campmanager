@@ -51,6 +51,6 @@ class Command(BaseCommand):
                 group.counselor.save()
         self.stdout.write("All generations graduated successfully")
 
-        self.stdout.write("Deleting Parents without Children")
-        Parent.objects.filter(mothered=None, fathered=None).delete()
-        self.stdout.write("All left-over Parents deleted")
+        self.stdout.write("Deleting Parents without children in record")
+        parents = Parent.objects.filter(mothered=None, fathered=None).delete()
+        self.stdout.write("Deleted %s parents" % parents[0])
