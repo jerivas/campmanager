@@ -7,11 +7,15 @@ GENERATIONS = (
     (4, "Sophomores"),
     (5, "Juniors"),
     (6, "Seniors"),
+    (7, "La Red"),
+    (8, "G180"),
 )
 
 STRUCTURES = (
     ("preju", "Preju"),
     ("josias", "Josías"),
+    ("lared", "La Red"),
+    ("g180", "G180"),
 )
 
 CABINS = (
@@ -59,5 +63,7 @@ BUSES = (
 
 GENERATION_MATCHING = (
     ("josias", (1, 2)),
-    ("preju", (3, 4, 5, 6))
+    ("preju", (3, 4, 5, 6)),
+    ("lared", (7,)),
+    ("g180", (8,)),
 )
