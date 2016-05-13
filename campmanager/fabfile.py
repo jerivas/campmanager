@@ -542,7 +542,6 @@ def deploy(first=False, backup=False):
             if exists(static_dir):
                 run("tar -cf last.tar %s" % static_dir)
     manage("collectstatic -v 0 --noinput")
-    manage("syncdb --noinput")
     manage("migrate --noinput")
     if first:
         run("supervisorctl update")
