@@ -74,7 +74,7 @@ class MemberAdmin(admin.ModelAdmin):
     _ld = ["structure", "generation", "small_group"]
     _rf = ["structure", "generation", "cabin", "bus"]
     _lf = ["structure", "generation", "small_group"]
-    _sf = ["^structure", "^small_group__title", "bus", "cabin"]
+    _sf = ["^structure", "^small_group__title"]
 
 
 class CamperAdmin(ExportMixin, PersonAdmin, PayerAdmin, MemberAdmin):
@@ -113,9 +113,7 @@ class CamperAdmin(ExportMixin, PersonAdmin, PayerAdmin, MemberAdmin):
         + ["permission_status"])
     list_filter = MemberAdmin._lf + PayerAdmin._lf + ["permission_status"]
     list_editable = ["permission_status"]
-    search_fields = (PersonAdmin._sf + MemberAdmin._sf
-        + ["counselor__first_name", "counselor__second_name",
-        "counselor__first_surname", "counselor__second_surname"])
+    search_fields = PersonAdmin._sf + MemberAdmin._sf
     actions = [move_permission_forward, move_permission_backwards,
                generate_permission]
 
