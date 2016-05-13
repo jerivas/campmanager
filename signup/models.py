@@ -1,34 +1,37 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from django.utils.timezone import now
+from django.utils.translation import ugettext_lazy as _
 
-from signup.validators import gov_id_validator
-from signup.choices import STATES
 from logistics.choices import STRUCTURES, GENERATIONS, CABINS, BUSES
+from signup.choices import STATES
+from signup.validators import gov_id_validator
 
+
+####################
+# Abstract classes #
+####################
 
 class Person(models.Model):
-    """Base class for all people"""
+    """
+    Basic information about a person.
+    """
     GENDER_CHOICES = (
         ("m", _("Male")),
         ("f", _("Female")),
     )
 
-    first_name = models.CharField(_("First Name"), max_length=64, blank=False)
+    first_name = models.CharField(_("First Name"), max_length=64)
     second_name = models.CharField(_("Second Name"), max_length=64, blank=True)
-    first_surname = models.CharField(_("First Surname"), max_length=64,
-        blank=False)
-    second_surname = models.CharField(_("Second Surname"), max_length=64,
-        blank=True)
-    gender = models.CharField(_("Gender"), choices=GENDER_CHOICES,
-        max_length=1, blank=False)
+    first_surname = models.CharField(_("First Surname"), max_length=64)
+    second_surname = models.CharField(_("Second Surname"), max_length=64, blank=True)
+    gender = models.CharField(_("Gender"), choices=GENDER_CHOICES, max_length=1)
 
     class Meta:
         ordering = ["first_surname"]
-        unique_together = ("first_name", "second_name", "first_surname",
-            "second_surname")
+        unique_together = (
+            "first_name", "second_name", "first_surname", "second_surname")
         abstract = True
 
     def __unicode__(self):
@@ -46,11 +49,13 @@ class Person(models.Model):
 
 
 class ExtendedInfo(models.Model):
-    """Extra info about some people"""
-    birth_date = models.DateTimeField(_("Birth Date"), blank=True, null=True,
+    """
+    Extra info about a person.
+    """
+    birth_date = models.DateTimeField(
+        _("Birth Date"), blank=True, null=True,
         help_text=_("The format is YYYY-MM-DD and 24 hour time."))
-    state = models.CharField(_("State"), max_length=3, blank=True,
-        choices=STATES)
+    state = models.CharField(_("State"), max_length=3, blank=True, choices=STATES)
     province = models.CharField(_("Province"), max_length=32, blank=True)
     occupation = models.CharField(_("Occupation"), max_length=99, blank=True)
 
@@ -58,6 +63,9 @@ class ExtendedInfo(models.Model):
         abstract = True
 
     def age(self):
+        """
+        Get the age of this person, accounting for leap years.
+        """
         if self.birth_date is not None:
             try:
                 birthday = self.birth_date.replace(year=now().year)
@@ -70,12 +78,14 @@ class ExtendedInfo(models.Model):
 
 
 class Minor(models.Model):
-    """Basic model applying to minors for permission handling"""
+    """
+    Basic model applying to minors for permission handling.
+    """
     TITLES = (
         ("m", _("Mr.")),
         ("f", _("Mrs.")),
     )
-    # Chocies for permission status
+
     INCOMPLETE = 0
     TO_PRINT = 1
     PRINTED = 2
@@ -92,44 +102,48 @@ class Minor(models.Model):
     )
 
     lawyer = models.ForeignKey(
-        "general.Lawyer", verbose_name=_("Assigned Lawyer"), blank=True,
-        null=True)
-    passport = models.CharField(_("Passport Number"), max_length=16,
-        blank=True)
-    birth_cert_num = models.PositiveIntegerField(_("Birth Certificate Number"),
-        blank=True, null=True)
-    birth_cert_fol = models.PositiveIntegerField(_("Birth Certificate Folio"),
-        blank=True, null=True)
-    birth_cert_book = models.PositiveIntegerField(_("Birth Certificate Book"),
-        blank=True, null=True)
-    registrar = models.CharField(_("Birth Certificate Registrar"),
-        max_length=256, blank=True)
-    registrar_title = models.CharField(_("Birth Certificate Registrar Title"),
-        max_length=16, blank=True, choices=TITLES)
+        "general.Lawyer", verbose_name=_("Assigned Lawyer"), blank=True, null=True)
+    passport = models.CharField(_("Passport Number"), max_length=16, blank=True)
+    birth_cert_num = models.PositiveIntegerField(
+        _("Birth Certificate Number"), blank=True, null=True)
+    birth_cert_fol = models.PositiveIntegerField(
+        _("Birth Certificate Folio"), blank=True, null=True)
+    birth_cert_book = models.PositiveIntegerField(
+        _("Birth Certificate Book"), blank=True, null=True)
+    registrar = models.CharField(
+        _("Birth Certificate Registrar"), max_length=256, blank=True)
+    registrar_title = models.CharField(
+        _("Birth Certificate Registrar Title"), max_length=16, blank=True,
+        choices=TITLES)
     registrar_position = models.CharField(
         _("Birth Certificate Registrar Position"), max_length=100, blank=True,
         help_text=_("Position at the municipality"))
-    reg_state = models.CharField(_("Registration State"), max_length=3,
-        blank=True, choices=STATES)
-    reg_province = models.CharField(_("Registration Province"), max_length=32,
-        blank=True)
-    mother = models.ForeignKey("Parent", related_name="mothered",
-        blank=True, null=True, verbose_name=_("Mother"))
-    father = models.ForeignKey("Parent", related_name="fathered",
-        blank=True, null=True, verbose_name=_("Father"))
-    permission_status = models.IntegerField(_("Permission Status"),
-        blank=False, choices=PERMISSION_STATUS, default=INCOMPLETE)
+    reg_state = models.CharField(
+        _("Registration State"), max_length=3, blank=True, choices=STATES)
+    reg_province = models.CharField(
+        _("Registration Province"), max_length=32, blank=True)
+    mother = models.ForeignKey(
+        "Parent", related_name="mothered", blank=True, null=True,
+        verbose_name=_("Mother"))
+    father = models.ForeignKey(
+        "Parent", related_name="fathered", blank=True, null=True,
+        verbose_name=_("Father"))
+    permission_status = models.IntegerField(
+        _("Permission Status"), choices=PERMISSION_STATUS, default=INCOMPLETE)
 
     class Meta:
         abstract = True
 
 
 class Payer(models.Model):
-    """Class for anyone who has to pay"""
-    signed_up = models.BooleanField(_("Signed up"), blank=False, default=False)
-    balance = models.DecimalField(_("Balance"), max_digits=5, decimal_places=2,
-        blank=False, default=0)
-    no_pay = models.BooleanField(_("Doesn't pay"), blank=False, default=False,
+    """
+    Financial information related to a camp attendant.
+    """
+    signed_up = models.BooleanField(_("Signed up"), default=False)
+    balance = models.DecimalField(
+        _("Balance"), max_digits=5, decimal_places=2, default=0)
+    no_pay = models.BooleanField(
+        _("Doesn't pay"), default=False,
         help_text=_("Mark if this person is exempt of the camp's price"))
     fined = models.BooleanField(
         _("Fined"), default=False, help_text=_("This person must pay a fine"))
@@ -158,6 +172,9 @@ class Payer(models.Model):
         return self.get_price() - self.balance
 
     def save(self, *args, **kwargs):
+        """
+        Update the balance and signed_up status.
+        """
         from solo.templatetags.solo_tags import get_solo
         camp = get_solo("general.Camp")  # Get the camp information
 
@@ -173,24 +190,26 @@ class Payer(models.Model):
 
 
 class Attendant(models.Model):
-    """Basic model of anybody going to camp"""
-    badge_name = models.CharField(_("Badge Name"), max_length=64, blank=True,
+    """
+    Logistics information related to a camp attendant.
+    """
+    badge_name = models.CharField(
+        _("Badge Name"), max_length=64, blank=True,
         help_text=_("The name that appears in the badge."))
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
-        choices=CABINS)
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True, choices=CABINS)
 
     class Meta:
         abstract = True
 
 
 class Member(models.Model):
-    """A member of a Small Group and Structure (Campers and Counselors)"""
-    generation = models.PositiveIntegerField(_("Generation"),
-        blank=False, choices=GENERATIONS)
-    structure = models.CharField(_("Structure"), max_length=16, blank=True,
-        choices=STRUCTURES)
-    bus = models.CharField(_("Bus"), max_length=16, blank=True,
-        choices=BUSES)
+    """
+    A member of a Small Group and Structure (Campers and Counselors)
+    """
+    generation = models.PositiveIntegerField(_("Generation"), choices=GENERATIONS)
+    structure = models.CharField(
+        _("Structure"), max_length=16, blank=True, choices=STRUCTURES)
+    bus = models.CharField(_("Bus"), max_length=16, blank=True, choices=BUSES)
 
     class Meta:
         abstract = True
@@ -207,13 +226,18 @@ class Member(models.Model):
         super(Member, self).save(*args, **kwargs)
 
 
+###################
+# Concrete models #
+###################
+
+
 class Payment(models.Model):
-    """A payment done to pay the camps"s price"""
-    receipt_id = models.CharField(_("Receipt ID"), max_length=16, unique=True,
-        blank=False)
+    """
+    A generic payment done by anyone attending camp.
+    """
+    receipt_id = models.CharField(_("Receipt ID"), max_length=16, unique=True)
     payment_date = models.DateField(_("Date"), blank=True, null=True)
-    amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2,
-        blank=False)
+    amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2)
     notes = models.CharField(_("Notes"), max_length=256, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
@@ -228,16 +252,20 @@ class Payment(models.Model):
         verbose_name_plural = _("Payments")
 
     def save(self, *args, **kwargs):
-        """Set default for ``payment_date`` as now"""
+        """
+        Set default for ``payment_date`` as now.
+        """
         if self.payment_date is None:
             self.payment_date = now()
         super(Payment, self).save(*args, **kwargs)
 
 
 class Parent(Person, ExtendedInfo):
-    """A parent or legal guardian of a minor"""
-    gov_id = models.CharField(_("ID Number"), max_length=10, blank=False,
-        validators=[gov_id_validator])
+    """
+    A parent or legal guardian of a minor.
+    """
+    gov_id = models.CharField(
+        _("ID Number"), max_length=10, validators=[gov_id_validator])
     known_as = models.CharField(_("Known as"), max_length=255, blank=True)
 
     class Meta(Person.Meta):
@@ -246,16 +274,21 @@ class Parent(Person, ExtendedInfo):
 
     @staticmethod
     def autocomplete_search_fields():
+        """
+        Lookups used by Grappelli when looking for parents as FK.
+        """
         return ("first_name__icontains", "second_name__icontains",
                 "first_surname__icontains", "second_surname__icontains")
 
 
 class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
-    """The main model of a child attending camp"""
-    counselor = models.ForeignKey("Counselor", blank=False,
-        verbose_name=_("Counselor or Small Group"))
-    small_group = models.ForeignKey("logistics.SmallGroup", blank=True,
-        null=True, verbose_name=_("Small Group"))
+    """
+    The main model of a person attending camp.
+    """
+    counselor = models.ForeignKey(
+        "Counselor", verbose_name=_("Counselor or Small Group"))
+    small_group = models.ForeignKey(
+        "logistics.SmallGroup", blank=True, null=True, verbose_name=_("Small Group"))
 
     class Meta(Person.Meta):
         verbose_name = _("Camper")
@@ -263,14 +296,19 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
         permissions = (("generate_permission", "Generate Permission"),)
 
     def save(self, *args, **kwargs):
+        """
+        Get the small_group from the Counselor.
+        """
         self.small_group = self.counselor.small_group
         super(Camper, self).save(*args, **kwargs)
 
 
 class Counselor(Person, Payer, Attendant, Member):
-    """A counselor for campers"""
-    small_group = models.OneToOneField("logistics.SmallGroup", blank=False,
-        verbose_name=_("Small Group"))
+    """
+    A counselor for campers.
+    """
+    small_group = models.OneToOneField(
+        "logistics.SmallGroup", verbose_name=_("Small Group"))
 
     class Meta(Person.Meta):
         verbose_name = _("Counselor")
@@ -282,12 +320,17 @@ class Counselor(Person, Payer, Attendant, Member):
 
     @staticmethod
     def autocomplete_search_fields():
+        """
+        Lookups used by Grappelli when looking for Counselors as FK.
+        """
         return ("first_name__icontains", "first_surname__icontains",
                 "badge_name__icontains", "small_group__title__icontains")
 
 
 class Guest(Person, Payer, Attendant):
-    """An attendant that doesn't belong to a small group"""
+    """
+    An attendant that doesn't belong to a small group.
+    """
 
     class Meta(Person.Meta):
         verbose_name = _("Guest")
