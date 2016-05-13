@@ -1,6 +1,9 @@
+from __future__ import unicode_literals
+
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
@@ -13,6 +16,7 @@ from signup.validators import gov_id_validator
 # Abstract classes #
 ####################
 
+@python_2_unicode_compatible
 class Person(models.Model):
     """
     Basic information about a person.
@@ -34,7 +38,7 @@ class Person(models.Model):
             "first_name", "second_name", "first_surname", "second_surname")
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         return " ".join([self.names(), self.surnames()])
 
     def names(self):
@@ -230,7 +234,7 @@ class Member(models.Model):
 # Concrete models #
 ###################
 
-
+@python_2_unicode_compatible
 class Payment(models.Model):
     """
     A generic payment done by anyone attending camp.
@@ -243,7 +247,7 @@ class Payment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s - $%s" % (self.receipt_id, self.amount)
 
     class Meta:
