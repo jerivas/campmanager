@@ -10,6 +10,7 @@ from signup.filters import BalanceStatusFilter
 from signup.actions import (move_permission_forward, move_permission_backwards,
                             generate_permission)
 from .resources import CamperResource, PaymentResource, CounselorResource, GuestResource
+from utils.admin import UnaccentSearchMixin
 
 
 class PaymentInline(GenericTabularInline):
@@ -17,7 +18,7 @@ class PaymentInline(GenericTabularInline):
     extra = 1
 
 
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(UnaccentSearchMixin, admin.ModelAdmin):
     """Base Admin for all Persons"""
     radio_fields = {"gender": admin.HORIZONTAL}
     list_per_page = 50
