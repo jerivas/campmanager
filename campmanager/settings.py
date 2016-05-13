@@ -136,6 +136,7 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 ################
 
 INSTALLED_APPS = [
+    'django.contrib.postgres',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
