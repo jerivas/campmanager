@@ -1,9 +1,8 @@
-from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from django.template.loader import get_template
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from xhtml2pdf import pisa
 
@@ -60,10 +59,11 @@ class PDFMixin(object):
         return super(PDFMixin, self).render_to_response(context, **response_kwargs)
 
 
-class Permission(PDFMixin, TemplateView):
+class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
     """
     Display a single or multiple Camper permissions at once.
     """
+    permission_required = "signup.generate_permission"
     template_name = "reports/permission.html"
 
     def get_pdf_filename(self, request, *args, **kwargs):
@@ -104,13 +104,10 @@ class Permission(PDFMixin, TemplateView):
                     context["total"] += 1
         return context
 
-    @method_decorator(permission_required("signup.generate_permission"))
-    def dispatch(self, *args, **kwargs):
-        return super(Permission, self).dispatch(*args, **kwargs)
 
-
-class CabinReport(PDFMixin, ListView):
+class CabinReport(PermissionRequiredMixin, PDFMixin, ListView):
     """Generates a list of Small Groups in each Cabin."""
+    permission_required = "logistics.view_reports"
     template_name = "reports/cabin_report.html"
     context_object_name = "small_groups"
     queryset = SmallGroup.objects.select_related("counselor").order_by(
@@ -119,13 +116,10 @@ class CabinReport(PDFMixin, ListView):
     def get_pdf_filename(self, request, *args, **kwargs):
         return "reporte-de-cabanas-{}".format(self.get_timestamp())
 
-    @method_decorator(permission_required("logistics.view_reports"))
-    def dispatch(self, *args, **kwargs):
-        return super(CabinReport, self).dispatch(*args, **kwargs)
 
-
-class BusReport(PDFMixin, ListView):
+class BusReport(PermissionRequiredMixin, PDFMixin, ListView):
     """Generates a list of Small Groups in each Bus."""
+    permission_required = "logistics.view_reports"
     template_name = "reports/bus_report.html"
     context_object_name = "small_groups"
     queryset = SmallGroup.objects.select_related("counselor").order_by(
@@ -134,13 +128,10 @@ class BusReport(PDFMixin, ListView):
     def get_pdf_filename(self, request, *args, **kwargs):
         return "reporte-de-buses-{}".format(self.get_timestamp())
 
-    @method_decorator(permission_required("logistics.view_reports"))
-    def dispatch(self, *args, **kwargs):
-        return super(BusReport, self).dispatch(*args, **kwargs)
 
-
-class AttendantReport(PDFMixin, TemplateView):
+class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     """Displays all attendants, members of Small Groups and Guests."""
+    permission_required = "logistics.attendant_report"
     template_name = "reports/attendant_report.html"
 
     def get_pdf_filename(self, request, *args, **kwargs):
@@ -155,13 +146,10 @@ class AttendantReport(PDFMixin, TemplateView):
         c["guests"] = Guest.objects.filter(signed_up=True)
         return c
 
-    @method_decorator(permission_required("logistics.attendant_report"))
-    def dispatch(self, *args, **kwargs):
-        return super(AttendantReport, self).dispatch(*args, **kwargs)
 
-
-class FinancesReport(PDFMixin, TemplateView):
+class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     """A full report spanning Payments and Transactions."""
+    permission_required = "finances.view_reports"
     template_name = "reports/finances_report.html"
 
     def get_pdf_filename(self, request, *args, **kwargs):
@@ -184,7 +172,3 @@ class FinancesReport(PDFMixin, TemplateView):
             "egress_count": egress_count, "payment_count": payment_count,
             "total": total}
         return context
-
-    @method_decorator(permission_required("finances.view_reports"))
-    def dispatch(self, *args, **kwargs):
-        return super(FinancesReport, self).dispatch(*args, **kwargs)
