@@ -69,41 +69,41 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
     template_name = "reports/permission.html"
 
     def get_pdf_filename(self):
-        return "permiso-migratorio-{}".format(self.get_timestamp())
+        return "permiso-migratorio-%s" % self.get_timestamp()
 
     def get_context_data(self, **kwargs):
         """
         Get all the selected Campers into the template context.
+        Campers are specified via GET params.
         """
         context = super(Permission, self).get_context_data(**kwargs)
-        context["campers"] = []  # Empty list to hold campers
-        context.update(dict.fromkeys(
-            # Set this counters to zero
-            ["omitted", "total"], 0))
+
+        # Handle malformed URL params
         try:
             pks = self.request.GET.get("id").split(",")
         except AttributeError:  # Catch trying to split NoneType (no "id")
             return context
         if pks == [""]:  # Deal with empty "id" parameter
-            pass
-        else:
-            for pk in pks:
-                try:
-                    c = Camper.objects.select_related("mother", "father",
-                        "small_group").get(pk=pk)
-                except Camper.DoesNotExist:
-                    pass
-                else:
-                    # Special cases or incomplete docs are added to the
-                    # "omitted" count, but not to the "campers" list.
-                    if (c.permission_status == Camper.SPECIAL or
-                        c.permission_status == Camper.INCOMPLETE):
-                        context["omitted"] += 1
-                    else:
-                        # Otherwise, append camper to "campers" list
-                        context["campers"].append(c)
-                    # Count all requested permissions, omitted or not.
-                    context["total"] += 1
+            return context
+
+        campers, omitted, total = [], 0, 0
+        for pk in pks:
+            try:
+                camper = Camper.objects.select_related(
+                    "mother", "father", "small_group").get(pk=pk)
+            except (ValueError, Camper.DoesNotExist):
+                continue
+            if camper.permission_status in [Camper.SPECIAL, Camper.INCOMPLETE]:
+                omitted += 1
+            else:
+                campers.append(camper)
+            total += 1
+
+        context.update({
+            "campers": campers,
+            "omitted": omitted,
+            "total": total,
+        })
         return context
 
 
