@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.generic import RedirectView
 
 from .views import Home
 
@@ -18,6 +19,8 @@ urlpatterns = [
     # "Forgot your password?" link in the login form
     url(r"^accounts/password_reset/$",
         auth_views.password_reset, name="admin_password_reset"),
+    # Profiles are not implemented. Let's redirect to the admin.
+    url(r"^accounts/profile/$", RedirectView.as_view(pattern_name="admin:index")),
 
     # Include the rest of the auth URLs normally
     url(r"^accounts/", include("django.contrib.auth.urls")),
