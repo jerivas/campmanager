@@ -171,23 +171,20 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(FinancesReport, self).get_context_data(**kwargs)
 
-        payments_income = Payment.objects.aggregate(Sum("amount")).values()[0]
-        payment_count = Payment.objects.count()
+        payments = Payment.objects
+        payments_income = payments.aggregate(Sum("amount")).values()[0]
         incomes = Transaction.objects.filter(transaction_type="income")
         transaction_income = incomes.aggregate(Sum("amount")).values()[0]
-        income_count = incomes.count()
         egresses = Transaction.objects.filter(transaction_type="egress")
         transaction_egress = egresses.aggregate(Sum("amount")).values()[0]
-        egress_count = egresses.count()
-        total = payments_income + transaction_income - transaction_egress
 
         context.update({
             "transaction_income": transaction_income,
             "transaction_egress": transaction_egress,
             "payments_income": payments_income,
-            "income_count": income_count,
-            "egress_count": egress_count,
-            "payment_count": payment_count,
-            "total": total
+            "income_count": incomes.count(),
+            "egress_count": egresses.count(),
+            "payment_count": payments.count(),
+            "total": payments_income + transaction_income - transaction_egress
         })
         return context
