@@ -108,7 +108,9 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
 
 
 class CabinReport(PermissionRequiredMixin, PDFMixin, ListView):
-    """Generates a list of Small Groups in each Cabin."""
+    """
+    Generates a list of the Small Groups that will occupy a Cabin.
+    """
     permission_required = "logistics.view_reports"
     template_name = "reports/cabin_report.html"
     context_object_name = "small_groups"
@@ -116,11 +118,13 @@ class CabinReport(PermissionRequiredMixin, PDFMixin, ListView):
         "cabin", "generation")
 
     def get_pdf_filename(self):
-        return "reporte-de-cabanas-{}".format(self.get_timestamp())
+        return "reporte-de-cabanas-%s" % self.get_timestamp()
 
 
 class BusReport(PermissionRequiredMixin, PDFMixin, ListView):
-    """Generates a list of Small Groups in each Bus."""
+    """
+    Generates a list of Small Groups in each Bus.
+    """
     permission_required = "logistics.view_reports"
     template_name = "reports/bus_report.html"
     context_object_name = "small_groups"
@@ -128,37 +132,44 @@ class BusReport(PermissionRequiredMixin, PDFMixin, ListView):
         "bus", "generation")
 
     def get_pdf_filename(self):
-        return "reporte-de-buses-{}".format(self.get_timestamp())
+        return "reporte-de-buses-%s" % self.get_timestamp()
 
 
 class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
-    """Displays all attendants, members of Small Groups and Guests."""
+    """
+    Displays all attendants: members of Small Groups and Guests.
+    """
     permission_required = "logistics.attendant_report"
     template_name = "reports/attendant_report.html"
 
     def get_pdf_filename(self):
-        return "reporte-de-asistencia-{}".format(self.get_timestamp())
+        return "reporte-de-asistencia-%s" % self.get_timestamp()
 
     def get_context_data(self, **kwargs):
-        c = super(AttendantReport, self).get_context_data(**kwargs)
+        context = super(AttendantReport, self).get_context_data(**kwargs)
         counselors = Counselor.objects.filter(signed_up=True).count()
         campers = Camper.objects.filter(signed_up=True).count()
-        c["total"] = counselors + campers
-        c["small_groups"] = SmallGroup.objects.select_related()
-        c["guests"] = Guest.objects.filter(signed_up=True)
-        return c
+        context.update({
+            "total": counselors + campers,
+            "small_groups": SmallGroup.objects.select_related(),
+            "guests": Guest.objects.filter(signed_up=True),
+        })
+        return context
 
 
 class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
-    """A full report spanning Payments and Transactions."""
+    """
+    A full report spanning Payments and Transactions.
+    """
     permission_required = "finances.view_reports"
     template_name = "reports/finances_report.html"
 
     def get_pdf_filename(self):
-        return "reporte-financiero-{}".format(self.get_timestamp())
+        return "reporte-financiero-%s" % self.get_timestamp()
 
     def get_context_data(self, **kwargs):
         context = super(FinancesReport, self).get_context_data(**kwargs)
+
         payments_income = sum(p.amount for p in Payment.objects.all())
         payment_count = Payment.objects.count()
         incomes = Transaction.objects.filter(transaction_type="income")
@@ -168,9 +179,14 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
         transaction_egress = sum(e.amount for e in egresses)
         egress_count = egresses.count()
         total = payments_income + transaction_income - transaction_egress
-        context = {"transaction_income": transaction_income,
+
+        context.update({
+            "transaction_income": transaction_income,
             "transaction_egress": transaction_egress,
-            "payments_income": payments_income, "income_count": income_count,
-            "egress_count": egress_count, "payment_count": payment_count,
-            "total": total}
+            "payments_income": payments_income,
+            "income_count": income_count,
+            "egress_count": egress_count,
+            "payment_count": payment_count,
+            "total": total
+        })
         return context
