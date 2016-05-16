@@ -14,26 +14,26 @@ from logistics.models import SmallGroup
 class PDFMixin(object):
     """
     Mixin to enable PDF rendering of any view.
+    Allows defining a custom template for PDF document,
+    and a custom document name for the download.
     """
+    pdf_filename = "document"
+    pdf_template_name = None
 
-    def get_pdf_template_name(self, request, *args, **kwargs):
+    def get_pdf_template_name(self):
         """
         Gets the template name for the PDF.
+        Fall back to the parent view template if not defined.
         """
-        try:
-            return self.pdf_template_name
-        except AttributeError:
+        if self.pdf_template_name is None:
             return self.get_template_names()[0]
+        return self.pdf_template_name
 
-    def get_pdf_filename(self, request, *args, **kwargs):
+    def get_pdf_filename(self):
         """
         Gets the name that the generated PDF document will have.
-        By default, a simple timestamp is used as name.
         """
-        try:
-            return self.pdf_filename
-        except AttributeError:
-            return self.get_timestamp()
+        return self.pdf_filename
 
     @staticmethod
     def get_timestamp():
@@ -48,14 +48,16 @@ class PDFMixin(object):
         """
         Render the template as PDF by checking a URL parameter.
         """
+        # If the format=pdf param is passed, render the PDF
         if self.request.GET.get("format") == "pdf":
-            filename = self.get_pdf_filename(self.request)
-            template = self.get_pdf_template_name(self.request)
+            filename = self.get_pdf_filename()
+            template = self.get_pdf_template_name()
             response = HttpResponse(content_type="application/pdf")
             response["Content-Disposition"] = "attachment; filename=%s.pdf" % filename
             html = get_template(template).render(context)
             pisa.CreatePDF(html, response)
             return response
+        # Else, the parent view response is returned
         return super(PDFMixin, self).render_to_response(context, **response_kwargs)
 
 
@@ -66,7 +68,7 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
     permission_required = "signup.generate_permission"
     template_name = "reports/permission.html"
 
-    def get_pdf_filename(self, request, *args, **kwargs):
+    def get_pdf_filename(self):
         return "permiso-migratorio-{}".format(self.get_timestamp())
 
     def get_context_data(self, **kwargs):
@@ -113,7 +115,7 @@ class CabinReport(PermissionRequiredMixin, PDFMixin, ListView):
     queryset = SmallGroup.objects.select_related("counselor").order_by(
         "cabin", "generation")
 
-    def get_pdf_filename(self, request, *args, **kwargs):
+    def get_pdf_filename(self):
         return "reporte-de-cabanas-{}".format(self.get_timestamp())
 
 
@@ -125,7 +127,7 @@ class BusReport(PermissionRequiredMixin, PDFMixin, ListView):
     queryset = SmallGroup.objects.select_related("counselor").order_by(
         "bus", "generation")
 
-    def get_pdf_filename(self, request, *args, **kwargs):
+    def get_pdf_filename(self):
         return "reporte-de-buses-{}".format(self.get_timestamp())
 
 
@@ -134,7 +136,7 @@ class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     permission_required = "logistics.attendant_report"
     template_name = "reports/attendant_report.html"
 
-    def get_pdf_filename(self, request, *args, **kwargs):
+    def get_pdf_filename(self):
         return "reporte-de-asistencia-{}".format(self.get_timestamp())
 
     def get_context_data(self, **kwargs):
@@ -152,7 +154,7 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     permission_required = "finances.view_reports"
     template_name = "reports/finances_report.html"
 
-    def get_pdf_filename(self, request, *args, **kwargs):
+    def get_pdf_filename(self):
         return "reporte-financiero-{}".format(self.get_timestamp())
 
     def get_context_data(self, **kwargs):
