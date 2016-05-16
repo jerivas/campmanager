@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views.generic import ListView
