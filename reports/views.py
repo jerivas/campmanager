@@ -1,4 +1,3 @@
-from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views.generic import ListView
@@ -171,12 +170,12 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(FinancesReport, self).get_context_data(**kwargs)
 
-        payments = Payment.objects
-        payments_income = payments.aggregate(Sum("amount")).values()[0]
+        payments = Payment.objects.all()
         incomes = Transaction.objects.filter(transaction_type="income")
-        transaction_income = incomes.aggregate(Sum("amount")).values()[0]
         egresses = Transaction.objects.filter(transaction_type="egress")
-        transaction_egress = egresses.aggregate(Sum("amount")).values()[0]
+        transaction_income = sum(i.amount for i in incomes)
+        transaction_egress = sum(e.amount for e in egresses)
+        payments_income = sum(p.amount for p in payments)
 
         context.update({
             "transaction_income": transaction_income,
