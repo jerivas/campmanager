@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
-from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from xhtml2pdf import pisa
 
