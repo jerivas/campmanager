@@ -41,6 +41,7 @@ class Command(BaseCommand):
                     "signed_up": False,
                     "permission_status": Camper.INCOMPLETE,
                     "fined": False,
+                    "has_medical_record": False,
                 }
                 group.camper_set.update(**reset_fields)
                 for field, value in reset_fields.items():
