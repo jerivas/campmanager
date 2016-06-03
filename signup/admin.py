@@ -29,7 +29,6 @@ class PersonMixin(UnaccentSearchMixin):
     list_per_page = 50
     _ld = ["names", "surnames"]
     list_display_links = ["names", "surnames"]
-    _lf = ["gender"]
     _sf = ["^first_name", "^second_name", "^first_surname", "^second_surname"]
 
 
@@ -101,7 +100,7 @@ class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
                 ("first_name", "second_name"),
                 ("first_surname", "second_surname"),
                 ("badge_name", "counselor"),
-                "gender",
+                ("gender", "has_medical_record"),
                 ("no_pay", "fined"),
                 ("structure", "generation"),
                 ("cabin", "bus"),
@@ -124,9 +123,10 @@ class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         }),
     ]
 
-    list_display = (PersonMixin._ld + MemberMixin._ld + PayerMixin._ld +
-                    ["permission_status"])
-    list_filter = MemberMixin._lf + PayerMixin._lf + ["permission_status"]
+    list_display = (PersonMixin._ld + ["has_medical_record"] + MemberMixin._ld +
+                    PayerMixin._ld + ["permission_status"])
+    list_filter = (["has_medical_record"] + MemberMixin._lf + PayerMixin._lf +
+                   ["permission_status"])
     list_editable = ["permission_status"]
     search_fields = PersonMixin._sf + MemberMixin._sf
     actions = [move_permission_forward, move_permission_backwards, generate_permission]
@@ -143,14 +143,15 @@ class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         ("first_name", "second_name"),
         ("first_surname", "second_surname"),
         ("badge_name", "small_group"),
-        "gender",
+        ("gender", "has_medical_record"),
         ("no_pay", "fined"),
         ("structure", "generation"),
         ("cabin", "bus"),
         ("balance_as_currency", "amount_due"),)
 
-    list_display = PersonMixin._ld + MemberMixin._ld + PayerMixin._ld
-    list_filter = PersonMixin._lf + MemberMixin._lf + PayerMixin._lf
+    list_display = (PersonMixin._ld + ["has_medical_record"] + MemberMixin._ld +
+                    PayerMixin._ld)
+    list_filter = ["has_medical_record"] + MemberMixin._lf + PayerMixin._lf
     search_fields = PersonMixin._sf + MemberMixin._sf
 
 
@@ -163,13 +164,13 @@ class GuestAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         ("first_name", "second_name"),
         ("first_surname", "second_surname"),
         ("badge_name", "cabin"),
-        "gender",
+        ("gender", "has_medical_record"),
         ("no_pay", "fined"),
         ("balance_as_currency", "amount_due"),)
 
-    list_display = PersonMixin._ld + ["cabin"] + PayerMixin._ld
+    list_display = PersonMixin._ld + ["has_medical_record", "cabin"] + PayerMixin._ld
     list_editable = ["cabin"]
-    list_filter = PersonMixin._lf + ["cabin"] + PayerMixin._lf
+    list_filter = ["has_medical_record", "cabin"] + PayerMixin._lf
     search_fields = PersonMixin._sf + ["cabin"]
 
 
@@ -185,7 +186,7 @@ class ParentAdmin(PersonMixin, admin.ModelAdmin):
         "occupation",)
 
     list_display = PersonMixin._ld + ["known_as", "gender"]
-    list_filter = PersonMixin._lf
+    list_filter = ["gender"]
     search_fields = PersonMixin._sf + ["known_as"]
 
 

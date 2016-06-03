@@ -201,6 +201,9 @@ class Attendant(models.Model):
         _("Badge Name"), max_length=64, blank=True,
         help_text=_("The name that appears in the badge."))
     cabin = models.CharField(_("Cabin"), max_length=16, blank=True, choices=CABINS)
+    has_medical_record = models.BooleanField(
+        _("Medical record"), blank=True, default=False,
+        help_text=_("This person has submitted their medical record"))
 
     class Meta:
         abstract = True

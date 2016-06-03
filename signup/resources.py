@@ -9,9 +9,9 @@ class CamperResource(FriendlyExportMixin, resources.ModelResource):
     class Meta:
         model = Camper
         fields = [
-            "first_name", "second_name", "first_surname", "second_surname", "structure",
-            "generation", "small_group__title", "counselor__badge_name", "signed_up",
-            "fined", "balance", "permission_status"
+            "first_name", "second_name", "first_surname", "second_surname",
+            "has_medical_record", "structure", "generation", "small_group__title",
+            "counselor__badge_name", "signed_up", "fined", "balance", "permission_status"
         ]
         export_order = fields
 
