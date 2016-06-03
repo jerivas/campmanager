@@ -174,6 +174,7 @@ class Payer(models.Model):
 
     def amount_due(self):
         return self.get_price() - self.balance
+    amount_due.short_description = _("Amount Due")
 
     def save(self, *args, **kwargs):
         """
