@@ -151,7 +151,7 @@ class Payer(models.Model):
         help_text=_("Mark if this person is exempt of the camp's price"))
     fined = models.BooleanField(
         _("Fined"), default=False, help_text=_("This person must pay a fine"))
-    payment_set = GenericRelation("Payment")
+    payment_set = GenericRelation("Payment", related_query_name="payer")
 
     class Meta:
         abstract = True
