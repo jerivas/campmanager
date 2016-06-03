@@ -1,2 +1,1 @@
-from django.utils.translation import gettext_noop
-gettext_noop("Signup")
+default_app_config = "signup.apps.SignupConfig"

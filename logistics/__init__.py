@@ -1,2 +1,1 @@
-from django.utils.translation import gettext_noop
-gettext_noop("Logistics")
+default_app_config = "logistics.apps.LogisticsConfig"
