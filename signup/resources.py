@@ -1,3 +1,12 @@
+"""
+Resource definitions for models in the Singup app.
+These classes control the content and behavior of django-import-export.
+In theory they should work for both importing and exporting,
+but they have only ever been used to export from the admin.
+"""
+
+from __future__ import unicode_literals
+
 from import_export import resources
 from import_export.fields import Field
 
@@ -14,6 +23,9 @@ class PayerResource(resources.ModelResource):
     amount_due.column_name = Payer.amount_due.short_description
 
     def dehydrate_amount_due(self, payer):
+        """
+        Proxy method that just calls the model method we want.
+        """
         return payer.amount_due()
 
 
