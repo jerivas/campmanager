@@ -21,7 +21,8 @@ class FriendlyExportMixin(object):
             try:
                 f = self.Meta.model._meta.get_field(field_name)
             except FieldDoesNotExist:
-                pass
+                # This is probably a custom Field defined in the resource
+                headers.append(ugettext(field.column_name))
             else:
                 headers.append(ugettext(f.verbose_name))
         return headers
