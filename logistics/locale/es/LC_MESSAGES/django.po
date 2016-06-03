@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-30 16:33-0600\n"
+"POT-Creation-Date: 2016-06-03 10:57-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eduardo Rivas\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: __init__.py:2
-msgid "Logistics"
-msgstr "Logística"
-
-#: admin.py:29
+#: admin.py:30
 msgid "Signed up members"
 msgstr "Miembros inscritos"
 
-#: admin.py:37
+#: admin.py:38
 msgid "Signed up"
 msgstr "Inscrito"
 
-#: admin.py:37
+#: admin.py:38
 msgid "Not signed up"
 msgstr "No inscrito"
 
-#: admin.py:41
+#: admin.py:42
 msgid "Members"
 msgstr "Miembros"
+
+#: apps.py:9
+msgid "Logistics"
+msgstr "Logística"
 
 #: models.py:9
 msgid "Title"

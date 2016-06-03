@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-24 17:24-0600\n"
+"POT-Creation-Date: 2016-06-03 10:57-0600\n"
 "PO-Revision-Date: 2015-05-24 17:24-0600\n"
 "Last-Translator: Eduardo Rivas <e@jerivas.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -22,6 +22,10 @@ msgstr ""
 #: admin.py:33
 msgid "Customs"
 msgstr "Migración"
+
+#: apps.py:9
+msgid "General"
+msgstr "General"
 
 #: models.py:16
 msgid "Title"
@@ -90,6 +94,21 @@ msgstr "Abogado"
 #: models.py:60
 msgid "Lawyers"
 msgstr "Abogados"
+
+#: templates/admin/import_export/base.html:7
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/admin/import_export/export.html:4
+#: templates/admin/import_export/export.html:6
+#: templates/admin/import_export/export.html:8
+#: templates/admin/import_export/export.html:35
+msgid "Export"
+msgstr "Exportar"
+
+#: templates/admin/import_export/export.html:34
+msgid "Cancel"
+msgstr "Cancelar"
 
 #~ msgid "Start date"
 #~ msgstr "Fecha de inicio"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 00:16-0600\n"
+"POT-Creation-Date: 2016-06-03 10:57-0600\n"
 "PO-Revision-Date: 2015-05-31 18:07-0600\n"
 "Last-Translator: Eduardo Rivas <e@jerivas.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -17,10 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
-
-#: __init__.py:2
-msgid "Signup"
-msgstr "Inscripción"
 
 #: actions.py:24
 msgid "No Campers were updated."
@@ -52,33 +48,37 @@ msgstr "Mover el estado del permiso hacia atrás"
 msgid "Generate Permission"
 msgstr "Generar permiso"
 
-#: admin.py:58 admin.py:72 filters.py:16 models.py:150
+#: admin.py:57 admin.py:71 filters.py:16 models.py:150
 msgid "Doesn't pay"
 msgstr "No paga"
 
-#: admin.py:62 models.py:148
+#: admin.py:61 models.py:148
 msgid "Balance"
 msgstr "Saldo"
 
-#: admin.py:68
+#: admin.py:67
 msgid "Fully Paid"
 msgstr "Pagado"
 
-#: admin.py:76
+#: admin.py:75 models.py:177
 msgid "Amount Due"
 msgstr "Debe"
 
-#: admin.py:99
+#: admin.py:98
 msgid "Basic Info"
 msgstr "Información básica"
 
-#: admin.py:111
+#: admin.py:110
 msgid "Customs"
 msgstr "Migración"
 
-#: admin.py:215
+#: admin.py:216
 msgid "Paid by"
 msgstr "Pagado por"
+
+#: apps.py:9
+msgid "Signup"
+msgstr "Inscripción"
 
 #: filters.py:11
 msgid "Balance Status"
@@ -256,113 +256,113 @@ msgstr "Multado"
 msgid "This person must pay a fine"
 msgstr "Esta persona debe pagar multa"
 
-#: models.py:201
+#: models.py:202
 msgid "Badge Name"
 msgstr "Gafete"
 
-#: models.py:202
+#: models.py:203
 msgid "The name that appears in the badge."
 msgstr "El nombre que aparece en el gafete."
 
-#: models.py:203
+#: models.py:204
 msgid "Cabin"
 msgstr "Cabaña"
 
-#: models.py:205
+#: models.py:206
 msgid "Medical record"
 msgstr "Hoja médica"
 
-#: models.py:206
+#: models.py:207
 msgid "This person has submitted their medical record"
 msgstr "Esta persona ha entregado su hoja médica"
 
-#: models.py:216
+#: models.py:217
 msgid "Generation"
 msgstr "Generación"
 
-#: models.py:218
+#: models.py:219
 msgid "Structure"
 msgstr "Estructura"
 
-#: models.py:219
+#: models.py:220
 msgid "Bus"
 msgstr "Bus"
 
-#: models.py:245
+#: models.py:246
 msgid "Receipt ID"
 msgstr "No. Recibo"
 
-#: models.py:246
+#: models.py:247
 msgid "Date"
 msgstr "Fecha"
 
-#: models.py:247
+#: models.py:248
 msgid "Amount"
 msgstr "Cantidad"
 
-#: models.py:248
+#: models.py:249
 msgid "Notes"
 msgstr "Notas"
 
-#: models.py:258
+#: models.py:259
 msgid "Payment"
 msgstr "abono"
 
-#: models.py:259
+#: models.py:260
 msgid "Payments"
 msgstr "abonos"
 
-#: models.py:275
+#: models.py:276
 msgid "ID Number"
 msgstr "No. de DUI"
 
-#: models.py:276
+#: models.py:277
 msgid "Known as"
 msgstr "Conocido como"
 
-#: models.py:279
+#: models.py:280
 msgid "Parent"
 msgstr "padre"
 
-#: models.py:280
+#: models.py:281
 msgid "Parents"
 msgstr "padres"
 
-#: models.py:296
+#: models.py:297
 msgid "Counselor or Small Group"
 msgstr "Líder o ágape"
 
-#: models.py:298 models.py:318
+#: models.py:299 models.py:319
 msgid "Small Group"
 msgstr "ágape"
 
-#: models.py:301
+#: models.py:302
 msgid "Camper"
 msgstr "campista"
 
-#: models.py:302
+#: models.py:303
 msgid "Campers"
 msgstr "campistas"
 
-#: models.py:321
+#: models.py:322
 msgid "Counselor"
 msgstr "líder"
 
-#: models.py:322
+#: models.py:323
 msgid "Counselors"
 msgstr "líderes"
 
-#: models.py:343
+#: models.py:344
 msgid "Guest"
 msgstr "invitado"
 
-#: models.py:344
+#: models.py:345
 msgid "Guests"
 msgstr "invitados"
 
 #: templates/admin/signup/camper/change_list.html:8
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: templates/admin/signup/camper/change_list.html:11
 msgid "Attendant Report"
