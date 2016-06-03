@@ -2,15 +2,22 @@ from import_export import resources
 from import_export.fields import Field
 
 from utils.resources import FriendlyExportMixin
-from .models import Camper, Payment, Counselor, Guest
+from .models import Camper, Payment, Payer, Counselor, Guest
 
 
-class CamperResource(FriendlyExportMixin, resources.ModelResource):
+class PayerResource(resources.ModelResource):
+    """
+    Define custom fields to include methods of the Payer base model.
+    Camper, Counselor, and Guest should be compatible with this.
+    """
     amount_due = Field()
-    amount_due.column_name = Camper.amount_due.short_description
+    amount_due.column_name = Payer.amount_due.short_description
 
-    def dehydrate_amount_due(self, camper):
-        return camper.amount_due()
+    def dehydrate_amount_due(self, payer):
+        return payer.amount_due()
+
+
+class CamperResource(FriendlyExportMixin, PayerResource):
 
     class Meta:
         model = Camper
@@ -33,7 +40,7 @@ class CamperResource(FriendlyExportMixin, resources.ModelResource):
         export_order = fields
 
 
-class CounselorResource(FriendlyExportMixin, resources.ModelResource):
+class CounselorResource(FriendlyExportMixin, PayerResource):
 
     class Meta:
         model = Counselor
@@ -49,11 +56,12 @@ class CounselorResource(FriendlyExportMixin, resources.ModelResource):
             "signed_up",
             "fined",
             "balance",
+            "amount_due",
         ]
         export_order = fields
 
 
-class GuestResource(FriendlyExportMixin, resources.ModelResource):
+class GuestResource(FriendlyExportMixin, PayerResource):
 
     class Meta:
         model = Guest
@@ -63,10 +71,11 @@ class GuestResource(FriendlyExportMixin, resources.ModelResource):
             "first_surname",
             "second_surname",
             "has_medical_record",
+            "cabin",
             "signed_up",
             "fined",
             "balance",
-            "cabin",
+            "amount_due",
         ]
         export_order = fields
 
