@@ -207,6 +207,13 @@ class PaymentAdmin(UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
         "receipt_id", "notes", "^payer__first_name", "^payer__second_name",
         "^payer__first_surname", "^payer__second_surname"]
 
+    def has_add_permission(self, request):
+        """
+        Disable direct creation of new Payment instances.
+        They should all be created via inlines only.
+        """
+        return False
+
     def link_to_related(self, model):
         model = model.content_object
         meta = model._meta
