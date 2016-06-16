@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.core.urlresolvers import reverse
+from django.utils.html import format_html
+from django.utils.translation import ugettext_lazy as _
 
 from import_export.admin import ExportMixin
 
@@ -215,10 +216,14 @@ class PaymentAdmin(UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
         return False
 
     def link_to_related(self, model):
+        """
+        Show a link to the object attached to a particular Payment instance
+        via a generic relation.
+        """
         model = model.content_object
         meta = model._meta
-        url_str = "admin:%s_%s_change" % (meta.app_label, meta.object_name.lower())
-        m_url = reverse(url_str, args=[model.pk])
-        return "%s: <a href='%s'>%s</a><br>" % (meta.verbose_name.title(), m_url, model)
+        url_name = "admin:%s_%s_change" % (meta.app_label, meta.object_name.lower())
+        url = reverse(url_name, args=[model.pk])
+        return format_html("{}: <a href='{}'>{}</a><br>",
+                           meta.verbose_name.title(), url, model)
     link_to_related.short_description = _("Paid by")
-    link_to_related.allow_tags = True
