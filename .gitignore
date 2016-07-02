@@ -3,6 +3,7 @@
 *.db
 .DS_Store
 .coverage
+.fuse_hidden*
 local_settings.py
 static/media
 *.sublime-workspace
