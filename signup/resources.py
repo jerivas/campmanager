@@ -7,6 +7,8 @@ but they have only ever been used to export from the admin.
 
 from __future__ import unicode_literals
 
+from django.utils.translation import ugettext_lazy as _
+
 from import_export import resources
 from import_export.fields import Field
 
@@ -93,6 +95,15 @@ class GuestResource(FriendlyExportMixin, PayerResource):
 
 
 class PaymentResource(FriendlyExportMixin, resources.ModelResource):
+    payer_name = Field()
+    payer_name.column_name = _("Paid by")
+
+    def dehydrate_payer_name(self, payment):
+        """
+        Get the representation of the person that made the payment
+        via the generic relation.
+        """
+        return str(payment.content_object)
 
     class Meta:
         model = Payment
@@ -101,5 +112,6 @@ class PaymentResource(FriendlyExportMixin, resources.ModelResource):
             "amount",
             "payment_date",
             "notes",
+            "payer_name",
         ]
         export_order = fields
