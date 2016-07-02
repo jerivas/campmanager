@@ -30,7 +30,8 @@ class PersonMixin(UnaccentSearchMixin):
     list_per_page = 50
     _ld = ["names", "surnames"]
     list_display_links = ["names", "surnames"]
-    _sf = ["^first_name", "^second_name", "^first_surname", "^second_surname"]
+    _sf = ["first_name__unaccent", "second_name__unaccent", "first_surname__unaccent",
+           "second_surname__unaccent"]
 
 
 class PayerMixin(object):
@@ -83,7 +84,7 @@ class MemberMixin(object):
     _ld = ["structure", "generation", "small_group"]
     _rf = ["structure", "generation", "cabin", "bus"]
     _lf = ["structure", "generation", "small_group"]
-    _sf = ["^structure", "^small_group__title"]
+    _sf = ["structure", "small_group__title__unaccent"]
 
 
 @admin.register(Camper)
@@ -188,7 +189,7 @@ class ParentAdmin(PersonMixin, admin.ModelAdmin):
 
     list_display = PersonMixin._ld + ["known_as", "gender"]
     list_filter = ["gender"]
-    search_fields = PersonMixin._sf + ["known_as"]
+    search_fields = PersonMixin._sf + ["known_as__unaccent"]
 
 
 @admin.register(Payment)
@@ -205,8 +206,9 @@ class PaymentAdmin(UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
     list_display_links = ["receipt_id", "amount"]
     list_display = ["receipt_id", "amount", "payment_date", "link_to_related"]
     search_fields = [
-        "receipt_id", "notes", "^payer__first_name", "^payer__second_name",
-        "^payer__first_surname", "^payer__second_surname"]
+        "receipt_id", "notes__unaccent", "payer__first_name__unaccent",
+        "payer__second_name__unaccent", "payer__first_surname__unaccent",
+        "payer__second_surname__unaccent"]
 
     def has_add_permission(self, request):
         """

@@ -43,12 +43,6 @@ class UnaccentSearchMixin(object):
     Performs admin searches using Postgres unaccent transformation.
     """
 
-    def get_search_fields(self, request):
-        """
-        Apply the unnaccent transformation on all search fields
-        """
-        return [le + '__unaccent' for le in self.search_fields]
-
     def get_search_results(self, request, queryset, search_term):
         # FIXME: What follows is a copy of the original get_search_results.
         #        It is a workaround to https://code.djangoproject.com/ticket/26184
