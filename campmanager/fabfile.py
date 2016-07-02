@@ -291,9 +291,16 @@ def psql(sql, show=True):
 @task
 def backup(filename):
     """
-    Backs up the database.
+    Backs up the project database.
     """
-    return postgres("pg_dump -Fc %s > %s" % (env.proj_name, filename))
+    tmp_file = "/tmp/%s" % filename
+    # We dump to /tmp because user "postgres" can't write to other user folders
+    # We cd to / because user "postgres" might not have read permissions
+    # elsewhere.
+    with cd("/"):
+        postgres("pg_dump -Fc %s > %s" % (env.proj_name, tmp_file))
+    run("cp %s ." % tmp_file)
+    sudo("rm -f %s" % tmp_file)
 
 
 @task
@@ -520,7 +527,7 @@ def restart():
 
 @task
 @log_call
-def deploy(first=False, backup=False):
+def deploy(first=False):
     """
     Deploy latest version of the project.
     Check out the latest version of the project from version
@@ -535,12 +542,11 @@ def deploy(first=False, backup=False):
         upload_template_and_reload(name)
     update_changed_requirements()
     local("git push production master")
-    if backup:
-        with project():
-            backup("last.db")
-            static_dir = static()
-            if exists(static_dir):
-                run("tar -cf last.tar %s" % static_dir)
+    with project():
+        backup("last.db")
+        static_dir = static()
+        if exists(static_dir):
+            run("tar -cf last.tar %s" % static_dir)
     manage("collectstatic -v 0 --noinput")
     manage("migrate --noinput")
     if first:
