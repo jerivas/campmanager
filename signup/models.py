@@ -243,7 +243,7 @@ class Payment(models.Model):
     """
     A generic payment done by anyone attending camp.
     """
-    receipt_id = models.CharField(_("Receipt ID"), max_length=16, unique=True)
+    receipt_id = models.PositiveIntegerField(_("Receipt ID"), unique=True)
     payment_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2)
     notes = models.CharField(_("Notes"), max_length=256, blank=True)
