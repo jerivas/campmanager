@@ -59,6 +59,9 @@ BUSES = (
     ("2", "Bus 2"),
     ("3", "Bus 3"),
     ("4", "Bus 4"),
+    ("5", "Bus 5"),
+    ("6", "Bus 6"),
+    ("7", "Bus 7"),
 )
 
 GENERATION_MATCHING = (
