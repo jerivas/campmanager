@@ -1,21 +1,26 @@
+from __future__ import unicode_literals
+
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
+@python_2_unicode_compatible
 class SmallGroup(models.Model):
-    """A small group composed of several Campers and a Counselor"""
+    """
+    A small group composed of several Campers and a Counselor
+    """
     from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
 
-    title = models.CharField(_("Title"), max_length=32, blank=False,
-        unique=True)
-    generation = models.PositiveIntegerField(_("Generation"),
-        blank=False, choices=GENERATIONS, default=1)
-    structure = models.CharField(_("Structure"), max_length=16, blank=True,
-        choices=STRUCTURES)
-    cabin = models.CharField(_("Cabin"), max_length=16, blank=True,
-        choices=CABINS)
-    bus = models.CharField(_("Bus"), max_length=16, blank=True,
-        choices=BUSES)
+    title = models.CharField(_("Title"), max_length=32, unique=True)
+    generation = models.PositiveIntegerField(
+        _("Generation"), choices=GENERATIONS, default=1)
+    structure = models.CharField(
+        _("Structure"), max_length=16, blank=True, choices=STRUCTURES)
+    cabin = models.CharField(
+        _("Cabin"), max_length=16, blank=True, choices=CABINS)
+    bus = models.CharField(
+        _("Bus"), max_length=16, blank=True, choices=BUSES)
 
     class Meta:
         ordering = ["generation"]
@@ -24,7 +29,7 @@ class SmallGroup(models.Model):
         permissions = (("view_reports", "View Reports"),
                        ("attendant_report", "Attendant Report"),)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -43,24 +48,30 @@ class SmallGroup(models.Model):
                 self.structure = structure[0]
         super(SmallGroup, self).save(*args, **kwargs)
         try:
-            self.counselor.save(update_fields=["structure", "generation",
-                "cabin", "bus"])
+            self.counselor.save(
+                update_fields=["structure", "generation", "cabin", "bus"])
         except Counselor.DoesNotExist:
             pass
-        self.camper_set.update(structure=self.structure,
-            generation=self.generation, cabin=self.cabin, bus=self.bus)
+        self.camper_set.update(
+            structure=self.structure,
+            generation=self.generation,
+            cabin=self.cabin,
+            bus=self.bus
+        )
 
     def get_members(self, signed_up=None):
         """
         Allows filtering Small Group members by signup status.
         """
+        members = []
         if signed_up is None:
-            m = [self.counselor]
-            m.extend(self.camper_set.all())
+            members.append(self.counselor)
+            members.extend(self.camper_set.all())
         else:
-            m = [self.counselor] if self.counselor.signed_up == signed_up else []
-            m.extend(self.camper_set.filter(signed_up=signed_up))
-        return m
+            if self.counselor.signed_up == signed_up:
+                members.append(self.counselor)
+            members.extend(self.camper_set.filter(signed_up=signed_up))
+        return members
 
     def get_attendants(self):
         """
