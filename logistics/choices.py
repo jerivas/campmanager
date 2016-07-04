@@ -12,8 +12,8 @@ GENERATIONS = (
 )
 
 STRUCTURES = (
-    ("preju", "Preju"),
     ("josias", "Josías"),
+    ("preju", "Preju"),
     ("lared", "La Red"),
     ("g180", "G180"),
 )
