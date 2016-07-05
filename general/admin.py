@@ -1,9 +1,30 @@
+from __future__ import unicode_literals
+
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from solo.admin import SingletonModelAdmin
 
 from .models import Camp, Chaperone, Lawyer
+
+
+#######################
+# User admin override #
+#######################
+
+class CustomUserAdmin(UserAdmin):
+    """
+    Add a few extra fields to the User admin.
+    """
+    extra_list_display = ("is_active", "is_superuser", "date_joined", "last_login")
+    list_display = UserAdmin.list_display + extra_list_display
+
+
+if User in admin.site._registry:
+    admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 
 
 ########
