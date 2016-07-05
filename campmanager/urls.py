@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
 
-from .views import Home
+from general import views
 
 urlpatterns = [
 
@@ -32,5 +32,5 @@ urlpatterns = [
     url(r"^reports/", include("reports.urls")),
 
     # General URLs
-    url(r"^$", Home.as_view(), name="home"),
+    url(r"^$", views.CampOverview.as_view(), name="home"),
 ]

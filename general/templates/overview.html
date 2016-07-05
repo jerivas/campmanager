@@ -1,0 +1,71 @@
+{% load solo_tags staticfiles %}
+{% get_solo "general.Camp" as camp %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ camp.title }}</title>
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat+Brush">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+	<header id="header" class="main-header">
+		<img src="{% static 'img/logo.png' %}" alt="Logo {{ camp.title }}">
+		<h1 class="sr-only">{{ camp.title }}</h1>
+		<p>Montesión, Guatemala<br>3 - 7 de agosto 2016</p>
+	</header>
+
+	<section id="#stats" class="stats">
+		<div class="container">
+
+			<div id="totals" class="stats-group">
+				<h2>Inscritos</h2>
+				<div class="stat">
+					<h3>{{ member_total }}</h3>
+					<p>En ágapes</p>
+				</div>
+				<div class="stat last">
+					<h3>{{ guest_total }}</h3>
+					<p>Invitados</p>
+				</div>
+				<div class="stat main">
+					<h3>{{ total }}</h3>
+					<p>Total</p>
+				</div>
+			</div>
+
+			<div id="groups" class="stats-group">
+				<h2>Por grupo</h2>
+				{% for structure, total in structure_totals %}
+					<div class="stat">
+						<h3>{{ total }}</h3>
+						<p>{{ structure }}</p>
+					</div>
+				{% endfor %}
+			</div>
+
+			<div id="generations" class="stats-group">
+				<h2>Por generación</h2>
+				{% for generation, total in generation_totals %}
+					<div class="stat">
+						<h3>{{ total }}</h3>
+						<p>{{ generation }}</p>
+					</div>
+				{% endfor %}
+			</div>
+
+		</div>
+	</section>
+
+	<footer id="footer" class="main-footer">
+		<img src="{% static 'img/footer-logo.png' %}" alt="Logo Conexión">
+		<p>&copy; {% now "Y" %} Conexión - Iglesia Bautista Miramonte</p>
+	</footer>
+
+</body>
+</html>
