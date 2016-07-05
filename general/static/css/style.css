@@ -1,0 +1,234 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+	html, body, div, span, applet, object, iframe,
+	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+	a, abbr, acronym, address, big, cite, code,
+	del, dfn, em, img, ins, kbd, q, s, samp,
+	small, strike, strong, sub, sup, tt, var,
+	b, u, i, center,
+	dl, dt, dd, ol, ul, li,
+	fieldset, form, label, legend,
+	table, caption, tbody, tfoot, thead, tr, th, td,
+	article, aside, canvas, details, embed,
+	figure, figcaption, footer, header, hgroup,
+	menu, nav, output, ruby, section, summary,
+	time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+	}
+	/* HTML5 display-role reset for older browsers */
+	article, aside, details, figcaption, figure,
+	footer, header, hgroup, menu, nav, section {
+		display: block;
+	}
+	body {
+		line-height: 1;
+	}
+	ol, ul {
+		list-style: none;
+	}
+	blockquote, q {
+		quotes: none;
+	}
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+
+/* Basic */
+
+	html {
+		box-sizing: border-box;
+		font-size: 11pt;
+	}
+	*, *:before, *:after {
+		box-sizing: inherit;
+	}
+	body {
+		background-color: #efefef;
+		background-image: url('img/bg.jpg');
+		color: #444;
+		font-family: 'Oswald', sans-serif;
+		font-weight: 400;
+		line-height: 1.4;
+	}
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Caveat Brush', cursive;
+		line-height: 1em;
+		margin-bottom: 0.55rem;
+	}
+	h1 {
+		font-size: 5rem;
+	}
+	h2 {
+		font-size: 4.5rem;
+	}
+	h3 {
+		font-size: 4rem;
+	}
+	h4 {
+		font-size: 3.5rem;
+	}
+	h5 {
+		font-size: 3rem;
+	}
+	h6 {
+		font-size: 2rem;
+	}
+	p, ul, ol, blockquote, pre {
+		margin-bottom: 1rem;
+	}
+	ul {
+		list-style-type: disc;
+		padding-left: 1.1rem;
+	}
+	ol {
+		list-style-type: decimal;
+		padding-left: 1.2rem;
+	}
+	img, video, embed {
+		max-width: 100%;
+	}
+	@media (min-width: 768px) {
+		html {
+			font-size: 12pt;
+		}
+	}
+
+/* Helpers */
+
+	.sr-only {
+		border: 0;
+		clip: rect(0,0,0,0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+
+	.container {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+/* Header */
+
+	.main-header {
+		padding: 3rem 2rem 2rem;
+		background-attachment: fixed;
+		background-color: #222;
+		background-image: url('img/bg-alt.jpg');
+		color: #fff;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	.main-header img {
+		margin-bottom: 2rem;
+		max-height: 175px;
+	}
+	@media (min-height: 800px) {
+		.main-header img {
+			max-height: 250px;
+		}
+	}
+
+/* Stats */
+
+	.stats {
+		padding-bottom: 0;
+		padding-top: 3rem;
+	}
+	.stats-group {
+		align-items: center;
+		box-shadow: 0 1.2rem 1.5rem -1.5rem rgba(0,0,0,0.5);
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-bottom: 2rem;
+	}
+	.stats-group:last-child {
+		box-shadow: none;
+		padding-bottom: 0;
+	}
+	.stats-group h2 {
+		text-align: center;
+		width: 100%;
+		margin-bottom: 3rem;
+	}
+	.stat {
+		font-size: 1.65rem;
+		margin-bottom: 2rem;
+		max-width: 100%;
+		min-width: 33.33%;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	.stat h3 {
+		background-color: #8dbb16;
+		box-shadow: 0 0 1.25rem -0.5rem rgba(0,0,0,0.5);
+		border-radius: 100%;
+		color: #fff;
+		display: block;
+		font-size: 3.5rem;
+		height: 8rem;
+		line-height: 8rem;
+		margin: 0 auto 0.75rem;
+		width: 8rem;
+	}
+	.stat.main h3 {
+		background-color: #57deff;
+	}
+	@media (min-width: 768px) {
+		.stats {
+			padding-bottom: 1rem;
+			padding-top: 4rem;
+		}
+		.stats-group {
+			margin-bottom: 3rem;
+			padding-bottom: 1rem;
+		}
+		.stat {
+			flex: 1;
+			max-width: 33.33%;
+			min-width: 25%;
+		}
+		.stat.main {
+			margin: 3rem 0 4rem;
+			transform: scale(1.5);
+		}
+		.stat.last {
+			order: 99;
+		}
+	}
+
+/* Footer */
+
+	.main-footer {
+		padding: 3rem 2rem 2rem;
+		background-attachment: fixed;
+		background-color: #222;
+		background-image: url('img/bg-alt.jpg');
+		color: #fff;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	.main-footer img {
+		margin-bottom: 1rem;
+	}
