@@ -141,7 +141,7 @@
 		margin-bottom: 2rem;
 		max-height: 175px;
 	}
-	@media (min-height: 800px) {
+	@media (min-height: 700px) {
 		.main-header img {
 			max-height: 250px;
 		}
