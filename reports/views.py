@@ -98,9 +98,11 @@ class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
         context = super(AttendantReport, self).get_context_data(**kwargs)
         counselors = Counselor.objects.filter(signed_up=True).count()
         campers = Camper.objects.filter(signed_up=True).count()
+        small_groups = (SmallGroup.objects.select_related("counselor")
+                        .prefetch_related("camper_set"))
         context.update({
             "total": counselors + campers,
-            "small_groups": SmallGroup.objects.select_related(),
+            "small_groups": small_groups,
             "guests": Guest.objects.filter(signed_up=True),
         })
         return context
