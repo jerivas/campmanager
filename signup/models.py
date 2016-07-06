@@ -324,6 +324,9 @@ class Counselor(Person, Payer, Attendant, Member):
     """
     A counselor for campers.
     """
+    has_gov_id = models.BooleanField(
+        _("ID on file"), blank=True, default=False,
+        help_text=_("This person has filed a copy of their ID"))
     small_group = models.OneToOneField(
         "logistics.SmallGroup", verbose_name=_("Small Group"))
 

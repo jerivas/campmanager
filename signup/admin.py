@@ -147,12 +147,13 @@ class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         ("badge_name", "small_group"),
         ("gender", "has_medical_record"),
         ("no_pay", "fined"),
+        "has_gov_id",
         ("structure", "generation"),
         ("cabin", "bus"),
         ("balance_as_currency", "amount_due"),)
 
-    list_display = (PersonMixin._ld + ["has_medical_record"] + MemberMixin._ld +
-                    PayerMixin._ld)
+    list_display = (PersonMixin._ld + ["has_medical_record", "has_gov_id"] +
+                    MemberMixin._ld + PayerMixin._ld)
     list_filter = ["has_medical_record"] + MemberMixin._lf + PayerMixin._lf
     search_fields = PersonMixin._sf + MemberMixin._sf
 
