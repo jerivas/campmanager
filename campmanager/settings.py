@@ -154,6 +154,7 @@ INSTALLED_APPS = [
     'reports',
     'debug_toolbar',
     'import_export',
+    'logentry_admin',
 ]
 
 MIDDLEWARE_CLASSES = [
