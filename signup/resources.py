@@ -64,6 +64,7 @@ class CounselorResource(FriendlyExportMixin, PayerResource):
             "first_surname",
             "second_surname",
             "has_medical_record",
+            "has_gov_id",
             "structure",
             "generation",
             "small_group__title",
