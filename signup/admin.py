@@ -125,6 +125,7 @@ class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         }),
     ]
 
+    list_select_related = ["small_group"]
     list_display = (PersonMixin._ld + ["has_medical_record"] + MemberMixin._ld +
                     PayerMixin._ld + ["permission_status"])
     list_filter = (["has_medical_record"] + MemberMixin._lf + PayerMixin._lf +
@@ -152,6 +153,7 @@ class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         ("cabin", "bus"),
         ("balance_as_currency", "amount_due"),)
 
+    list_select_related = ["small_group"]
     list_display = (PersonMixin._ld + ["has_medical_record", "has_gov_id"] +
                     MemberMixin._ld + PayerMixin._ld)
     list_filter = ["has_medical_record"] + MemberMixin._lf + PayerMixin._lf
