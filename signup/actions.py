@@ -10,14 +10,20 @@ from signup.models import Camper
 def _move_permission(modeladmin, request, queryset, forward):
     """
     Helper function for moving the permission status in any given direction.
-    Checks for lower and upper limits. See all permission choices in
-    signup.models module.
+    Checks cases where permissions should not be updated. See all permission choices
+    in signup.models.Camper.
     """
-    boundary = Camper.PROOFREAD if forward else Camper.INCOMPLETE
-    nonmovable = Camper.SPECIAL  # Anything above special should not be changed
+    # Determine which permission status should not be modified
+    LAST = Camper.PERMISSION_STATUS[-1][1][-1][0]
+    FIRST = Camper.PERMISSION_STATUS[0][1][0][0]
+    if forward:
+        nonmovable = [LAST, Camper.PROOFREAD, Camper.SPECIAL]
+    else:
+        nonmovable = [FIRST, Camper.SPECIAL, Camper.PENDING_ID]
+
+    # Move the permissions in the selected rows
     increment = 1 if forward else -1
-    queryset = queryset.exclude(permission_status=boundary,
-                                permission_status__gte=nonmovable)
+    queryset = queryset.exclude(permission_status__in=nonmovable)
     rows_updated = queryset.update(permission_status=F("permission_status") + increment)
     if rows_updated == 0:
         modeladmin.message_user(request, _("No Campers were updated."))
