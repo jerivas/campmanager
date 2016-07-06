@@ -14,12 +14,11 @@ def _move_permission(modeladmin, request, queryset, forward):
     signup.models module.
     """
     boundary = Camper.PROOFREAD if forward else Camper.INCOMPLETE
-    special = Camper.SPECIAL
+    nonmovable = Camper.SPECIAL  # Anything above special should not be changed
     increment = 1 if forward else -1
-    queryset = queryset.exclude(permission_status=boundary).exclude(
-        permission_status=special)
-    rows_updated = queryset.update(permission_status=F(
-        "permission_status")+increment)
+    queryset = queryset.exclude(permission_status=boundary,
+                                permission_status__gte=nonmovable)
+    rows_updated = queryset.update(permission_status=F("permission_status") + increment)
     if rows_updated == 0:
         modeladmin.message_user(request, _("No Campers were updated."))
     else:

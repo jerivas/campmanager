@@ -96,13 +96,22 @@ class Minor(models.Model):
     SIGNED = 3
     PROOFREAD = 4
     SPECIAL = 5
+    PENDING_ID = 6
+    SUBMITTED_ID = 7
+
     PERMISSION_STATUS = (
-        (INCOMPLETE, _("Pending Documentation")),
-        (TO_PRINT, _("Ready to Print")),
-        (PRINTED, _("Printed")),
-        (SIGNED, _("Signed")),
-        (PROOFREAD, _("Proofread")),
-        (SPECIAL, _("Special Case")),
+        (_("Minors"), (
+            (INCOMPLETE, _("Pending Documentation")),
+            (TO_PRINT, _("Ready to Print")),
+            (PRINTED, _("Printed")),
+            (SIGNED, _("Signed")),
+            (PROOFREAD, _("Proofread")),
+            (SPECIAL, _("Special Case")),
+        )),
+        (_("Adults"), (
+            (PENDING_ID, _("Pending ID")),
+            (SUBMITTED_ID, _("Submitted ID")),
+        )),
     )
 
     lawyer = models.ForeignKey(
