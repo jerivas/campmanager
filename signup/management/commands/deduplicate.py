@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         from ...models import Camper, Counselor
 
-        campers = Camper.objects.filter(signed_up=True)
+        campers = Camper.objects.all()
 
         for camper in campers:
             # Check for similar Campers
