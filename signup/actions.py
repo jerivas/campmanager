@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from signup.models import Camper
 
 
-def _move_permission(forward, modeladmin, request, queryset):
+def _move_permission(modeladmin, request, queryset, forward):
     """
     Helper function for moving the permission status in any given direction.
     Checks for lower and upper limits. See all permission choices in
@@ -32,15 +32,13 @@ def _move_permission(forward, modeladmin, request, queryset):
 
 
 def move_permission_forward(modeladmin, request, queryset):
-    return _move_permission(True, modeladmin, request, queryset)
-move_permission_forward.short_description = _(
-    "Move permission status forward")
+    return _move_permission(modeladmin, request, queryset, forward=True)
+move_permission_forward.short_description = _("Move permission status forward")
 
 
 def move_permission_backwards(modeladmin, request, queryset):
-    return _move_permission(False, modeladmin, request, queryset)
-move_permission_backwards.short_description = _(
-    "Move permission status backwards")
+    return _move_permission(modeladmin, request, queryset, forward=False)
+move_permission_backwards.short_description = _("Move permission status backwards")
 
 
 def generate_permission(modeladmin, request, queryset):
