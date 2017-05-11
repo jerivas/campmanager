@@ -1,6 +1,7 @@
 *.pyc
 *.pyo
 *.db
+.anaconda
 .DS_Store
 .coverage
 .fuse_hidden*
