@@ -49,6 +49,7 @@ class Command(BaseCommand):
                         setattr(group.counselor, field, value)
                     except AttributeError:
                         pass
+                group.counselor.has_gov_id = False
                 group.counselor.save()
         self.stdout.write("All generations graduated successfully")
 
