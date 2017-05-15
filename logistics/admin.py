@@ -20,7 +20,7 @@ class SmallGroupAdmin(admin.ModelAdmin):
     list_select_related = ["counselor"]
     list_prefetch_related = ["camper_set"]
     list_display = [
-        "title", "signed_up_count", "structure", "generation", "cabin", "bus"]
+        "title", "counselor", "signed_up_count", "structure", "generation", "cabin", "bus"]
     list_editable = ["cabin", "bus"]
     list_filter = ["structure", "generation", "cabin", "bus"]
     readonly_fields = ["structure", "member_list"]
