@@ -1,30 +1,38 @@
 from __future__ import print_function, unicode_literals
-from future.builtins import input, open
+from future.builtins import open
 
 import os
 import re
 import sys
+from contextlib import contextmanager
 from functools import wraps
 from getpass import getpass, getuser
 from glob import glob
-from contextlib import contextmanager
+from importlib import import_module
 from posixpath import join
 
-from fabric.api import abort, env, cd, prefix, sudo as _sudo, run as _run, hide, task, local
+from fabric.api import abort, env, cd, prefix, sudo as _sudo, run as _run, \
+    hide, task, local
+from fabric.context_managers import settings as fab_settings
 from fabric.contrib.console import confirm
 from fabric.contrib.files import exists, upload_template
+from fabric.contrib.project import rsync_project
 from fabric.colors import yellow, green, blue, red
+from fabric.decorators import hosts
+
 
 ################
 # Config setup #
 ################
 
+if not hasattr(env, "proj_app"):
+    env.proj_app = "campmanager"
+
 conf = {}
-if sys.argv[0].split(os.sep)[-1] in ("fab",             # POSIX
-                                     "fab-script.py"):  # Windows
+if sys.argv[0].split(os.sep)[-1] in ("fab", "fab-script.py"):
     # Ensure we import settings from the current dir
     try:
-        conf = __import__("settings", globals(), locals(), [], 0).FABRIC
+        conf = import_module("%s.settings" % env.proj_app).FABRIC
         try:
             conf["HOSTS"][0]
         except (KeyError, ValueError):
@@ -33,34 +41,44 @@ if sys.argv[0].split(os.sep)[-1] in ("fab",             # POSIX
         print("Aborting, no hosts defined.")
         exit()
 
+
+env.db_pass = conf.get("DB_PASS", None)
+env.admin_pass = conf.get("ADMIN_PASS", None)
 env.user = conf.get("SSH_USER", getuser())
-env.password = conf.get("SSH_PASS", "")
+env.password = conf.get("SSH_PASS", None)
 env.key_filename = conf.get("SSH_KEY_PATH", None)
-env.hosts = conf.get("HOSTS", [])
+env.hosts = conf.get("HOSTS", [""])
+
+env.proj_name = conf.get("PROJECT_NAME", env.proj_app)
+env.venv_home = conf.get("VIRTUALENV_HOME", "/home/%s/.virtualenvs" % env.user)
+env.venv_path = join(env.venv_home, env.proj_name)
+env.proj_path = "/home/%s/django/%s" % (env.user, env.proj_name)
+env.manage = "%s/bin/python %s/manage.py" % (env.venv_path, env.proj_path)
 env.domains = conf.get("DOMAINS", [conf.get("LIVE_HOSTNAME", env.hosts[0])])
 env.domains_nginx = " ".join(env.domains)
 env.domains_regex = "|".join(env.domains)
 env.domains_python = ", ".join(["'%s'" % s for s in env.domains])
-
-env.proj_name = conf.get("PROJECT_NAME", os.getcwd().split(os.sep)[-1])
-env.proj_path = "/home/%s/django/%s" % (env.user, env.proj_name)
-env.venv_home = conf.get("VIRTUALENV_HOME", "/home/%s/.virtualenvs" % env.user)
-env.venv_name = conf.get("VIRTUALENV_NAME", env.proj_name)
-env.venv_path = "%s/%s" % (env.venv_home, env.venv_name)
-env.reqs_path = conf.get("REQUIREMENTS_PATH", "requirements/project.txt")
-env.manage = "%s/bin/python %s/manage.py" % (env.venv_path, env.proj_path)
-env.repo_path = conf.get("REPO_PATH", "/home/%s/git/%s.git" % (
-    env.user, env.proj_name))
-env.locale = conf.get("LOCALE", "en_US.UTF-8")
-env.supervisor_conf = "/home/%s/etc/supervisor/conf.d/%s.conf" % (
-    env.user, env.proj_name)
-env.twitter_period = conf.get("TWITTER_PERIOD", None)
-
-env.admin_pass = conf.get("ADMIN_PASS", None)
-env.db_pass = conf.get("DB_PASS", None)
 env.ssl_disabled = "#" if len(env.domains) > 1 else ""
+env.vcs_tools = ["git", "hg"]
+env.deploy_tool = conf.get("DEPLOY_TOOL", "rsync")
+env.reqs_path = conf.get("REQUIREMENTS_PATH", None)
+env.locale = conf.get("LOCALE", "en_US.UTF-8")
+env.num_workers = conf.get("NUM_WORKERS",
+                           "multiprocessing.cpu_count() * 2 + 1")
+
 env.secret_key = conf.get("SECRET_KEY", "")
 env.nevercache_key = conf.get("NEVERCACHE_KEY", "")
+
+if not env.secret_key:
+    print("Aborting, no SECRET_KEY setting defined.")
+    exit()
+
+
+# Remote git repos need to be "bare" and reside separated from the project
+if env.deploy_tool == "git":
+    env.repo_path = "/home/%s/git/%s.git" % (env.user, env.proj_name)
+else:
+    env.repo_path = env.proj_path
 
 
 ##################
@@ -73,34 +91,29 @@ env.nevercache_key = conf.get("NEVERCACHE_KEY", "")
 
 templates = {
     "nginx": {
-        "local_path": "deploy/nginx.conf",
+        "local_path": "deploy/nginx.conf.template",
         "remote_path": "/etc/nginx/sites-enabled/%(proj_name)s.conf",
         "reload_command": "service nginx restart",
+    },
+    "supervisor": {
+        "local_path": "deploy/supervisor.conf.template",
+        "remote_path": "/etc/supervisor/conf.d/%(proj_name)s.conf",
+        "reload_command": "supervisorctl update gunicorn_%(proj_name)s",
+    },
+    "cron": {
+        "local_path": "deploy/crontab.template",
+        "remote_path": "/etc/cron.d/%(proj_name)s",
+        "owner": "root",
+        "mode": "600",
     },
     "gunicorn": {
         "local_path": "deploy/gunicorn.conf.py.template",
         "remote_path": "%(proj_path)s/gunicorn.conf.py",
     },
-    "supervisorctl": {
-        "local_path": "deploy/supervisorctl.conf",
-        "remote_path": "%(supervisor_conf)s",
-        "reload_command": "supervisorctl restart gunicorn_%(proj_name)s",
-    },
     "settings": {
         "local_path": "deploy/local_settings.py.template",
-        "remote_path": "%(proj_path)s/%(proj_name)s/local_settings.py",
+        "remote_path": "%(proj_path)s/%(proj_app)s/local_settings.py",
     },
-    "post receive hook": {
-        "local_path": "deploy/post-receive",
-        "remote_path": "%(repo_path)s/hooks/post-receive",
-        "mode": "+x",
-    },
-    "cron": {
-        "local_path": "deploy/crontab",
-        "remote_path": "/etc/cron.d/%(proj_name)s",
-        "owner": "root",
-        "mode": "600",
-    }
 }
 
 
@@ -110,7 +123,9 @@ templates = {
 
 @contextmanager
 def virtualenv():
-    """Run commands within the project's virtualenv."""
+    """
+    Runs commands within the project's virtualenv.
+    """
     with cd(env.venv_path):
         with prefix("source %s/bin/activate" % env.venv_path):
             yield
@@ -118,7 +133,9 @@ def virtualenv():
 
 @contextmanager
 def project():
-    """Run commands within the project's directory."""
+    """
+    Runs commands within the project's directory.
+    """
     with virtualenv():
         with cd(env.proj_path):
             yield
@@ -127,11 +144,11 @@ def project():
 @contextmanager
 def update_changed_requirements():
     """
-    Check for changes in the requirements file across an update,
-    and get new requirements if changes have occurred.
+    Checks for changes in the requirements file across an update,
+    and gets new requirements if changes have occurred.
     """
     reqs_path = join(env.proj_path, env.reqs_path)
-    get_reqs = lambda: run("cat %s" % reqs_path)
+    get_reqs = lambda: run("cat %s" % reqs_path, show=False)
     old_reqs = get_reqs() if env.reqs_path else ""
     yield
     if old_reqs:
@@ -183,7 +200,7 @@ def run(command, show=True, *args, **kwargs):
 @task
 def sudo(command, show=True, *args, **kwargs):
     """
-    Runs a command as sudo.
+    Runs a command as sudo on the remote server.
     """
     if show:
         print_command(command)
@@ -212,7 +229,7 @@ def get_templates():
 
 def upload_template_and_reload(name):
     """
-    Uploads a template only if it has changed, and if so, reload a
+    Uploads a template only if it has changed, and if so, reload the
     related service.
     """
     template = get_templates()[name]
@@ -247,8 +264,50 @@ def upload_template_and_reload(name):
         sudo(reload_command)
 
 
+def rsync_upload():
+    """
+    Uploads the project with rsync excluding some files and folders.
+    """
+    excludes = ["*.pyc", "*.pyo", "*.db", ".DS_Store", ".coverage",
+                "local_settings.py", "/static", "/.git", "/.hg"]
+    local_dir = os.getcwd() + os.sep
+    return rsync_project(remote_dir=env.proj_path, local_dir=local_dir,
+                         exclude=excludes)
+
+
+def vcs_upload():
+    """
+    Uploads the project with the selected VCS tool.
+    """
+    if env.deploy_tool == "git":
+        remote_path = "ssh://%s@%s%s" % (env.user, env.host_string,
+                                         env.repo_path)
+        if not exists(env.repo_path):
+            run("mkdir -p %s" % env.repo_path)
+            with cd(env.repo_path):
+                run("git init --bare")
+        local("git push -f %s master" % remote_path)
+        with cd(env.repo_path):
+            run("GIT_WORK_TREE=%s git checkout -f master" % env.proj_path)
+            run("GIT_WORK_TREE=%s git reset --hard" % env.proj_path)
+    elif env.deploy_tool == "hg":
+        remote_path = "ssh://%s@%s/%s" % (env.user, env.host_string,
+                                          env.repo_path)
+        with cd(env.repo_path):
+            if not exists("%s/.hg" % env.repo_path):
+                run("hg init")
+                print(env.repo_path)
+            with fab_settings(warn_only=True):
+                push = local("hg push -f %s" % remote_path)
+                if push.return_code == 255:
+                    abort()
+            run("hg update")
+
+
 def db_pass():
-    """Prompt for the database password if unknown."""
+    """
+    Prompts for the database password if unknown.
+    """
     if not env.db_pass:
         env.db_pass = getpass("Enter the database password: ")
     return env.db_pass
@@ -264,7 +323,9 @@ def apt(packages):
 
 @task
 def pip(packages):
-    """Install Python packages within the virtual environment."""
+    """
+    Installs one or more Python packages within the virtual environment.
+    """
     with virtualenv():
         return run("pip install %s" % packages)
 
@@ -306,7 +367,7 @@ def backup(filename):
 @task
 def restore(filename):
     """
-    Restores the database.
+    Restores the project database from a previous backup.
     """
     return postgres("pg_restore -c -d %s %s" % (env.proj_name, filename))
 
@@ -316,9 +377,10 @@ def python(code, show=True):
     """
     Runs Python code in the project's virtual environment, with Django loaded.
     """
-    setup = "import os; os.environ[\'DJANGO_SETTINGS_MODULE\']=\'%s.settings\';" \
+    setup = "import os;" \
+            "os.environ[\'DJANGO_SETTINGS_MODULE\']=\'%s.settings\';" \
             "import django;" \
-            "django.setup();" % env.proj_name
+            "django.setup();" % env.proj_app
     full_code = 'python -c "%s%s"' % (setup, code.replace("`", "\\\`"))
     with project():
         if show:
@@ -332,7 +394,7 @@ def static():
     Returns the live STATIC_ROOT directory.
     """
     return python("from django.conf import settings;"
-                  "print settings.STATIC_ROOT", show=False).split("\n")[-1]
+                  "print(settings.STATIC_ROOT)", show=False).split("\n")[-1]
 
 
 @task
@@ -341,6 +403,29 @@ def manage(command):
     Runs a Django management command.
     """
     return run("%s %s" % (env.manage, command))
+
+
+###########################
+# Security best practices #
+###########################
+
+@task
+@log_call
+@hosts(["root@%s" % host for host in env.hosts])
+def secure(new_user=env.user):
+    """
+    Minimal security steps for brand new servers.
+    Installs system updates, creates new user (with sudo privileges) for future
+    usage, and disables root login via SSH.
+    """
+    run("apt-get update -q")
+    run("apt-get upgrade -y -q")
+    run("adduser --gecos '' %s" % new_user)
+    run("usermod -G sudo %s" % new_user)
+    run("sed -i 's:RootLogin yes:RootLogin no:' /etc/ssh/sshd_config")
+    run("service ssh restart")
+    print(green("Security steps completed. Log in to the server as '%s' from "
+                "now on." % new_user, bold=True))
 
 
 #########################
@@ -353,78 +438,63 @@ def install():
     """
     Installs the base system and Python requirements for the entire server.
     """
-    locale = "LC_ALL=%s" % env.locale
-    with hide("stdout"):
-        if locale not in sudo("cat /etc/default/locale"):
-            sudo("update-locale %s" % locale)
-            run("exit")
-    sudo("apt-get update -y -q >> /dev/null")
+    # Install system requirements
+    sudo("apt-get update -y -q")
     apt("nginx libjpeg-dev python-dev python-setuptools git-core "
         "postgresql libpq-dev memcached supervisor python-pip")
-    sudo("pip install virtualenv virtualenvwrapper")
-    run("mkdir -p /home/%s/{tmp,logs,etc}" % env.user)
-    run("mkdir -p /home/%s/etc/supervisor/conf.d" % env.user)
-    upload_template("deploy/supervisord.conf",
-                    "/home/%s/etc/supervisord.conf" % env.user, env)
-    run("supervisord -c /home/%s/etc/supervisord.conf" % env.user)
+    run("mkdir -p /home/%s/logs" % env.user)
+
+    # Install Python requirements
+    sudo("pip install -U pip virtualenv virtualenvwrapper mercurial")
+
+    # Set up virtualenv
     run("mkdir -p %s" % env.venv_home)
     run("echo 'export WORKON_HOME=%s' >> /home/%s/.bashrc" % (env.venv_home,
                                                               env.user))
     run("echo 'source /usr/local/bin/virtualenvwrapper.sh' >> "
         "/home/%s/.bashrc" % env.user)
-    print("Successfully set up git, pip, virtualenv, supervisor, and "
-          "memcached.")
+    print(green("Successfully set up git, mercurial, pip, virtualenv, "
+                "supervisor, memcached.", bold=True))
 
 
 @task
 @log_call
 def create():
     """
-    Set up a new virtualenv or reuse an existing one. Create DB and DB user.
-    Set up Git. Configure SSL. Set up supervisor and gunicorn.
+    Creates the environment needed to host the project.
+    The environment consists of: system locales, virtualenv, database, project
+    files, SSL certificate, and project-specific Python requirements.
     """
+    # Generate project locale
+    locale = env.locale.replace("UTF-8", "utf8")
+    with hide("stdout"):
+        if locale not in run("locale -a"):
+            sudo("locale-gen %s" % env.locale)
+            sudo("update-locale %s" % env.locale)
+            sudo("service postgresql restart")
+            run("exit")
+
     # Create project path
     run("mkdir -p %s" % env.proj_path)
 
     # Set up virtual env
     run("mkdir -p %s" % env.venv_home)
     with cd(env.venv_home):
-        if exists(env.venv_name):
-            if confirm("Virtualenv already exists: %s. Reinstall?"
-                       % env.venv_name):
-                print("Reinstalling virtualenv from scratch.")
-                run("rm -r %s" % env.venv_name)
-                run("virtualenv %s" % env.venv_name)
+        if exists(env.proj_name):
+            if confirm("Virtualenv already exists in host server: %s"
+                       "\nWould you like to replace it?" % env.proj_name):
+                run("rm -rf %s" % env.proj_name)
             else:
-                print("Using existing virtualenv: %s." % env.venv_name)
-        else:
-            if confirm("Virtualenv does not exist: %s. Create?"
-                       % env.venv_name):
-                print("Creating virtualenv.")
-                run("virtualenv %s" % env.venv_name)
-                print("New virtualenv: %s." % env.venv_path)
-            else:
-                abort("Aborting at user request.")
-        # Make sure we don't inherit anything from the system's Python
-        run("touch %s/lib/python2.7/sitecustomize.py" % env.venv_name)
+                abort()
+        run("virtualenv %s" % env.proj_name)
 
-    # Set up Git
-    if not exists(env.repo_path):
-        print("Setting up git repo")
-        run("mkdir -p %s" % env.repo_path)
-        with cd(env.repo_path):
-            run("git init --bare")
-    upload_template_and_reload("post receive hook")
-    print("Git repo ready at %s" % env.repo_path)
-    local("git remote add production ssh://%s@%s%s" % (env.user,
-        env.host_string, env.repo_path))
-    print("Added new remote 'production'. You can now push to it with "
-          "git push production.")
-    print("Pushing master branch.")
-    local("git push production +master:refs/heads/master")
-    print("All files pushed to remote server.")
+    # Upload project files
+    if env.deploy_tool in env.vcs_tools:
+        vcs_upload()
+    else:
+        rsync_upload()
 
-    # Create DB and DB user.
+    # Create DB and DB user
     pw = db_pass()
     user_sql_args = (env.proj_name, pw.replace("'", "\'"))
     user_sql = "CREATE USER %s WITH ENCRYPTED PASSWORD '%s';" % user_sql_args
@@ -455,12 +525,14 @@ def create():
                     upload_template(crt_local, crt_file, use_sudo=True)
                     upload_template(key_local, key_file, use_sudo=True)
 
-    # Set up project.
+    # Install project-specific requirements
     upload_template_and_reload("settings")
     with project():
         if env.reqs_path:
             pip("-r %s/%s" % (env.proj_path, env.reqs_path))
-        pip("gunicorn setproctitle south psycopg2 python-memcached")
+        pip("gunicorn setproctitle psycopg2 "
+            "django-compressor python-memcached")
+    # Bootstrap the DB
         # manage("createdb --noinput --nodata")
         # python("from django.conf import settings;"
         #        "from django.contrib.sites.models import Site;"
@@ -471,7 +543,7 @@ def create():
         #            "Site.objects.get_or_create(domain='%s');" % domain)
         # if env.admin_pass:
         #     pw = env.admin_pass
-        #     user_py = ("from mezzanine.utils.models import get_user_model;"
+        #     user_py = ("from django.contrib.auth import get_user_model;"
         #                "User = get_user_model();"
         #                "u, _ = User.objects.get_or_create(username='admin');"
         #                "u.is_staff = u.is_superuser = True;"
@@ -486,26 +558,23 @@ def create():
 
 @task
 @log_call
-def remove(venv=False):
+def remove():
     """
     Blow away the current project.
     """
-    if venv and exists(env.venv_path):
+    if exists(env.venv_path):
         run("rm -rf %s" % env.venv_path)
-        print("Removed remote virtualenv: %s." % env.venv_name)
-    if exists(env.repo_path):
-        run("rm -rf %s" % env.repo_path)
-        local("git remote rm production", capture=True)
-        print("Removed remote git repo: %s." % env.repo_path)
+    if exists(env.proj_path):
+        run("rm -rf %s" % env.proj_path)
     for template in get_templates().values():
         remote_path = template["remote_path"]
         if exists(remote_path):
             sudo("rm %s" % remote_path)
-            print("Removed remote file: %s." % template["remote_path"])
-    run("rm -rf %s" % env.proj_path)
+    if exists(env.repo_path):
+        run("rm -rf %s" % env.repo_path)
+    sudo("supervisorctl update")
     psql("DROP DATABASE IF EXISTS %s;" % env.proj_name)
     psql("DROP USER IF EXISTS %s;" % env.proj_name)
-    run("supervisorctl update")
 
 
 ##############
@@ -517,61 +586,65 @@ def remove(venv=False):
 def restart():
     """
     Restart gunicorn worker processes for the project.
+    If the processes are not running, they will be started.
     """
     pid_path = "%s/gunicorn.pid" % env.proj_path
     if exists(pid_path):
         run("kill -HUP `cat %s`" % pid_path)
     else:
-        run("supervisorctl restart gunicorn_%s" % env.proj_name)
+        sudo("supervisorctl update")
 
 
 @task
 @log_call
-def deploy(first=False):
+def deploy():
     """
     Deploy latest version of the project.
-    Check out the latest version of the project from version
-    control, install new requirements, sync and migrate the database,
-    collect any new static assets, and restart gunicorn's work
+    Backup current version of the project, push latest version of the project
+    via version control or rsync, install new requirements, sync and migrate
+    the database, collect any new static assets, and restart gunicorn's worker
     processes for the project.
     """
     if not exists(env.proj_path):
-        abort("Project %s does not exist in host server. "
-              "Run fab create before trying to deploy." % env.proj_name)
+        if confirm("Project does not exist in host server: %s"
+                   "\nWould you like to create it?" % env.proj_name):
+            create()
+        else:
+            abort()
+
+    # Backup current version of the project
+    with cd(env.proj_path):
+        backup("last.db")
+    if env.deploy_tool in env.vcs_tools:
+        with cd(env.repo_path):
+            if env.deploy_tool == "git":
+                    run("git rev-parse HEAD > %s/last.commit" % env.proj_path)
+            elif env.deploy_tool == "hg":
+                    run("hg id -i > last.commit")
+        with project():
+            static_dir = static()
+            if exists(static_dir):
+                run("tar -cf static.tar --exclude='*.thumbnails' %s" %
+                    static_dir)
+    else:
+        with cd(join(env.proj_path, "..")):
+            excludes = ["*.pyc", "*.pio", "*.thumbnails"]
+            exclude_arg = " ".join("--exclude='%s'" % e for e in excludes)
+            run("tar -cf {0}.tar {1} {0}".format(env.proj_name, exclude_arg))
+
+    # Deploy latest version of the project
+    with update_changed_requirements():
+        if env.deploy_tool in env.vcs_tools:
+            vcs_upload()
+        else:
+            rsync_upload()
+    with project():
+        manage("collectstatic -v 0 --noinput")
+        manage("migrate --noinput")
     for name in get_templates():
         upload_template_and_reload(name)
-    update_changed_requirements()
-    local("git push production master")
-    with project():
-        backup("last.db")
-        static_dir = static()
-        if exists(static_dir):
-            run("tar -cf last.tar %s" % static_dir)
-    manage("collectstatic -v 0 --noinput")
-    manage("migrate --noinput")
-    if first:
-        run("supervisorctl update")
-    else:
-        restart()
+    restart()
     return True
-
-
-@task
-@log_call
-def setup_twitter():
-    """
-    Setup a cron job to poll Twitter periodically.
-    """
-    if isinstance(env.twitter_period, int):
-        srv, ssn, acn = get_webf_session()
-        srv.create_cronjob(ssn, "*/%s * * * * %s poll_twitter" % (
-            env.twitter_period, env.manage))
-        manage("poll_twitter")
-        print("New cronjob. Twitter will be polled every %s minutes. "
-              "Please make sure you have configured your Twitter credentials "
-              "in your site settings." % env.twitter_period)
-    else:
-        abort("TWITTER_PERIOD not set correctly in deployment settings.")
 
 
 @task
@@ -580,16 +653,26 @@ def rollback():
     """
     Reverts project state to the last deploy.
     When a deploy is performed, the current state of the project is
-    backed up. This includes the last commit checked out, the database,
-    and all static files. Calling rollback will revert all of these to
-    their state prior to the last deploy.
+    backed up. This includes the project files, the database, and all static
+    files. Calling rollback will revert all of these to their state prior to
+    the last deploy.
     """
-    with project():
-        with update_changed_requirements():
-            update = "git checkout"
-            run("%s `cat last.commit`" % update)
-        with cd(join(static(), "..")):
-            run("tar -xf %s" % join(env.proj_path, "last.tar"))
+    with update_changed_requirements():
+        if env.deploy_tool in env.vcs_tools:
+            with cd(env.repo_path):
+                if env.deploy_tool == "git":
+                        run("GIT_WORK_TREE={0} git checkout -f "
+                            "`cat {0}/last.commit`".format(env.proj_path))
+                elif env.deploy_tool == "hg":
+                        run("hg update -C `cat last.commit`")
+            with project():
+                with cd(join(static(), "..")):
+                    run("tar -xf %s/static.tar" % env.proj_path)
+        else:
+            with cd(env.proj_path.rsplit("/", 1)[0]):
+                run("rm -rf %s" % env.proj_name)
+                run("tar -xf %s.tar" % env.proj_name)
+    with cd(env.proj_path):
         restore("last.db")
     restart()
 
@@ -601,5 +684,6 @@ def all():
     Installs everything required on a new system and deploy.
     From the base software, up to the deployed project.
     """
+    install()
     if create():
-        deploy(first=True)
+        deploy()

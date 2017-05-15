@@ -14,7 +14,7 @@ DATABASES = {
         # Not used with sqlite3.
         "PASSWORD": "%(db_pass)s",
         # Set to empty string for localhost. Not used with sqlite3.
-        "HOST": "localhost",
+        "HOST": "127.0.0.1",
         # Set to empty string for default. Not used with sqlite3.
         "PORT": "",
     }
