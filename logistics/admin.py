@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.utils.html import format_html_join
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
+
+from utils.urls import admin_url
 
 from logistics.models import SmallGroup
 
@@ -40,11 +41,9 @@ class SmallGroupAdmin(admin.ModelAdmin):
         Generate links to the admin change form of the individual members.
         """
         def _get_member_data(member):
-            meta = member._meta
-            url_name = "admin:%s_%s_change" % (meta.app_label, meta.object_name.lower())
-            url = reverse(url_name, args=[member.pk])
+            url = admin_url(member, "change", member.pk)
             signed_up = _("Signed up") if member.signed_up else _("Not signed up")
-            return meta.verbose_name.title(), url, member, signed_up
+            return member._meta.verbose_name.title(), url, member, signed_up
 
         member_data = map(_get_member_data, small_group.get_members())
         return format_html_join("", "{}: <a href='{}'>{}</a> ({})<br/>", member_data)

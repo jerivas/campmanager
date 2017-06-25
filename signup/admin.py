@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
-from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
@@ -13,6 +12,7 @@ from signup.filters import BalanceStatusFilter
 from signup.actions import (move_permission_forward, move_permission_backwards,
                             generate_permission)
 from utils.admin import UnaccentSearchMixin
+from utils.urls import admin_url
 
 from .resources import CamperResource, PaymentResource, CounselorResource, GuestResource
 
@@ -225,10 +225,8 @@ class PaymentAdmin(UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
         Show a link to the object attached to a particular Payment instance
         via a generic relation.
         """
-        model = model.content_object
-        meta = model._meta
-        url_name = "admin:%s_%s_change" % (meta.app_label, meta.object_name.lower())
-        url = reverse(url_name, args=[model.pk])
+        related = model.content_object
+        url = admin_url(related, "change", related.pk)
         return format_html("{}: <a href='{}'>{}</a><br>",
-                           meta.verbose_name.title(), url, model)
+                           related._meta.verbose_name.title(), url, related)
     link_to_related.short_description = _("Paid by")
