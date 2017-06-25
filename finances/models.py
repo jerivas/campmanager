@@ -2,8 +2,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
+from utils.models import SiteRelated
 
-class Transaction(models.Model):
+
+class Transaction(SiteRelated):
     """A transaction related to a budget."""
     TRANSACTION_TYPE_CHOICES = (
         ("income", _("Income")),

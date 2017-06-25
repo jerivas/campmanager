@@ -6,10 +6,11 @@ from solo.models import SingletonModel
 
 from signup.models import Person, ExtendedInfo
 from signup.validators import gov_id_validator
+from utils.models import SiteRelated
 
 
 @python_2_unicode_compatible
-class Camp(SingletonModel):
+class Camp(SiteRelated, SingletonModel):
     """
     Singleton model to store general camp information.
     """

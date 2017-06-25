@@ -4,9 +4,11 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from utils.models import SiteRelated
+
 
 @python_2_unicode_compatible
-class SmallGroup(models.Model):
+class SmallGroup(SiteRelated):
     """
     A small group composed of several Campers and a Counselor
     """

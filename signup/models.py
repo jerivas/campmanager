@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from logistics.choices import STRUCTURES, GENERATIONS, CABINS, BUSES
 from signup.choices import STATES
 from signup.validators import gov_id_validator
+from utils.models import SiteRelated
 
 
 ####################
@@ -248,7 +249,7 @@ class Member(models.Model):
 ###################
 
 @python_2_unicode_compatible
-class Payment(models.Model):
+class Payment(SiteRelated):
     """
     A generic payment done by anyone attending camp.
     """
@@ -277,7 +278,7 @@ class Payment(models.Model):
         super(Payment, self).save(*args, **kwargs)
 
 
-class Parent(Person, ExtendedInfo):
+class Parent(SiteRelated, Person, ExtendedInfo):
     """
     A parent or legal guardian of a minor.
     """
@@ -298,7 +299,7 @@ class Parent(Person, ExtendedInfo):
                 "first_surname__icontains", "second_surname__icontains")
 
 
-class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
+class Camper(SiteRelated, Person, ExtendedInfo, Payer, Minor, Attendant, Member):
     """
     The main model of a person attending camp.
     """
@@ -320,7 +321,7 @@ class Camper(Person, ExtendedInfo, Payer, Minor, Attendant, Member):
         super(Camper, self).save(*args, **kwargs)
 
 
-class Counselor(Person, Payer, Attendant, Member):
+class Counselor(SiteRelated, Person, Payer, Attendant, Member):
     """
     A counselor for campers.
     """
@@ -347,7 +348,7 @@ class Counselor(Person, Payer, Attendant, Member):
                 "badge_name__icontains", "small_group__title__icontains")
 
 
-class Guest(Person, Payer, Attendant):
+class Guest(SiteRelated, Person, Payer, Attendant):
     """
     An attendant that doesn't belong to a small group.
     """
