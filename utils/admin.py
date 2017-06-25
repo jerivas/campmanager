@@ -1,12 +1,8 @@
-"""
-Based on https://github.com/dezede/dezede/commit/5e8be29ef4f24ea016a78a5d78085e222bca79b3
-as a workaround for https://code.djangoproject.com/ticket/26184
-"""
-
 from __future__ import unicode_literals
 
 import operator
 
+from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import Q
 
 
@@ -41,6 +37,7 @@ def lookup_needs_distinct(opts, lookup_path):
 class UnaccentSearchMixin(object):
     """
     Performs admin searches using Postgres unaccent transformation.
+    Based on https://github.com/dezede/dezede/commit/5e8be29ef4f24ea016a78a5d78085e222bca79b3
     """
 
     def get_search_results(self, request, queryset, search_term):
@@ -74,3 +71,32 @@ class UnaccentSearchMixin(object):
                         break
 
         return queryset, use_distinct
+
+
+class SiteRelatedMixin(object):
+    """
+    Shows and saves SiteRelated objects.
+    Basically limits all admin actions to the current site (determined from the request).
+    """
+    def __init__(self, *args, **kwargs):
+        super(SiteRelatedMixin, self).__init__(*args, **kwargs)
+
+    def get_queryset(self, request):
+        qs = super(SiteRelatedMixin, self).get_queryset(request)
+        return qs.filter(site=get_current_site(request))
+
+    def save_model(self, request, obj, form, change):
+        obj.site = get_current_site(request)
+        super(SiteRelatedMixin, self).save_model(request, obj, form, change)
+
+    def save_related(self, request, form, formsets, change):
+        """
+        This one is a bit sketchy. We're basically adding a ``site`` attribute
+        to all inline instances. If the inline model is also SiteRelated it will use
+        it; if it's not then nothing should happen.
+        """
+        site = get_current_site(request)
+        for formset in formsets:
+            for f in formset:
+                f.instance.site = site
+        super(SiteRelatedMixin, self).save_related(request, form, formsets, change)

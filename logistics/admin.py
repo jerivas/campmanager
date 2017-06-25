@@ -4,13 +4,13 @@ from django.contrib import admin
 from django.utils.html import format_html_join
 from django.utils.translation import ugettext_lazy as _
 
+from utils.admin import SiteRelatedMixin
 from utils.urls import admin_url
-
 from logistics.models import SmallGroup
 
 
 @admin.register(SmallGroup)
-class SmallGroupAdmin(admin.ModelAdmin):
+class SmallGroupAdmin(SiteRelatedMixin, admin.ModelAdmin):
     fields = [
         "title",
         ("generation", "structure"),

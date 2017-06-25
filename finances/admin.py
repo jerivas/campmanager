@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from finances.models import Transaction
+from utils.admin import SiteRelatedMixin
 
 
-class TransactionAdmin(admin.ModelAdmin):
+class TransactionAdmin(SiteRelatedMixin, admin.ModelAdmin):
     radio_fields = {"transaction_type": admin.HORIZONTAL}
     fields = (("transaction_id", "transaction_type"),
               ("transaction_date", "amount"),

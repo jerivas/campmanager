@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from solo.admin import SingletonModelAdmin
 
+from utils.admin import SiteRelatedMixin
+
 from .models import Camp, Chaperone, Lawyer
 
 
@@ -53,7 +55,7 @@ class LawyerInlineAdmin(admin.TabularInline):
 
 
 @admin.register(Camp)
-class CampAdmin(SingletonModelAdmin):
+class CampAdmin(SiteRelatedMixin, SingletonModelAdmin):
     inlines = [ChaperoneInlineAdmin, LawyerInlineAdmin]
     fieldsets = [
         (None, {

@@ -11,7 +11,7 @@ from signup.models import Camper, Payment, Counselor, Parent, Guest
 from signup.filters import BalanceStatusFilter
 from signup.actions import (move_permission_forward, move_permission_backwards,
                             generate_permission)
-from utils.admin import UnaccentSearchMixin
+from utils.admin import UnaccentSearchMixin, SiteRelatedMixin
 from utils.urls import admin_url
 
 from .resources import CamperResource, PaymentResource, CounselorResource, GuestResource
@@ -88,7 +88,7 @@ class MemberMixin(object):
 
 
 @admin.register(Camper)
-class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
+class CamperAdmin(SiteRelatedMixin, ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
     resource_class = CamperResource
     change_list_template = "admin/signup/camper/change_list.html"
     raw_id_fields = ("counselor", "mother", "father")
@@ -136,7 +136,7 @@ class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
 
 
 @admin.register(Counselor)
-class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
+class CounselorAdmin(SiteRelatedMixin, ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
     resource_class = CounselorResource
     raw_id_fields = ("small_group",)
     autocomplete_lookup_fields = {"fk": ["small_group"]}
@@ -161,7 +161,7 @@ class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
 
 
 @admin.register(Guest)
-class GuestAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
+class GuestAdmin(SiteRelatedMixin, ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
     resource_class = GuestResource
     readonly_fields = PayerMixin._rf
 
@@ -180,7 +180,7 @@ class GuestAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
 
 
 @admin.register(Parent)
-class ParentAdmin(PersonMixin, admin.ModelAdmin):
+class ParentAdmin(SiteRelatedMixin, PersonMixin, admin.ModelAdmin):
     fields = (
         ("first_name", "second_name"),
         ("first_surname", "second_surname"),
@@ -196,7 +196,7 @@ class ParentAdmin(PersonMixin, admin.ModelAdmin):
 
 
 @admin.register(Payment)
-class PaymentAdmin(UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
+class PaymentAdmin(SiteRelatedMixin, UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
     resource_class = PaymentResource
     readonly_fields = ["link_to_related"]
 
