@@ -26,7 +26,10 @@ DEBUG = False
 # Whether a user's session cookie expires when the Web browser is closed.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SITE_ID = 1
+# We don't define a SITE_ID because we want Django to determine the site
+# by host. In development you can manually set it to the site you want
+# by passing the flag --site=ID to any manage.py command.
+# SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
