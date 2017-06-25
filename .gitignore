@@ -4,8 +4,10 @@
 .anaconda
 .DS_Store
 .coverage
+.vscode
 .fuse_hidden*
 local_settings.py
 static/media
+*.sublime-project
 *.sublime-workspace
 *~
