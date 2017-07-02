@@ -7,8 +7,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from solo.admin import SingletonModelAdmin
 
-from utils.admin import SiteRelatedMixin
-
 from .models import Camp, Chaperone, Lawyer
 
 
@@ -55,7 +53,7 @@ class LawyerInlineAdmin(admin.TabularInline):
 
 
 @admin.register(Camp)
-class CampAdmin(SiteRelatedMixin, SingletonModelAdmin):
+class CampAdmin(SingletonModelAdmin):
     inlines = [ChaperoneInlineAdmin, LawyerInlineAdmin]
     fieldsets = [
         (None, {
@@ -72,9 +70,3 @@ class CampAdmin(SiteRelatedMixin, SingletonModelAdmin):
             "classes": ["grp-collapse", "grp-closed"],
         }),
     ]
-
-    def has_add_permission(self, request):
-        """
-        Only allow creation if no objects exist.
-        """
-        return not Camp.objects.all().exists()

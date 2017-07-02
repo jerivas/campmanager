@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from logistics.choices import STRUCTURES, GENERATIONS, CABINS, BUSES
 from signup.choices import STATES
 from signup.validators import gov_id_validator
-from utils.models import SiteRelated
+from siterelated.models import SiteRelated
 
 
 ####################

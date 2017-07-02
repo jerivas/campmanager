@@ -150,6 +150,7 @@ INSTALLED_APPS = [
     'grappelli',
     'django.contrib.admin',
     # 'django.contrib.admindocs',
+    'siterelated',
     'solo',
     'logistics',
     'signup',
@@ -170,6 +171,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'siterelated.request.CurrentRequestMiddleware',
 ]
 
 AUTH_PASSWORD_VALIDATORS = [

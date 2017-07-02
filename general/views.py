@@ -4,12 +4,14 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
+from siterelated.utils import current_site_id
+
 from logistics.choices import GENERATIONS, STRUCTURES, GENERATION_MATCHING
 from logistics.models import SmallGroup
 from signup.models import Guest
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")  # 15 minute cache
+@method_decorator(cache_page(60 * 15, key_prefix=current_site_id()), name="dispatch")
 class CampOverview(TemplateView):
     """
     Presents an overview of the camp signup stats.

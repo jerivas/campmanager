@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
-from utils.models import SiteRelated
+from siterelated.models import SiteRelated
 
 
 class Transaction(SiteRelated):

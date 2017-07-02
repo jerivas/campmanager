@@ -1,12 +1,18 @@
+from __future__ import unicode_literals
+
+from django.contrib.sites.models import Site
 from django.db import models
+from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from solo.models import SingletonModel
 
 from signup.models import Person, ExtendedInfo
 from signup.validators import gov_id_validator
-from utils.models import SiteRelated
+from siterelated.models import SiteRelated
+from siterelated.utils import current_site_id, override_current_site_id
 
 
 @python_2_unicode_compatible
@@ -32,10 +38,38 @@ class Camp(SiteRelated, SingletonModel):
         help_text=_("The location where the permission are signed"))
 
     class Meta:
-        verbose_name = _("Camp")
+        verbose_name = verbose_name_plural = _("Camp")
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def get_cache_key(cls):
+        """
+        Modify Solo's cache key to be unique per-site.
+        """
+        prefix = super(Camp, cls).get_cache_key()
+        return "%s:%s" % (current_site_id(), prefix)
+
+
+@receiver(models.signals.post_save, sender=Site)
+def create_camp(sender, instance, created, *args, **kwargs):
+    """
+    Create a Camp whenever a new site is created.
+    """
+    if not created:
+        return
+    with override_current_site_id(instance.id):
+        Camp.objects.create(
+            title="Untitled",
+            price=0,
+            signup_fee=0,
+            fine=0,
+            destination="Unknown",
+            duration="Unknown",
+            permission_timestamp=now(),
+            permission_location="Unknown"
+        )
 
 
 class Chaperone(Person, ExtendedInfo):

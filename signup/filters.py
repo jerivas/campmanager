@@ -22,7 +22,7 @@ class BalanceStatusFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         from general.models import Camp
-        camp = Camp.objects.get()  # Get the camp information
+        camp = Camp.get_solo()
 
         price = camp.price
         fined_price = price + camp.fine
