@@ -10,7 +10,7 @@ server {
 
     # Rewrite all incoming request to HTTPS
     location / {
-        return     301 https://$server_name$request_uri;
+        return     301 https://$host$request_uri;
     }
 
     # Except for /.well-known/, Let's Encrypt expects it to be over HTTP
@@ -29,8 +29,8 @@ server {
     keepalive_timeout    15;
     error_log /home/%(user)s/logs/%(proj_name)s_error_nginx.log info;
 
-    ssl_certificate /etc/letsencrypt/live/www.jerivas.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/www.jerivas.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/campa.jerivas.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/campa.jerivas.com/privkey.pem;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_prefer_server_ciphers on;
