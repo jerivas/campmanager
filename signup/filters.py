@@ -2,6 +2,8 @@ from django.db.models import Q
 from django.contrib.admin import SimpleListFilter
 from django.utils.translation import ugettext_lazy as _
 
+from general.models import Camp
+
 
 class BalanceStatusFilter(SimpleListFilter):
     """
@@ -21,7 +23,6 @@ class BalanceStatusFilter(SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        from general.models import Camp
         camp = Camp.get_solo()
 
         price = camp.price

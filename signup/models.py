@@ -7,6 +7,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
+from solo.templatetags.solo_tags import get_solo
+
 from logistics.choices import STRUCTURES, GENERATIONS, CABINS, BUSES
 from signup.choices import STATES
 from signup.validators import gov_id_validator
@@ -171,7 +173,6 @@ class Payer(models.Model):
         Calculates the price this person has to pay to  attend camp. The price
         varies depending on the fine.
         """
-        from solo.templatetags.solo_tags import get_solo
         camp = get_solo("general.Camp")  # Get the camp information
 
         price = camp.price
@@ -190,7 +191,6 @@ class Payer(models.Model):
         """
         Update the balance and signed_up status.
         """
-        from solo.templatetags.solo_tags import get_solo
         camp = get_solo("general.Camp")  # Get the camp information
 
         if self.payment_set.count() > 0:

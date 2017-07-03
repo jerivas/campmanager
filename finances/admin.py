@@ -4,13 +4,16 @@ from django.utils.translation import ugettext_lazy as _
 from finances.models import Transaction
 
 
+@admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     radio_fields = {"transaction_type": admin.HORIZONTAL}
-    fields = (("transaction_id", "transaction_type"),
-              ("transaction_date", "amount"),
-              ("origin", "destination"))
-
-    list_display = ["transaction_id", "transaction_type", "amount_as_currency",
+    fields = [
+        ("transaction_id", "transaction_type"),
+        ("transaction_date", "amount"),
+        ("origin", "destination")
+    ]
+    list_display = [
+        "transaction_id", "transaction_type", "amount_as_currency",
         "transaction_date", "origin", "destination"]
     list_filter = ["transaction_type"]
     list_per_page = 15
@@ -21,5 +24,3 @@ class TransactionAdmin(admin.ModelAdmin):
         return "$%s" % model.amount
     amount_as_currency.short_description = _("Amount")
     amount_as_currency.admin_order_field = "amount"
-
-admin.site.register(Transaction, TransactionAdmin)
