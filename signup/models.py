@@ -253,7 +253,7 @@ class Payment(SiteRelated):
     """
     A generic payment done by anyone attending camp.
     """
-    receipt_id = models.PositiveIntegerField(_("Receipt ID"), unique=True)
+    receipt_id = models.PositiveIntegerField(_("Receipt ID"))
     payment_date = models.DateField(_("Date"), blank=True, null=True)
     amount = models.DecimalField(_("Amount"), max_digits=5, decimal_places=2)
     notes = models.CharField(_("Notes"), max_length=256, blank=True)
@@ -266,6 +266,7 @@ class Payment(SiteRelated):
 
     class Meta:
         ordering = ["-receipt_id"]
+        unique_together = ("site", "receipt_id")
         verbose_name = _("Payment")
         verbose_name_plural = _("Payments")
 

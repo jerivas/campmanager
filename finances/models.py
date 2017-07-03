@@ -17,7 +17,7 @@ class Transaction(SiteRelated):
         ("income", _("Income")),
         ("egress", _("Egress")),
     )
-    transaction_id = models.CharField(_("Transaction ID"), max_length=16, unique=True, blank=True)
+    transaction_id = models.CharField(_("Transaction ID"), max_length=16, blank=True)
     transaction_type = models.CharField(
         _("Type"), max_length=16, blank=False, choices=TRANSACTION_TYPE_CHOICES)
     transaction_date = models.DateField(_("Date"), default=now)
@@ -31,6 +31,7 @@ class Transaction(SiteRelated):
 
     class Meta:
         ordering = ["-transaction_id"]
+        unique_together = ("site", "transaction_id")
         verbose_name = _("Transaction")
         verbose_name_plural = _("Transactions")
         permissions = (("view_reports", "View Reports"),)

@@ -14,7 +14,7 @@ class SmallGroup(SiteRelated):
     """
     from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
 
-    title = models.CharField(_("Title"), max_length=32, unique=True)
+    title = models.CharField(_("Title"), max_length=32)
     generation = models.PositiveIntegerField(
         _("Generation"), choices=GENERATIONS, default=1)
     structure = models.CharField(
@@ -26,6 +26,7 @@ class SmallGroup(SiteRelated):
 
     class Meta:
         ordering = ["generation"]
+        unique_together = ("site", "title")
         verbose_name = _("Small Group")
         verbose_name_plural = _("Small Groups")
         permissions = (("view_reports", "View Reports"),
