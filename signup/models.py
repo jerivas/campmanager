@@ -38,7 +38,7 @@ class Person(models.Model):
     class Meta:
         ordering = ["first_surname"]
         unique_together = (
-            "first_name", "second_name", "first_surname", "second_surname")
+            "site", "first_name", "second_name", "first_surname", "second_surname")
         abstract = True
 
     def __str__(self):

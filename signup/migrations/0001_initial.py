@@ -144,11 +144,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='parent',
-            unique_together=set([('first_name', 'second_name', 'first_surname', 'second_surname')]),
+            unique_together=set([('second_surname', 'first_surname', 'first_name', 'second_name')]),
         ),
         migrations.AlterUniqueTogether(
             name='guest',
-            unique_together=set([('first_name', 'second_name', 'first_surname', 'second_surname')]),
+            unique_together=set([('second_surname', 'first_surname', 'first_name', 'second_name')]),
         ),
         migrations.AddField(
             model_name='camper',
@@ -172,10 +172,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='counselor',
-            unique_together=set([('first_name', 'second_name', 'first_surname', 'second_surname')]),
+            unique_together=set([('second_surname', 'first_surname', 'first_name', 'second_name')]),
         ),
         migrations.AlterUniqueTogether(
             name='camper',
-            unique_together=set([('first_name', 'second_name', 'first_surname', 'second_surname')]),
+            unique_together=set([('second_surname', 'first_surname', 'first_name', 'second_name')]),
         ),
     ]
