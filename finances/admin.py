@@ -1,16 +1,19 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from siterelated.admin import HiddenSiteAdminMixin
+
 from finances.models import Transaction
 
 
 @admin.register(Transaction)
-class TransactionAdmin(admin.ModelAdmin):
+class TransactionAdmin(HiddenSiteAdminMixin, admin.ModelAdmin):
     radio_fields = {"transaction_type": admin.HORIZONTAL}
     fields = [
         ("transaction_id", "transaction_type"),
         ("transaction_date", "amount"),
-        ("origin", "destination")
+        ("origin", "destination"),
+        "site",
     ]
     list_display = [
         "transaction_id", "transaction_type", "amount_as_currency",

@@ -8,7 +8,7 @@ django-debug-toolbar==1.8
 django-grappelli==2.10.1
 django-import-export==0.5.1
 django-logentry-admin==1.0.2
--e git+https://gitlab.com/jerivas/django-siterelated.git@0e7b199549549c3670b29c85ee5f5506d67a14aa#egg=django_siterelated
+-e git+https://gitlab.com/jerivas/django-siterelated.git@8e87cc36e76f11a8907cabc1fdf57567315f0a5b#egg=django_siterelated
 -e git+https://github.com/jerivas/django-solo.git@30b7b53c0cc894960282be7bbc74a18d69d5df15#egg=django_solo
 ecdsa==0.13
 enum34==1.1.6

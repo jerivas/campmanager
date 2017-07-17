@@ -17,31 +17,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='camper',
             name='site',
-            field=models.ForeignKey(default=1, editable=False, on_delete=django.db.models.deletion.CASCADE, to='sites.Site'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='sites.Site', verbose_name='site'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='counselor',
             name='site',
-            field=models.ForeignKey(default=1, editable=False, on_delete=django.db.models.deletion.CASCADE, to='sites.Site'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='sites.Site', verbose_name='site'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='guest',
             name='site',
-            field=models.ForeignKey(default=1, editable=False, on_delete=django.db.models.deletion.CASCADE, to='sites.Site'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='sites.Site', verbose_name='site'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='parent',
             name='site',
-            field=models.ForeignKey(default=1, editable=False, on_delete=django.db.models.deletion.CASCADE, to='sites.Site'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='sites.Site', verbose_name='site'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='payment',
             name='site',
-            field=models.ForeignKey(default=1, editable=False, on_delete=django.db.models.deletion.CASCADE, to='sites.Site'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='sites.Site', verbose_name='site'),
             preserve_default=False,
         ),
     ]

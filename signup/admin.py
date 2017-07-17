@@ -6,6 +6,7 @@ from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
 from import_export.admin import ExportMixin
+from siterelated.admin import HiddenSiteAdminMixin
 
 from signup.models import Camper, Payment, Counselor, Parent, Guest
 from signup.filters import BalanceStatusFilter
@@ -17,7 +18,7 @@ from utils.urls import admin_url
 from .resources import CamperResource, PaymentResource, CounselorResource, GuestResource
 
 
-class PaymentInline(GenericTabularInline):
+class PaymentInline(HiddenSiteAdminMixin, GenericTabularInline):
     model = Payment
     extra = 1
 
@@ -88,7 +89,7 @@ class MemberMixin(object):
 
 
 @admin.register(Camper)
-class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
+class CamperAdmin(HiddenSiteAdminMixin, ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
     resource_class = CamperResource
     change_list_template = "admin/signup/camper/change_list.html"
     raw_id_fields = ("counselor", "mother", "father")
@@ -107,6 +108,7 @@ class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
                 ("structure", "generation"),
                 ("cabin", "bus"),
                 ("balance_as_currency", "amount_due"),
+                "site",
             ],
         }),
         (_("Customs"), {
@@ -136,7 +138,7 @@ class CamperAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
 
 
 @admin.register(Counselor)
-class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
+class CounselorAdmin(HiddenSiteAdminMixin, ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
     resource_class = CounselorResource
     raw_id_fields = ("small_group",)
     autocomplete_lookup_fields = {"fk": ["small_group"]}
@@ -151,7 +153,9 @@ class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         "has_gov_id",
         ("structure", "generation"),
         ("cabin", "bus"),
-        ("balance_as_currency", "amount_due"),)
+        ("balance_as_currency", "amount_due"),
+        "site",
+    )
 
     list_select_related = ["small_group"]
     list_display = (PersonMixin._ld + ["has_medical_record", "has_gov_id"] +
@@ -161,7 +165,7 @@ class CounselorAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
 
 
 @admin.register(Guest)
-class GuestAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
+class GuestAdmin(HiddenSiteAdminMixin, ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
     resource_class = GuestResource
     readonly_fields = PayerMixin._rf
 
@@ -171,7 +175,9 @@ class GuestAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
         ("badge_name", "cabin"),
         ("gender", "has_medical_record"),
         ("no_pay", "fined"),
-        ("balance_as_currency", "amount_due"),)
+        ("balance_as_currency", "amount_due"),
+        "site",
+    )
 
     list_display = PersonMixin._ld + ["has_medical_record", "cabin"] + PayerMixin._ld
     list_editable = ["cabin"]
@@ -180,7 +186,7 @@ class GuestAdmin(ExportMixin, PersonMixin, PayerMixin, admin.ModelAdmin):
 
 
 @admin.register(Parent)
-class ParentAdmin(PersonMixin, admin.ModelAdmin):
+class ParentAdmin(HiddenSiteAdminMixin, PersonMixin, admin.ModelAdmin):
     fields = (
         ("first_name", "second_name"),
         ("first_surname", "second_surname"),
@@ -188,7 +194,9 @@ class ParentAdmin(PersonMixin, admin.ModelAdmin):
         "gender",
         "birth_date",
         ("state", "province"),
-        "occupation",)
+        "occupation",
+        "site",
+    )
 
     list_display = PersonMixin._ld + ["known_as", "gender"]
     list_filter = ["gender"]
@@ -196,14 +204,15 @@ class ParentAdmin(PersonMixin, admin.ModelAdmin):
 
 
 @admin.register(Payment)
-class PaymentAdmin(UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
+class PaymentAdmin(HiddenSiteAdminMixin, UnaccentSearchMixin, ExportMixin, admin.ModelAdmin):
     resource_class = PaymentResource
     readonly_fields = ["link_to_related"]
 
     fields = (
         ("receipt_id", "payment_date"),
         ("amount", "notes"),
-        "link_to_related",)
+        "link_to_related", "site",
+    )
 
     date_hierarchy = "payment_date"
     list_display_links = ["receipt_id", "amount"]

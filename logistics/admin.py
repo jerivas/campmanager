@@ -4,17 +4,20 @@ from django.contrib import admin
 from django.utils.html import format_html_join
 from django.utils.translation import ugettext_lazy as _
 
+from siterelated.admin import HiddenSiteAdminMixin
+
 from utils.urls import admin_url
 from logistics.models import SmallGroup
 
 
 @admin.register(SmallGroup)
-class SmallGroupAdmin(admin.ModelAdmin):
+class SmallGroupAdmin(HiddenSiteAdminMixin, admin.ModelAdmin):
     fields = [
         "title",
         ("generation", "structure"),
         ("bus", "cabin"),
-        "member_list"
+        "member_list",
+        "site",
     ]
 
     list_select_related = ["counselor"]
