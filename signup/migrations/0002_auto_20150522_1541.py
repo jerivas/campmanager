@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='camper',
             name='generation',
-            field=models.PositiveIntegerField(verbose_name='Generation', choices=[(1, b'Jos\xc3\xadas 1'), (2, b'Jos\xc3\xadas 2'), (3, b'Freshmen'), (4, b'Sophomores'), (5, b'Juniors'), (6, b'Seniors')]),
+            field=models.PositiveIntegerField(verbose_name='Generation', choices=[(1, 'Josías 1'), (2, 'Josías 2'), (3, 'Freshmen'), (4, 'Sophomores'), (5, 'Juniors'), (6, 'Seniors')]),
         ),
         migrations.AlterField(
             model_name='camper',
@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='counselor',
             name='generation',
-            field=models.PositiveIntegerField(verbose_name='Generation', choices=[(1, b'Jos\xc3\xadas 1'), (2, b'Jos\xc3\xadas 2'), (3, b'Freshmen'), (4, b'Sophomores'), (5, b'Juniors'), (6, b'Seniors')]),
+            field=models.PositiveIntegerField(verbose_name='Generation', choices=[(1, 'Josías 1'), (2, 'Josías 2'), (3, 'Freshmen'), (4, 'Sophomores'), (5, 'Juniors'), (6, 'Seniors')]),
         ),
     ]

@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('transaction_id', models.CharField(unique=True, max_length=16, verbose_name='Transaction ID', blank=True)),
-                ('transaction_type', models.CharField(max_length=16, verbose_name='Type', choices=[(b'income', 'Income'), (b'egress', 'Egress')])),
+                ('transaction_type', models.CharField(max_length=16, verbose_name='Type', choices=[('income', 'Income'), ('egress', 'Egress')])),
                 ('transaction_date', models.DateField(null=True, verbose_name='Date', blank=True)),
                 ('amount', models.DecimalField(verbose_name='Amount', max_digits=6, decimal_places=2)),
                 ('origin', models.CharField(max_length=128, verbose_name='Origin', blank=True)),

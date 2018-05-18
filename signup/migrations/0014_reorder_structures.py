@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='camper',
             name='structure',
-            field=models.CharField(blank=True, choices=[(b'josias', b'Jos\xc3\xadas'), (b'preju', b'Preju'), (b'lared', b'La Red'), (b'g180', b'G180')], max_length=16, verbose_name='Structure'),
+            field=models.CharField(blank=True, choices=[('josias', 'Josías'), ('preju', 'Preju'), ('lared', 'La Red'), ('g180', 'G180')], max_length=16, verbose_name='Structure'),
         ),
         migrations.AlterField(
             model_name='counselor',
             name='structure',
-            field=models.CharField(blank=True, choices=[(b'josias', b'Jos\xc3\xadas'), (b'preju', b'Preju'), (b'lared', b'La Red'), (b'g180', b'G180')], max_length=16, verbose_name='Structure'),
+            field=models.CharField(blank=True, choices=[('josias', 'Josías'), ('preju', 'Preju'), ('lared', 'La Red'), ('g180', 'G180')], max_length=16, verbose_name='Structure'),
         ),
     ]

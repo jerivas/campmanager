@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='smallgroup',
             name='bus',
-            field=models.CharField(blank=True, choices=[(b'1', b'Bus 1'), (b'2', b'Bus 2'), (b'3', b'Bus 3'), (b'4', b'Bus 4'), (b'5', b'Bus 5'), (b'6', b'Bus 6'), (b'7', b'Bus 7')], max_length=16, verbose_name='Bus'),
+            field=models.CharField(blank=True, choices=[('1', 'Bus 1'), ('2', 'Bus 2'), ('3', 'Bus 3'), ('4', 'Bus 4'), ('5', 'Bus 5'), ('6', 'Bus 6'), ('7', 'Bus 7')], max_length=16, verbose_name='Bus'),
         ),
     ]
