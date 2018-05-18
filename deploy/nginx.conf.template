@@ -29,21 +29,11 @@ server {
     keepalive_timeout    15;
     error_log /home/%(user)s/logs/%(proj_name)s_error_nginx.log info;
 
-    ssl_certificate /etc/letsencrypt/live/campa.jerivas.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/campa.jerivas.com/privkey.pem;
-
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_prefer_server_ciphers on;
-    ssl_dhparam /etc/ssl/certs/dhparam.pem; # sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-    ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_timeout 10m;
-    ssl_stapling on;
-    ssl_stapling_verify on;
-    #add_header Strict-Transport-Security max-age=15768000;
+    ssl_certificate /etc/letsencrypt/live/g180.jerivas.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/g180.jerivas.com/privkey.pem;
 
     # Deny illegal Host headers
-    if ($host !~* ^(%(domains_regex)s)$ ) {
+    if ($host !~* ^(%(domains_regex)s)$) {
         return 444;
     }
 
@@ -74,5 +64,4 @@ server {
         access_log      off;
         log_not_found   off;
     }
-
 }
