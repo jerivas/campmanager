@@ -69,6 +69,9 @@ env.num_workers = conf.get("NUM_WORKERS",
 env.secret_key = conf.get("SECRET_KEY", "")
 env.nevercache_key = conf.get("NEVERCACHE_KEY", "")
 
+env.email_user = conf.get("EMAIL_USER", None)
+env.email_pass = conf.get("EMAIL_PASS", None)
+
 if not env.secret_key:
     print("Aborting, no SECRET_KEY setting defined.")
     exit()
@@ -93,7 +96,7 @@ templates = {
     "nginx": {
         "local_path": "deploy/nginx.conf.template",
         "remote_path": "/etc/nginx/sites-enabled/%(proj_name)s.conf",
-        "reload_command": "service nginx restart",
+        "reload_command": "nginx -t && service nginx restart",
     },
     "supervisor": {
         "local_path": "deploy/supervisor.conf.template",
@@ -440,8 +443,9 @@ def install():
     """
     # Install system requirements
     sudo("apt-get update -y -q")
-    apt("nginx libjpeg-dev python-dev python-setuptools git-core "
+    apt("nginx libjpeg-dev python-dev python3-dev python-setuptools git-core "
         "postgresql libpq-dev memcached supervisor python-pip")
+    apt('gcc rsync')
     run("mkdir -p /home/%s/logs" % env.user)
 
     # Install Python requirements
@@ -486,7 +490,7 @@ def create():
                 run("rm -rf %s" % env.proj_name)
             else:
                 abort()
-        run("virtualenv %s" % env.proj_name)
+        run("virtualenv -p python3 %s" % env.proj_name)
 
     # Upload project files
     if env.deploy_tool in env.vcs_tools:
@@ -530,7 +534,7 @@ def create():
     with project():
         if env.reqs_path:
             pip("-r %s/%s" % (env.proj_path, env.reqs_path))
-        pip("gunicorn setproctitle psycopg2 "
+        pip("gunicorn setproctitle psycopg2-binary "
             "django-compressor python-memcached")
     # Bootstrap the DB
         # manage("createdb --noinput --nodata")

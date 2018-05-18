@@ -1,7 +1,7 @@
 appdirs==1.4.3
 asn1crypto==0.22.0
 cffi==1.10.0
-cryptography==1.8.1
+cryptography==2.2.2
 diff-match-patch==20121119
 Django==1.11.3
 django-debug-toolbar==1.8
@@ -12,7 +12,7 @@ django-logentry-admin==1.0.2
 -e git+https://github.com/jerivas/django-solo.git@30b7b53c0cc894960282be7bbc74a18d69d5df15#egg=django_solo
 ecdsa==0.13
 enum34==1.1.6
-Fabric==1.13.2
+Fabric3==1.14.post1
 future==0.12.3
 html5lib==0.99999
 idna==2.5
@@ -24,7 +24,6 @@ Pillow==4.1.1
 psycopg2==2.7.1
 pyasn1==0.2.3
 pycparser==2.17
-pycrypto==2.6.1
 pyparsing==2.2.0
 pyPdf==1.13
 PyPDF2==1.26.0
