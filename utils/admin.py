@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import operator
+from functools import reduce
 
 from django.db.models import Q
 
