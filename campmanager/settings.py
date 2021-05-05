@@ -123,7 +123,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = str(PROJECT_ROOT / MEDIA_URL.strip("/"))
 
 # Package/module name to import the root urlpatterns from for the project.
-ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
+ROOT_URLCONF = "campmanager.urls"
 
 ################
 # APPLICATIONS #
