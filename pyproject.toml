@@ -17,6 +17,7 @@ django_siterelated = { git = "https://gitlab.com/jerivas/django-siterelated.git"
 django_solo = { git = "https://github.com/jerivas/django-solo.git", rev = "30b7b53c0cc894960282be7bbc74a18d69d5df15" }
 psycopg2-binary = "^2.8"
 xhtml2pdf = "^0.2"
+django-environ = "^0.4.5"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b0"

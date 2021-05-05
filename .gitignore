@@ -3,6 +3,7 @@
 *.db
 .anaconda
 .DS_Store
+.env
 .coverage
 .vscode
 .fuse_hidden*

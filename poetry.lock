@@ -85,6 +85,14 @@ Django = ">=1.11"
 sqlparse = ">=0.2.0"
 
 [[package]]
+name = "django-environ"
+version = "0.4.5"
+description = "Django-environ allows you to utilize 12factor inspired environment variables to configure your Django application."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "django-grappelli"
 version = "2.10.1"
 description = "A jazzy skin for the Django Admin-Interface."
@@ -372,7 +380,7 @@ six = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "85dfce6f0cf5e8e625134055c5aee74fef5767401d05383172b05a35d90dea34"
+content-hash = "072cf528c071b658931b66e2f1dfdfd32b31be2bef279995634d0939a4ab111e"
 
 [metadata.files]
 appdirs = [
@@ -403,6 +411,10 @@ django = [
 django-debug-toolbar = [
     {file = "django-debug-toolbar-1.11.1.tar.gz", hash = "sha256:10f5ef59c97fad34b803b02e5850b6422082e2e44544c2ec03feb4eeee0f9158"},
     {file = "django_debug_toolbar-1.11.1-py2.py3-none-any.whl", hash = "sha256:2d240517dac3b02b7d78c9109ee88546f99171a2ec2a3efa70450771cb55735e"},
+]
+django-environ = [
+    {file = "django-environ-0.4.5.tar.gz", hash = "sha256:6c9d87660142608f63ec7d5ce5564c49b603ea8ff25da595fd6098f6dc82afde"},
+    {file = "django_environ-0.4.5-py2.py3-none-any.whl", hash = "sha256:c57b3c11ec1f319d9474e3e5a79134f40174b17c7cc024bbb2fad84646b120c4"},
 ]
 django-grappelli = [
     {file = "django-grappelli-2.10.1.tar.gz", hash = "sha256:dedc5118c2271008937e5e8df37982310af884d29983359da0ebc2292b0b17fd"},

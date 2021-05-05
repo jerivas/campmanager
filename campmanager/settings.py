@@ -1,4 +1,7 @@
 import os
+from pathlib import Path
+
+from environ import Env
 
 ########################
 # MAIN DJANGO SETTINGS #
@@ -101,10 +104,10 @@ DATABASES = {
 #########
 
 # Full filesystem path to the project.
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = Path(__file__).parent.parent
 
 # Name of the directory for the project.
-PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
+PROJECT_DIRNAME = PROJECT_ROOT.name
 
 # Every cache key will get prefixed with this value - here we set it to
 # the name of the directory the project is in to try and use something
@@ -119,16 +122,16 @@ STATIC_URL = "/static/"
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
+STATIC_ROOT = str(PROJECT_ROOT / STATIC_URL.strip("/"))
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = STATIC_URL + "media/"
+MEDIA_URL = "/media/"
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
+MEDIA_ROOT = str(PROJECT_ROOT / MEDIA_URL.strip("/"))
 
 # Package/module name to import the root urlpatterns from for the project.
 ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
@@ -196,31 +199,42 @@ AUTH_PASSWORD_VALIDATORS = [
 ###################
 
 LOGIN_URL = "/accounts/login/"
-# GRAPPELLI_ADMIN_TITLE = "Altavoz 2014"
 
 # Django Solo settings
 SOLO_CACHE = "default"
 SOLO_CACHE_TIMEOUT = None  # Solo cache never expires
 
-##################
-# LOCAL SETTINGS #
-##################
+########################
+# Environment settings #
+########################
 
-# Allow any settings to be defined in local_settings.py which should be
-# ignored in your version control system allowing for settings to be
-# defined per machine.
+env = Env()
+env_file = PROJECT_ROOT / ".env"
+if env_file.exists():
+    env.read_env(str(env_file))
 
-# Instead of doing "from .local_settings import *", we use exec so that
-# local_settings has full access to everything defined in this module.
-# Also force into sys.modules so it's visible to Django's autoreload.
+# Patch the schemes so it understands memcached (with a D)
+env.CACHE_SCHEMES.setdefault("memcached", Env.CACHE_SCHEMES["memcache"])
 
-f = os.path.join(PROJECT_ROOT, "local_settings.py")
-if os.path.exists(f):
-    import imp
-    import sys
+DEBUG = env.bool("DEBUG", default=False)
 
-    module_name = "%s.local_settings" % PROJECT_DIRNAME
-    module = imp.new_module(module_name)
-    module.__file__ = f
-    sys.modules[module_name] = module
-    exec(open(f, "rb").read())
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+
+SECRET_KEY = env("SECRET_KEY")
+
+DATABASES = {"default": env.db()}
+
+if env("EMAIL_URL", default=""):
+    vars().update(env.email("EMAIL_URL"))
+
+if env("SERVER_EMAIL", default=""):
+    SERVER_EMAIL = DEFAULT_FROM_EMAIL = env("SERVER_EMAIL")
+
+if env("CACHE_URL", default=""):
+    CACHE_MIDDLEWARE_SECONDS = 60
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    CACHES = {"default": env.cache("CACHE_URL")}
+
+ADMINS = [x.split(":") for x in env.list("DJANGO_ADMINS", default=[])]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
