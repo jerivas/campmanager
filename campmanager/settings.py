@@ -87,7 +87,7 @@ STATICFILES_FINDERS = (
     #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
+WHITENOISE_MANIFEST_STRICT = False
 
 #############
 # DATABASES #
