@@ -58,8 +58,7 @@ cd campmanager
 
 # Create campmanager/local_settings.py, then...
 
-mkvirtualenv -p python3 campmanager
-pip install -r requirements.txt
+poetry install
 python manage.py migrate
 python manage.py runserver
 ```

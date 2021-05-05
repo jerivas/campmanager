@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "campmanager"
+version = "1.0.0"
+description = ""
+authors = ["Ed Rivas"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^1.11"
+django-grappelli = "2.10.1"
+django-import-export = "^0.5"
+django-logentry-admin = "^1.0"
+django_siterelated = { git = "https://gitlab.com/jerivas/django-siterelated.git", rev = "8e87cc36e76f11a8907cabc1fdf57567315f0a5b" }
+django_solo = { git = "https://github.com/jerivas/django-solo.git", rev = "30b7b53c0cc894960282be7bbc74a18d69d5df15" }
+psycopg2-binary = "^2.8"
+xhtml2pdf = "^0.2"
+
+[tool.poetry.dev-dependencies]
+django-debug-toolbar = "^1.8"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
