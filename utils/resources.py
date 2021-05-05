@@ -1,10 +1,8 @@
-from __future__ import unicode_literals
-
 from django.core.exceptions import FieldDoesNotExist
 from django.utils.translation import ugettext
 
 
-class FriendlyExportMixin(object):
+class FriendlyExportMixin:
     """
     Mixin for "friendlier" output when exporting models.
     It uses verbose names in column headers and get_XXX_display for values that support

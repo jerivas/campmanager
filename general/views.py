@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
@@ -53,4 +51,4 @@ class CampOverview(TemplateView):
                 "total": member_total + guest_total,
             }
         )
-        return super(CampOverview, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)

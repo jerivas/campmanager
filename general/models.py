@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.contrib.sites.models import Site
 from django.db import models
 from django.dispatch import receiver
@@ -57,8 +55,8 @@ class Camp(SiteRelated, SingletonModel):
         """
         Modify Solo's cache key to be unique per-site.
         """
-        prefix = super(Camp, cls).get_cache_key()
-        return "%s:%s" % (current_site_id(), prefix)
+        prefix = super().get_cache_key()
+        return f"{current_site_id()}:{prefix}"
 
 
 @receiver(models.signals.post_save, sender=Site)

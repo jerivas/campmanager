@@ -58,7 +58,7 @@ def generate_permission(modeladmin, request, queryset):
     """
     selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
     url = reverse("permission")
-    return HttpResponseRedirect("%s?id=%s" % (url, ",".join(selected)))
+    return HttpResponseRedirect("{}?id={}".format(url, ",".join(selected)))
 
 
 generate_permission.short_description = _("Generate Permission")

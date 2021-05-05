@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 GENERATIONS = (
     (1, "Josías 1"),
     (2, "Josías 2"),

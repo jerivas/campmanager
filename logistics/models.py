@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -51,7 +49,7 @@ class SmallGroup(SiteRelated):
         for structure in GENERATION_MATCHING:
             if self.generation in structure[1]:
                 self.structure = structure[0]
-        super(SmallGroup, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         try:
             self.counselor.save(
                 update_fields=["structure", "generation", "cabin", "bus"]

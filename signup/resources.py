@@ -5,7 +5,6 @@ In theory they should work for both importing and exporting,
 but they have only ever been used to export from the admin.
 """
 
-from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
 from import_export import resources

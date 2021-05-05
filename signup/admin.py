@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html
@@ -42,7 +40,7 @@ class PersonMixin(UnaccentSearchMixin):
     ]
 
 
-class PayerMixin(object):
+class PayerMixin:
     """
     Base Admin for all Payers
     """
@@ -89,7 +87,7 @@ class PayerMixin(object):
     amount_due.short_description = _("Amount Due")
 
 
-class MemberMixin(object):
+class MemberMixin:
     """
     Common admin attributes for all Members.
     """

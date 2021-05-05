@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.core.urlresolvers import reverse
 
 
@@ -9,7 +7,7 @@ def admin_url(model, url, object_id=None):
     From mezzanine.utils.urls.admin_url.
     """
     opts = model._meta
-    url = "admin:%s_%s_%s" % (opts.app_label, opts.object_name.lower(), url)
+    url = f"admin:{opts.app_label}_{opts.object_name.lower()}_{url}"
     args = ()
     if object_id is not None:
         args = (object_id,)

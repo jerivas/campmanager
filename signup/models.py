@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -248,7 +246,7 @@ class Payer(models.Model):
             self.signed_up = True
         else:
             self.signed_up = False
-        super(Payer, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Attendant(models.Model):
@@ -297,7 +295,7 @@ class Member(models.Model):
         self.structure = self.small_group.structure
         self.cabin = self.small_group.cabin
         self.bus = self.small_group.bus
-        super(Member, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 ###################
@@ -320,7 +318,7 @@ class Payment(SiteRelated):
     content_object = GenericForeignKey("content_type", "object_id")
 
     def __str__(self):
-        return "%s - $%s" % (self.receipt_id, self.amount)
+        return f"{self.receipt_id} - ${self.amount}"
 
     class Meta:
         ordering = ["-receipt_id"]
@@ -334,7 +332,7 @@ class Payment(SiteRelated):
         """
         if self.payment_date is None:
             self.payment_date = now()
-        super(Payment, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Parent(SiteRelated, Person, ExtendedInfo):
@@ -386,7 +384,7 @@ class Camper(SiteRelated, Person, ExtendedInfo, Payer, Minor, Attendant, Member)
         Get the small_group from the Counselor.
         """
         self.small_group = self.counselor.small_group
-        super(Camper, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Counselor(SiteRelated, Person, Payer, Attendant, Member):
@@ -409,7 +407,7 @@ class Counselor(SiteRelated, Person, Payer, Attendant, Member):
         verbose_name_plural = _("Counselors")
 
     def related_label(self):
-        return "%s %s (%s)" % (self.names(), self.first_surname, self.small_group)
+        return f"{self.names()} {self.first_surname} ({self.small_group})"
 
     @staticmethod
     def autocomplete_search_fields():

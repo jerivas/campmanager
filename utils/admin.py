@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import operator
 from functools import reduce
 
@@ -36,7 +34,7 @@ def lookup_needs_distinct(opts, lookup_path):
     return False
 
 
-class UnaccentSearchMixin(object):
+class UnaccentSearchMixin:
     """
     Performs admin searches using Postgres unaccent transformation.
     https://github.com/dezede/dezede/commit/5e8be29ef4f24ea016a78a5d78085e222bca79b3

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import django.core.validators
 from django.db import migrations, models
 
@@ -765,15 +762,15 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="parent",
-            unique_together=set(
-                [("second_surname", "first_surname", "first_name", "second_name")]
-            ),
+            unique_together={
+                ("second_surname", "first_surname", "first_name", "second_name")
+            },
         ),
         migrations.AlterUniqueTogether(
             name="guest",
-            unique_together=set(
-                [("second_surname", "first_surname", "first_name", "second_name")]
-            ),
+            unique_together={
+                ("second_surname", "first_surname", "first_name", "second_name")
+            },
         ),
         migrations.AddField(
             model_name="camper",
@@ -816,14 +813,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="counselor",
-            unique_together=set(
-                [("second_surname", "first_surname", "first_name", "second_name")]
-            ),
+            unique_together={
+                ("second_surname", "first_surname", "first_name", "second_name")
+            },
         ),
         migrations.AlterUniqueTogether(
             name="camper",
-            unique_together=set(
-                [("second_surname", "first_surname", "first_name", "second_name")]
-            ),
+            unique_together={
+                ("second_surname", "first_surname", "first_name", "second_name")
+            },
         ),
     ]

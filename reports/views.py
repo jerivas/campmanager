@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
@@ -26,7 +24,7 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
         Get all the selected Campers into the template context.
         Campers are specified via GET params.
         """
-        context = super(Permission, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # Handle malformed URL params
         try:
@@ -104,7 +102,7 @@ class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
         return "reporte-de-asistencia-%s" % self.get_timestamp()
 
     def get_context_data(self, **kwargs):
-        context = super(AttendantReport, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         counselors = Counselor.objects.filter(signed_up=True).count()
         campers = Camper.objects.filter(signed_up=True).count()
         small_groups = SmallGroup.objects.select_related("counselor").prefetch_related(
@@ -132,7 +130,7 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
         return "reporte-financiero-%s" % self.get_timestamp()
 
     def get_context_data(self, **kwargs):
-        context = super(FinancesReport, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         payments = Payment.objects.all()
         incomes = Transaction.objects.filter(transaction_type="income")

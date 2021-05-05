@@ -1,11 +1,9 @@
-from __future__ import unicode_literals
-
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 
-class PDFMixin(object):
+class PDFMixin:
     """
     Mixin to enable PDF rendering of any view.
     Allows defining a custom template for PDF document,
@@ -54,4 +52,4 @@ class PDFMixin(object):
             pisa.CreatePDF(html, response)
             return response
         # Else, the parent view response is returned
-        return super(PDFMixin, self).render_to_response(context, **response_kwargs)
+        return super().render_to_response(context, **response_kwargs)

@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import re
 
@@ -120,8 +119,8 @@ def __convert_group(n):
         output += UNIDADES[k]
     else:
         if (k > 30) & (n[2] != "0"):
-            output += "%s y %s" % (DECENAS[int(n[1]) - 2], UNIDADES[int(n[2])])
+            output += f"{DECENAS[int(n[1]) - 2]} y {UNIDADES[int(n[2])]}"
         else:
-            output += "%s%s" % (DECENAS[int(n[1]) - 2], UNIDADES[int(n[2])])
+            output += f"{DECENAS[int(n[1]) - 2]}{UNIDADES[int(n[2])]}"
 
     return output

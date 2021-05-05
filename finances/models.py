@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
@@ -29,7 +27,7 @@ class Transaction(SiteRelated):
     destination = models.CharField(_("Destination"), max_length=128, blank=True)
 
     def __str__(self):
-        return "%s - $%0.2f (%s)" % (
+        return "{} - ${:0.2f} ({})".format(
             self.transaction_id,
             self.amount,
             self.get_transaction_type_display(),

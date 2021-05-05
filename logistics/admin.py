@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.contrib import admin
 from django.utils.html import format_html_join
 from django.utils.translation import ugettext_lazy as _
@@ -48,7 +46,7 @@ class SmallGroupAdmin(HiddenSiteAdminMixin, admin.ModelAdmin):
     def signed_up_count(self, model):
         signed_up = len(model.get_members(signed_up=True))
         total = len(model.get_members())
-        return "%s / %s" % (signed_up, total)
+        return f"{signed_up} / {total}"
 
     signed_up_count.short_description = _("Signed up members")
 
