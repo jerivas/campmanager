@@ -21,20 +21,20 @@ class Camp(SiteRelated, SingletonModel):
     Singleton model to store general camp information.
     """
     title = models.CharField(_("Title"), max_length=75)
-    price = models.DecimalField(_("Price"), max_digits=5, decimal_places=2)
+    price = models.DecimalField(_("Price"), max_digits=5, decimal_places=2, default=0)
     signup_fee = models.DecimalField(
-        _("Signup fee"), max_digits=5, decimal_places=2)
-    fine = models.DecimalField(_("Fine"), max_digits=5, decimal_places=2)
+        _("Signup fee"), max_digits=5, decimal_places=2, default=0)
+    fine = models.DecimalField(_("Fine"), max_digits=5, decimal_places=2, default=0)
     destination = models.CharField(
         _("Destination"), max_length=75, help_text=_("The Republic of..."))
     duration = models.CharField(
         _("Duration"), max_length=100, help_text=_("Text describing the "
                                                    "camp's duration"))
     permission_timestamp = models.DateTimeField(
-        _("Permission timestamp"),
+        _("Permission timestamp"), null=True,
         help_text=_("The date and time when the permissions are signed"))
     permission_location = models.CharField(
-        _("Permission location"), max_length=75,
+        _("Permission location"), max_length=75, null=True,
         help_text=_("The location where the permission are signed"))
 
     class Meta:
