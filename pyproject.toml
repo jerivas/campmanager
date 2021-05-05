@@ -18,6 +18,7 @@ django_solo = { git = "https://github.com/jerivas/django-solo.git", rev = "30b7b
 psycopg2-binary = "^2.8"
 xhtml2pdf = "^0.2"
 django-environ = "^0.4.5"
+gunicorn = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b0"
