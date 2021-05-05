@@ -8,25 +8,65 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sites', '0002_alter_domain_unique'),
-        ('signup', '0019_unique_with_site'),
+        ("sites", "0002_alter_domain_unique"),
+        ("signup", "0019_unique_with_site"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='camper',
-            unique_together=set([('site', 'first_name', 'second_name', 'first_surname', 'second_surname')]),
+            name="camper",
+            unique_together=set(
+                [
+                    (
+                        "site",
+                        "first_name",
+                        "second_name",
+                        "first_surname",
+                        "second_surname",
+                    )
+                ]
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='counselor',
-            unique_together=set([('site', 'first_name', 'second_name', 'first_surname', 'second_surname')]),
+            name="counselor",
+            unique_together=set(
+                [
+                    (
+                        "site",
+                        "first_name",
+                        "second_name",
+                        "first_surname",
+                        "second_surname",
+                    )
+                ]
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='guest',
-            unique_together=set([('site', 'first_name', 'second_name', 'first_surname', 'second_surname')]),
+            name="guest",
+            unique_together=set(
+                [
+                    (
+                        "site",
+                        "first_name",
+                        "second_name",
+                        "first_surname",
+                        "second_surname",
+                    )
+                ]
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='parent',
-            unique_together=set([('site', 'first_name', 'second_name', 'first_surname', 'second_surname')]),
+            name="parent",
+            unique_together=set(
+                [
+                    (
+                        "site",
+                        "first_name",
+                        "second_name",
+                        "first_surname",
+                        "second_surname",
+                    )
+                ]
+            ),
         ),
     ]

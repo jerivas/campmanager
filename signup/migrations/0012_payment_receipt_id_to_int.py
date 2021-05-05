@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models, IntegrityError, transaction
+from django.db import IntegrityError, migrations, models, transaction
 
 
 def id_to_int(apps, schema_editor):
@@ -27,37 +27,31 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ('signup', '0011_has_medical_record'),
+        ("signup", "0011_has_medical_record"),
     ]
 
     operations = [
         # Add the receipt_id_int as placeholder
         migrations.AddField(
-            model_name='payment',
-            name='receipt_id_int',
+            model_name="payment",
+            name="receipt_id_int",
             field=models.PositiveIntegerField(null=True),
         ),
-
         # Populate receipt_id_int with values from receipt_id
         migrations.RunPython(id_to_int),
-
         # Delete the original receipt_id
         migrations.RemoveField(
-            model_name='payment',
-            name='receipt_id',
+            model_name="payment",
+            name="receipt_id",
         ),
-
         # Rename receipt_id_int into receipt_id
         migrations.RenameField(
-            model_name='payment',
-            old_name='receipt_id_int',
-            new_name='receipt_id'
+            model_name="payment", old_name="receipt_id_int", new_name="receipt_id"
         ),
-
         # Set the unique constraints to match models.py
         migrations.AlterField(
-            model_name='payment',
-            name='receipt_id',
-            field=models.PositiveIntegerField(unique=True, verbose_name="Receipt ID")
-        )
+            model_name="payment",
+            name="receipt_id",
+            field=models.PositiveIntegerField(unique=True, verbose_name="Receipt ID"),
+        ),
     ]

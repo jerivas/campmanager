@@ -2,8 +2,7 @@ from __future__ import unicode_literals
 
 from django.conf.urls import url
 
-from .views import (
-    Permission, CabinReport, BusReport, AttendantReport, FinancesReport)
+from .views import AttendantReport, BusReport, CabinReport, FinancesReport, Permission
 
 urlpatterns = [
     url(r"^permission/$", Permission.as_view(), name="permission"),

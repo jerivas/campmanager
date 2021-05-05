@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponse
 from django.template.loader import get_template
-
 from xhtml2pdf import pisa
 
 
@@ -12,6 +11,7 @@ class PDFMixin(object):
     Allows defining a custom template for PDF document,
     and a custom document name for the download.
     """
+
     pdf_filename = "document"
     pdf_template_name = None
 
@@ -36,6 +36,7 @@ class PDFMixin(object):
         Generates a filename-friendly timestamp.
         """
         from django.utils import timezone
+
         tz = timezone.get_default_timezone()
         return timezone.now().astimezone(tz).strftime("%Y-%m-%d_%H-%M-%S")
 

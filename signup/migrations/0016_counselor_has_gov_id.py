@@ -8,13 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('signup', '0015_add_adult_permission_status'),
+        ("signup", "0015_add_adult_permission_status"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='counselor',
-            name='has_gov_id',
-            field=models.BooleanField(default=False, verbose_name='ID on file', help_text='This person has filed a copy of their ID'),
+            model_name="counselor",
+            name="has_gov_id",
+            field=models.BooleanField(
+                default=False,
+                verbose_name="ID on file",
+                help_text="This person has filed a copy of their ID",
+            ),
         ),
     ]

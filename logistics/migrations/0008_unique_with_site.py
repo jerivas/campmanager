@@ -8,18 +8,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sites', '0002_alter_domain_unique'),
-        ('logistics', '0007_add_site_support'),
+        ("sites", "0002_alter_domain_unique"),
+        ("logistics", "0007_add_site_support"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='smallgroup',
-            name='title',
-            field=models.CharField(max_length=32, verbose_name='Title'),
+            model_name="smallgroup",
+            name="title",
+            field=models.CharField(max_length=32, verbose_name="Title"),
         ),
         migrations.AlterUniqueTogether(
-            name='smallgroup',
-            unique_together=set([('site', 'title')]),
+            name="smallgroup",
+            unique_together=set([("site", "title")]),
         ),
     ]

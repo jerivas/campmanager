@@ -4,9 +4,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
-from signup.models import Payment, Camper, Counselor, Guest
 from finances.models import Transaction
 from logistics.models import SmallGroup
+from signup.models import Camper, Counselor, Guest, Payment
 from utils.views import PDFMixin
 
 
@@ -14,6 +14,7 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
     """
     Display a single or multiple Camper permissions at once.
     """
+
     permission_required = "signup.generate_permission"
     template_name = "reports/permission.html"
 
@@ -39,7 +40,8 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
         for pk in pks:
             try:
                 camper = Camper.objects.select_related(
-                    "mother", "father", "small_group").get(pk=pk)
+                    "mother", "father", "small_group"
+                ).get(pk=pk)
             except (ValueError, Camper.DoesNotExist):
                 continue
             if camper.permission_status in [Camper.SPECIAL, Camper.INCOMPLETE]:
@@ -48,11 +50,13 @@ class Permission(PermissionRequiredMixin, PDFMixin, TemplateView):
                 campers.append(camper)
             total += 1
 
-        context.update({
-            "campers": campers,
-            "omitted": omitted,
-            "total": total,
-        })
+        context.update(
+            {
+                "campers": campers,
+                "omitted": omitted,
+                "total": total,
+            }
+        )
         return context
 
 
@@ -60,11 +64,13 @@ class CabinReport(PermissionRequiredMixin, PDFMixin, ListView):
     """
     Generates a list of the Small Groups that will occupy a Cabin.
     """
+
     permission_required = "logistics.view_reports"
     template_name = "reports/cabin_report.html"
     context_object_name = "small_groups"
     queryset = SmallGroup.objects.select_related("counselor").order_by(
-        "cabin", "generation")
+        "cabin", "generation"
+    )
 
     def get_pdf_filename(self):
         return "reporte-de-cabanas-%s" % self.get_timestamp()
@@ -74,11 +80,13 @@ class BusReport(PermissionRequiredMixin, PDFMixin, ListView):
     """
     Generates a list of Small Groups in each Bus.
     """
+
     permission_required = "logistics.view_reports"
     template_name = "reports/bus_report.html"
     context_object_name = "small_groups"
     queryset = SmallGroup.objects.select_related("counselor").order_by(
-        "bus", "generation")
+        "bus", "generation"
+    )
 
     def get_pdf_filename(self):
         return "reporte-de-buses-%s" % self.get_timestamp()
@@ -88,6 +96,7 @@ class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     """
     Displays all attendants: members of Small Groups and Guests.
     """
+
     permission_required = "logistics.attendant_report"
     template_name = "reports/attendant_report.html"
 
@@ -98,13 +107,16 @@ class AttendantReport(PermissionRequiredMixin, PDFMixin, TemplateView):
         context = super(AttendantReport, self).get_context_data(**kwargs)
         counselors = Counselor.objects.filter(signed_up=True).count()
         campers = Camper.objects.filter(signed_up=True).count()
-        small_groups = (SmallGroup.objects.select_related("counselor")
-                        .prefetch_related("camper_set"))
-        context.update({
-            "total": counselors + campers,
-            "small_groups": small_groups,
-            "guests": Guest.objects.filter(signed_up=True),
-        })
+        small_groups = SmallGroup.objects.select_related("counselor").prefetch_related(
+            "camper_set"
+        )
+        context.update(
+            {
+                "total": counselors + campers,
+                "small_groups": small_groups,
+                "guests": Guest.objects.filter(signed_up=True),
+            }
+        )
         return context
 
 
@@ -112,6 +124,7 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
     """
     A full report spanning Payments and Transactions.
     """
+
     permission_required = "finances.view_reports"
     template_name = "reports/finances_report.html"
 
@@ -128,13 +141,15 @@ class FinancesReport(PermissionRequiredMixin, PDFMixin, TemplateView):
         transaction_egress = sum(e.amount for e in egresses)
         payments_income = sum(p.amount for p in payments)
 
-        context.update({
-            "transaction_income": transaction_income,
-            "transaction_egress": transaction_egress,
-            "payments_income": payments_income,
-            "income_count": incomes.count(),
-            "egress_count": egresses.count(),
-            "payment_count": payments.count(),
-            "total": payments_income + transaction_income - transaction_egress
-        })
+        context.update(
+            {
+                "transaction_income": transaction_income,
+                "transaction_egress": transaction_egress,
+                "payments_income": payments_income,
+                "income_count": incomes.count(),
+                "egress_count": egresses.count(),
+                "payment_count": payments.count(),
+                "total": payments_income + transaction_income - transaction_egress,
+            }
+        )
         return context

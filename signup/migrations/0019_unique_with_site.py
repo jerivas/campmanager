@@ -8,18 +8,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sites', '0002_alter_domain_unique'),
-        ('signup', '0018_add_site_support'),
+        ("sites", "0002_alter_domain_unique"),
+        ("signup", "0018_add_site_support"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='payment',
-            name='receipt_id',
-            field=models.PositiveIntegerField(verbose_name='Receipt ID'),
+            model_name="payment",
+            name="receipt_id",
+            field=models.PositiveIntegerField(verbose_name="Receipt ID"),
         ),
         migrations.AlterUniqueTogether(
-            name='payment',
-            unique_together=set([('site', 'receipt_id')]),
+            name="payment",
+            unique_together=set([("site", "receipt_id")]),
         ),
     ]

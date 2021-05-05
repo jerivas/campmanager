@@ -1,5 +1,5 @@
-from django.db.models import Q
 from django.contrib.admin import SimpleListFilter
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from general.models import Camp
@@ -10,6 +10,7 @@ class BalanceStatusFilter(SimpleListFilter):
     Allows filtering Payers according to how much of the camp's price
     they've paid so far.
     """
+
     title = _("Balance Status")
     parameter_name = "balance"
 
@@ -34,14 +35,19 @@ class BalanceStatusFilter(SimpleListFilter):
             return queryset.filter(signed_up=True)
         if self.value() == "owes":
             return queryset.filter(
-                ((Q(fined=False) & Q(balance__lt=price)) |
-                 (Q(fined=True) & Q(balance__lt=fined_price))),
-                signed_up=True)
+                (
+                    (Q(fined=False) & Q(balance__lt=price))
+                    | (Q(fined=True) & Q(balance__lt=fined_price))
+                ),
+                signed_up=True,
+            )
         if self.value() == "full":
             return queryset.filter(
-                (Q(fined=False) & Q(balance__exact=price)) |
-                (Q(fined=True) & Q(balance__exact=fined_price)))
+                (Q(fined=False) & Q(balance__exact=price))
+                | (Q(fined=True) & Q(balance__exact=fined_price))
+            )
         if self.value() == "over":
             return queryset.filter(
-                (Q(fined=False) & Q(balance__gt=price)) |
-                (Q(fined=True) & Q(balance__gt=fined_price)))
+                (Q(fined=False) & Q(balance__gt=price))
+                | (Q(fined=True) & Q(balance__gt=fined_price))
+            )

@@ -18,9 +18,7 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ('signup', '0009_auto_20160512_1753'),
+        ("signup", "0009_auto_20160512_1753"),
     ]
 
-    operations = [
-        UnaccentExtension()
-    ]
+    operations = [UnaccentExtension()]

@@ -1,3 +1,5 @@
+import os
+
 ########################
 # MAIN DJANGO SETTINGS #
 ########################
@@ -69,7 +71,7 @@ TEMPLATES = [
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 
@@ -97,8 +99,6 @@ DATABASES = {
 #########
 # PATHS #
 #########
-
-import os
 
 # Full filesystem path to the project.
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -138,57 +138,56 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 ################
 
 INSTALLED_APPS = [
-    'django.contrib.postgres',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'general',
-    'grappelli',
-    'django.contrib.admin',
+    "django.contrib.postgres",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "general",
+    "grappelli",
+    "django.contrib.admin",
     # 'django.contrib.admindocs',
-    'siterelated',
-    'solo',
-    'logistics',
-    'signup',
-    'finances',
-    'reports',
-    'debug_toolbar',
-    'import_export',
-    'logentry_admin',
+    "siterelated",
+    "solo",
+    "logistics",
+    "signup",
+    "finances",
+    "reports",
+    "debug_toolbar",
+    "import_export",
+    "logentry_admin",
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'siterelated.request.CurrentRequestMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "siterelated.request.CurrentRequestMiddleware",
 ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 9,
-        }
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 9,
+        },
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -217,8 +216,9 @@ SOLO_CACHE_TIMEOUT = None  # Solo cache never expires
 
 f = os.path.join(PROJECT_ROOT, "local_settings.py")
 if os.path.exists(f):
-    import sys
     import imp
+    import sys
+
     module_name = "%s.local_settings" % PROJECT_DIRNAME
     module = imp.new_module(module_name)
     module.__file__ = f

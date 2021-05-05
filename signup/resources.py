@@ -8,12 +8,12 @@ but they have only ever been used to export from the admin.
 from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
-
 from import_export import resources
 from import_export.fields import Field
 
 from utils.resources import FriendlyExportMixin
-from .models import Camper, Payment, Payer, Counselor, Guest
+
+from .models import Camper, Counselor, Guest, Payer, Payment
 
 
 class PayerResource(resources.ModelResource):
@@ -21,6 +21,7 @@ class PayerResource(resources.ModelResource):
     Define custom fields to include methods of the Payer base model.
     Camper, Counselor, and Guest should be compatible with this.
     """
+
     amount_due = Field()
     amount_due.column_name = Payer.amount_due.short_description
 
@@ -32,7 +33,6 @@ class PayerResource(resources.ModelResource):
 
 
 class CamperResource(FriendlyExportMixin, PayerResource):
-
     class Meta:
         model = Camper
         fields = [
@@ -55,7 +55,6 @@ class CamperResource(FriendlyExportMixin, PayerResource):
 
 
 class CounselorResource(FriendlyExportMixin, PayerResource):
-
     class Meta:
         model = Counselor
         fields = [
@@ -77,7 +76,6 @@ class CounselorResource(FriendlyExportMixin, PayerResource):
 
 
 class GuestResource(FriendlyExportMixin, PayerResource):
-
     class Meta:
         model = Guest
         fields = [

@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-
 from siterelated.models import SiteRelated
 
 
@@ -12,25 +11,28 @@ class SmallGroup(SiteRelated):
     """
     A small group composed of several Campers and a Counselor
     """
-    from logistics.choices import GENERATIONS, STRUCTURES, CABINS, BUSES
+
+    from logistics.choices import BUSES, CABINS, GENERATIONS, STRUCTURES
 
     title = models.CharField(_("Title"), max_length=32)
     generation = models.PositiveIntegerField(
-        _("Generation"), choices=GENERATIONS, default=1)
+        _("Generation"), choices=GENERATIONS, default=1
+    )
     structure = models.CharField(
-        _("Structure"), max_length=16, blank=True, choices=STRUCTURES)
-    cabin = models.CharField(
-        _("Cabin"), max_length=16, blank=True, choices=CABINS)
-    bus = models.CharField(
-        _("Bus"), max_length=16, blank=True, choices=BUSES)
+        _("Structure"), max_length=16, blank=True, choices=STRUCTURES
+    )
+    cabin = models.CharField(_("Cabin"), max_length=16, blank=True, choices=CABINS)
+    bus = models.CharField(_("Bus"), max_length=16, blank=True, choices=BUSES)
 
     class Meta:
         ordering = ["generation"]
         unique_together = ("site", "title")
         verbose_name = _("Small Group")
         verbose_name_plural = _("Small Groups")
-        permissions = (("view_reports", "View Reports"),
-                       ("attendant_report", "Attendant Report"),)
+        permissions = (
+            ("view_reports", "View Reports"),
+            ("attendant_report", "Attendant Report"),
+        )
 
     def __str__(self):
         return self.title
@@ -52,14 +54,15 @@ class SmallGroup(SiteRelated):
         super(SmallGroup, self).save(*args, **kwargs)
         try:
             self.counselor.save(
-                update_fields=["structure", "generation", "cabin", "bus"])
+                update_fields=["structure", "generation", "cabin", "bus"]
+            )
         except Counselor.DoesNotExist:
             pass
         self.camper_set.update(
             structure=self.structure,
             generation=self.generation,
             cabin=self.cabin,
-            bus=self.bus
+            bus=self.bus,
         )
 
     def get_members(self, signed_up=None):

@@ -2,15 +2,17 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Deletes all financial records, resets all small groups, " \
-           "and customs information. Camper records are kept" \
-           "for the convenience of not having to enter them again."
+    help = (
+        "Deletes all financial records, resets all small groups, "
+        "and customs information. Camper records are kept"
+        "for the convenience of not having to enter them again."
+    )
 
     def handle(self, *args, **options):
+        from finances.models import Transaction
         from logistics.choices import GENERATIONS
         from logistics.models import SmallGroup
-        from signup.models import Payment, Guest, Parent, Camper
-        from finances.models import Transaction
+        from signup.models import Camper, Guest, Parent, Payment
 
         self.stdout.write("Deleting Campers that didn't sign up")
         filters = {"signed_up": False, "permission_status": Camper.INCOMPLETE}

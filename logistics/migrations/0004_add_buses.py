@@ -8,13 +8,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('logistics', '0003_auto_20160512_1753'),
+        ("logistics", "0003_auto_20160512_1753"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='smallgroup',
-            name='bus',
-            field=models.CharField(blank=True, choices=[('1', 'Bus 1'), ('2', 'Bus 2'), ('3', 'Bus 3'), ('4', 'Bus 4'), ('5', 'Bus 5'), ('6', 'Bus 6'), ('7', 'Bus 7')], max_length=16, verbose_name='Bus'),
+            model_name="smallgroup",
+            name="bus",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("1", "Bus 1"),
+                    ("2", "Bus 2"),
+                    ("3", "Bus 3"),
+                    ("4", "Bus 4"),
+                    ("5", "Bus 5"),
+                    ("6", "Bus 6"),
+                    ("7", "Bus 7"),
+                ],
+                max_length=16,
+                verbose_name="Bus",
+            ),
         ),
     ]

@@ -8,12 +8,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('general', '0006_add_site_support'),
+        ("general", "0006_add_site_support"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='camp',
-            options={'verbose_name': 'Camp', 'verbose_name_plural': 'Camp'},
+            name="camp",
+            options={"verbose_name": "Camp", "verbose_name_plural": "Camp"},
         ),
     ]

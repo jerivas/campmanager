@@ -8,13 +8,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('logistics', '0004_add_buses'),
+        ("logistics", "0004_add_buses"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='smallgroup',
-            name='structure',
-            field=models.CharField(blank=True, choices=[('josias', 'Josías'), ('preju', 'Preju'), ('lared', 'La Red'), ('g180', 'G180')], max_length=16, verbose_name='Structure'),
+            model_name="smallgroup",
+            name="structure",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("josias", "Josías"),
+                    ("preju", "Preju"),
+                    ("lared", "La Red"),
+                    ("g180", "G180"),
+                ],
+                max_length=16,
+                verbose_name="Structure",
+            ),
         ),
     ]
