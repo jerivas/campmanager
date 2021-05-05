@@ -12,4 +12,4 @@ python manage.py runserver
 
 ## Deployment
 
-We've backported the Fabric resources found in Mezzanine 4.2. Follow Mezzanine's deployment documentation for that version: https://github.com/stephenmcd/mezzanine/blob/4.2.3/docs/deployment.rst
+Set up a `dokku` remote and push to it.
