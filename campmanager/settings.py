@@ -1,7 +1,17 @@
-import os
 from pathlib import Path
 
 from environ import Env
+
+# Full filesystem path to the project.
+PROJECT_ROOT = Path(__file__).parent.parent
+
+# Name of the directory for the project.
+PROJECT_DIRNAME = PROJECT_ROOT.name
+
+env = Env()
+env_file = PROJECT_ROOT / ".env"
+if env_file.exists():
+    env.read_env(str(env_file))
 
 ########################
 # MAIN DJANGO SETTINGS #
@@ -26,7 +36,7 @@ LANGUAGE_CODE = "es"
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
 # production. Best set to ``True`` in local_settings.py
-DEBUG = False
+DEBUG = env.bool("DEBUG", default=False)
 
 # Whether a user's session cookie expires when the Web browser is closed.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -82,32 +92,11 @@ STATICFILES_FINDERS = (
 # DATABASES #
 #############
 
-DATABASES = {
-    "default": {
-        # Add "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-        "ENGINE": "django.db.backends.",
-        # DB name or path to database file if using sqlite3.
-        "NAME": "",
-        # Not used with sqlite3.
-        "USER": "",
-        # Not used with sqlite3.
-        "PASSWORD": "",
-        # Set to empty string for localhost. Not used with sqlite3.
-        "HOST": "",
-        # Set to empty string for default. Not used with sqlite3.
-        "PORT": "",
-    }
-}
+DATABASES = {"default": env.db()}
 
 #########
 # PATHS #
 #########
-
-# Full filesystem path to the project.
-PROJECT_ROOT = Path(__file__).parent.parent
-
-# Name of the directory for the project.
-PROJECT_DIRNAME = PROJECT_ROOT.name
 
 # Every cache key will get prefixed with this value - here we set it to
 # the name of the directory the project is in to try and use something
@@ -158,13 +147,13 @@ INSTALLED_APPS = [
     "signup",
     "finances",
     "reports",
-    "debug_toolbar",
     "import_export",
     "logentry_admin",
 ]
+if DEBUG:
+    INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -175,6 +164,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "siterelated.request.CurrentRequestMiddleware",
 ]
+if DEBUG:
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -204,25 +195,12 @@ LOGIN_URL = "/accounts/login/"
 SOLO_CACHE = "default"
 SOLO_CACHE_TIMEOUT = None  # Solo cache never expires
 
-########################
-# Environment settings #
-########################
-
-env = Env()
-env_file = PROJECT_ROOT / ".env"
-if env_file.exists():
-    env.read_env(str(env_file))
-
 # Patch the schemes so it understands memcached (with a D)
 env.CACHE_SCHEMES.setdefault("memcached", Env.CACHE_SCHEMES["memcache"])
-
-DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 SECRET_KEY = env("SECRET_KEY")
-
-DATABASES = {"default": env.db()}
 
 if env("EMAIL_URL", default=""):
     vars().update(env.email("EMAIL_URL"))
