@@ -1,3 +1,6 @@
+[tool.black]
+exclude = '(\.git|\.tox|\.venv|__pycache__|static)/'
+
 [tool.isort]
 profile = "black"
 
