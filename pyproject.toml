@@ -3,6 +3,18 @@ exclude = '(\.git|\.tox|\.venv|__pycache__|static)/'
 
 [tool.isort]
 profile = "black"
+atomic = true
+
+[tool.pytest.ini_options]
+python_files = [
+    "*_tests.py",
+]
+addopts = [
+    "--tb=short",
+    "--ds=campmanager.test_settings",
+    "--cov=.",
+    "--cov-report=term:skip-covered",
+]
 
 [tool.poetry]
 name = "campmanager"
@@ -13,22 +25,29 @@ authors = ["Ed Rivas"]
 [tool.poetry.dependencies]
 python = "3.9.4"
 Django = "^1.11"
+django-environ = "^0.4.5"
 django-grappelli = "2.10.1"
 django-import-export = "^0.5"
 django-logentry-admin = "^1.0"
-django_siterelated = { git = "https://gitlab.com/jerivas/django-siterelated.git", rev = "2ecddfb116923ce2b263b51de7cb2897b9181a5c" }
-django_solo = { git = "https://github.com/jerivas/django-solo.git", rev = "30b7b53c0cc894960282be7bbc74a18d69d5df15" }
-psycopg2-binary = "^2.8"
-xhtml2pdf = "^0.2"
-django-environ = "^0.4.5"
+django_siterelated = {git = "https://gitlab.com/jerivas/django-siterelated.git", rev = "2ecddfb116923ce2b263b51de7cb2897b9181a5c"}
+django_solo = {git = "https://github.com/jerivas/django-solo.git", rev = "30b7b53c0cc894960282be7bbc74a18d69d5df15"}
 gunicorn = "^20.1.0"
+psycopg2-binary = "^2.8"
 whitenoise = {extras = ["brotli"], version = "^5.2.0"}
+xhtml2pdf = "^0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b0"
 django-debug-toolbar = "^1.8"
+django-dynamic-fixture = "^3.1.1"
+django-functest = "^1.1"
 flake8 = "^3.9.1"
 isort = "^5.8.0"
+pytest = "^6.2.4"
+pytest-cov = "^2.11.1"
+pytest-django = "^4.2.0"
+pytest-mock = "^3.6.1"
+pytest-sugar = "^0.9.4"
 pyupgrade = "^2.14.0"
 
 [build-system]

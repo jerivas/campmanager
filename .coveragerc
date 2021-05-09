@@ -1,0 +1,12 @@
+[run]
+omit =
+  */migrations/*
+  manage.py
+  campmanager/wsgi.py
+  campmanager/settings.py
+
+[report]
+show_missing = True
+exclude_lines =
+  pragma: no cover
+  pragma: nocover
