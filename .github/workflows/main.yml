@@ -7,6 +7,20 @@ jobs:
   # Backend code quality
   test-backend:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11.6
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -27,12 +41,21 @@ jobs:
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      - name: Lint Python
+      - name: Lint
         run: |
           source .venv/bin/activate
           flake8 .
           black . --check
           isort . --check-only
+      - name: Test
+        env:
+          DEBUG: true
+          DATABASE_URL: psql://postgres:postgres@127.0.0.1:5432/test_db
+          SECRET_KEY: abc123
+          ALLOWED_HOSTS: localhost,127.0.0.1
+        run: |
+          source .venv/bin/activate
+          pytest
 
   # Deploy
   deploy:
