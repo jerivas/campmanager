@@ -2,9 +2,13 @@
 # Play nice with black
 max-line-length = 88
 extend-ignore = E203, W503
+
 per-file-ignores =
     migrations/*:E501
 exclude =
     .git
     .venv
     static
+
+pytest-fixture-no-parentheses = true
+pytest-mark-no-parentheses = true

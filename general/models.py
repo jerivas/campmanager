@@ -40,7 +40,6 @@ class Camp(SiteRelated, SingletonModel):
     permission_location = models.CharField(
         _("Permission location"),
         max_length=75,
-        null=True,
         help_text=_("The location where the permission are signed"),
     )
 

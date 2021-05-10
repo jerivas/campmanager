@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="camp",
             name="permission_location",
-            field=models.CharField(
+            field=models.CharField(  # noqa: DJ01
                 help_text="The location where the permission are signed",
                 max_length=75,
                 null=True,
