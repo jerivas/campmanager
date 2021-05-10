@@ -2,10 +2,10 @@ import pytest
 from ddf import G
 from django.contrib.auth import get_user_model
 from django.test.testcases import SimpleTestCase
-from django.urls import reverse
 from django_functest import FuncWebTestMixin
 
 from general.models import Camp
+from utils.urls import admin_url as _admin_url
 
 User = get_user_model()
 
@@ -40,12 +40,7 @@ def camp():
 
 @pytest.fixture(scope="session")
 def admin_url():
-    def _url(model, action, object_id=None):
-        urlname = f"admin:{model._meta.app_label}_{model._meta.model_name}_{action}"
-        args = () if object_id is None else (object_id,)
-        return reverse(urlname, args=args)
-
-    return _url
+    return _admin_url
 
 
 @pytest.fixture(scope="session")
