@@ -5,6 +5,8 @@ from django.test.testcases import SimpleTestCase
 from django.urls import reverse
 from django_functest import FuncWebTestMixin
 
+from general.models import Camp
+
 User = get_user_model()
 
 
@@ -27,6 +29,13 @@ def client():
     client.user = user
     yield client
     client._unpatch_settings()
+
+
+@pytest.fixture
+def camp():
+    camp = Camp.get_solo()
+    yield camp
+    camp.clear_cache()
 
 
 @pytest.fixture(scope="session")

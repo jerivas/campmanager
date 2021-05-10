@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand
 
+from signup.models import Counselor
+
 
 class Command(BaseCommand):
     help = (
@@ -15,18 +17,21 @@ class Command(BaseCommand):
         from signup.models import Camper, Guest, Parent, Payment
 
         self.stdout.write("Deleting Campers that didn't sign up")
-        filters = {"signed_up": False, "permission_status": Camper.INCOMPLETE}
-        campers = Camper.objects.filter(**filters).delete()
-        self.stdout.write("Deleted %s Campers" % campers[0])
+        campers = Camper.objects.filter(
+            signed_up=False, permission_status=Camper.INCOMPLETE
+        )
+        camper_count, _ = campers.delete()
+        self.stdout.write(f"Deleted {camper_count} Campers")
 
         self.stdout.write("Deleting financial records")
-        Payment.objects.all().delete()
-        Transaction.objects.all().delete()
-        self.stdout.write("All financial records deleted")
+        payment_count, _ = Payment.objects.all().delete()
+        transaction_count, _ = Transaction.objects.all().delete()
+        self.stdout.write(f"Deleted {payment_count} Payments")
+        self.stdout.write(f"Deleted {transaction_count} Transactions")
 
         self.stdout.write("Deleting Guests")
-        Guest.objects.all().delete()
-        self.stdout.write("All Guests deleted")
+        guest_count, _ = Guest.objects.all().delete()
+        self.stdout.write(f"Deleted {guest_count} Guests")
 
         self.stdout.write("Resseting small groups")
         last_generation = GENERATIONS[-1][0]
@@ -49,10 +54,13 @@ class Command(BaseCommand):
                     setattr(group.counselor, field, value)
                 except AttributeError:
                     pass
-            group.counselor.has_gov_id = False
-            group.counselor.save()
+            try:
+                group.counselor.has_gov_id = False
+                group.counselor.save()
+            except Counselor.DoesNotExist:
+                pass
         self.stdout.write("All small groups have been reset")
 
         self.stdout.write("Deleting Parents without children in record")
-        parents = Parent.objects.filter(mothered=None, fathered=None).delete()
-        self.stdout.write("Deleted %s parents" % parents[0])
+        parent_count, _ = Parent.objects.filter(mothered=None, fathered=None).delete()
+        self.stdout.write(f"Deleted {parent_count} Parents")

@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Sum
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
@@ -236,16 +237,9 @@ class Payer(models.Model):
         """
         Update the balance and signed_up status.
         """
-        camp = get_solo("general.Camp")  # Get the camp information
-
-        if self.payment_set.count() > 0:
-            self.balance = sum(p.amount for p in self.payment_set.all())
-        else:
-            self.balance = 0
-        if self.no_pay or self.balance >= camp.signup_fee:
-            self.signed_up = True
-        else:
-            self.signed_up = False
+        camp = get_solo("general.Camp")
+        self.balance = self.payment_set.aggregate(Sum("amount"))["amount__sum"] or 0
+        self.signed_up = self.no_pay or self.balance >= camp.signup_fee
         super().save(*args, **kwargs)
 
 

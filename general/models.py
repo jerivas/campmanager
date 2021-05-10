@@ -1,11 +1,8 @@
-from django.contrib.sites.models import Site
 from django.db import models
-from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from siterelated.models import SiteRelated
-from siterelated.utils import current_site_id, override_current_site_id
+from siterelated.utils import current_site_id
 from solo.models import SingletonModel
 
 from signup.models import ExtendedInfo, Person
@@ -47,7 +44,7 @@ class Camp(SiteRelated, SingletonModel):
         verbose_name = verbose_name_plural = _("Camp")
 
     def __str__(self):
-        return self.title
+        return self.title  # pragma: nocover
 
     @classmethod
     def get_cache_key(cls):
@@ -56,26 +53,6 @@ class Camp(SiteRelated, SingletonModel):
         """
         prefix = super().get_cache_key()
         return f"{current_site_id()}:{prefix}"
-
-
-@receiver(models.signals.post_save, sender=Site)
-def create_camp(sender, instance, created, *args, **kwargs):
-    """
-    Create a Camp whenever a new site is created.
-    """
-    if not created:
-        return
-    with override_current_site_id(instance.id):
-        Camp.objects.create(
-            title="Untitled",
-            price=0,
-            signup_fee=0,
-            fine=0,
-            destination="Unknown",
-            duration="Unknown",
-            permission_timestamp=now(),
-            permission_location="Unknown",
-        )
 
 
 class Chaperone(Person, ExtendedInfo):

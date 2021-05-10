@@ -35,7 +35,7 @@ urlpatterns = [
     url(r"^$", views.CampOverview.as_view(), name="home"),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: nocover
     import debug_toolbar
 
     urlpatterns = [
